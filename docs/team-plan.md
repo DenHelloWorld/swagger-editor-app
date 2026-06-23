@@ -2,24 +2,24 @@
 
 ## Распределение фич
 
-| Участник | Фича | Баллов |
-|---|---|---|
-| Участник 1 | Feature 1: App Header | 60 |
-| | Feature 2: Sign In / Sign Up | 50 |
-| | Feature 5: History & Analytics | 70 |
-| | Footer с навигацией на About | — |
-| | Замена favicon | — |
-| | Инфраструктура (ESLint, Prettier, Husky, деплой, БД) | — |
-| | **Итого** | **180** |
-| Участник 2 | Feature 3: Swagger Editor | 120 |
-| | Feature 7: i18n, sticky header, errors | 55 |
-| | **Итого** | **175** |
-| Участник 3 | Feature 4: Swagger Viewer + Try-It-Out | 120 |
-| | Feature 8: YouTube Video | 50 |
-| | Testing: Coverage | — |
-| | **Итого** | **170** |
-| Все вместе | Feature 6: About Page | 25 |
-| | **Всего** | **550** |
+| Участник   | Фича                                                 | Баллов  |
+| ---------- | ---------------------------------------------------- | ------- |
+| Участник 1 | Feature 1: App Header                                | 60      |
+|            | Feature 2: Sign In / Sign Up                         | 50      |
+|            | Feature 5: History & Analytics                       | 70      |
+|            | Footer с навигацией на About                         | —       |
+|            | Замена favicon                                       | —       |
+|            | Инфраструктура (ESLint, Prettier, Husky, деплой, БД) | —       |
+|            | **Итого**                                            | **180** |
+| Участник 2 | Feature 3: Swagger Editor                            | 120     |
+|            | Feature 7: i18n, sticky header, errors               | 55      |
+|            | **Итого**                                            | **175** |
+| Участник 3 | Feature 4: Swagger Viewer + Try-It-Out               | 120     |
+|            | Feature 8: YouTube Video                             | 50      |
+|            | Testing: Coverage                                    | —       |
+|            | **Итого**                                            | **170** |
+| Все вместе | Feature 6: About Page                                | 25      |
+|            | **Всего**                                            | **550** |
 
 ---
 
@@ -55,8 +55,8 @@ Feature 6 (About) — каждый добавляет свой блок, 25 ба
 
 ## Риски и открытые вопросы
 
-| Задача | Риск |
-|---|---|
-| CORS-proxy (API route в Next.js) | Блокирует Try-It-Out у Участника 3 — Участник 1 должен отдать API route заранее |
-| i18n переводы | Затрагивают все фичи всех троих, ответственен только Участник 2 |
-| Схема БД `RequestRecord` | Должна быть согласована всеми до начала Feature 4 — иначе Try-It-Out будет сохранять не те поля |
+| Задача                           | Риск                                                                                            |
+| -------------------------------- | ----------------------------------------------------------------------------------------------- |
+| CORS-proxy (API route в Next.js) | Блокирует Try-It-Out у Участника 3 — Участник 1 должен отдать API route заранее                 |
+| i18n переводы                    | Затрагивают все фичи всех троих, ответственен только Участник 2                                 |
+| Схема БД `RequestRecord`         | Должна быть согласована всеми до начала Feature 4 — иначе Try-It-Out будет сохранять не те поля |

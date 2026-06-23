@@ -2,6 +2,10 @@
 
 Swagger/OpenAPI UI with REST client capabilities.
 
+## Tech Stack
+
+Next.js (App Router), React, TypeScript, shadcn/ui, Redux Toolkit, Zustand, Vitest.
+
 ## Demo
 
 _Link will be added after deployment._
