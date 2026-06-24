@@ -1,0 +1,24 @@
+@reference "../../../../app/globals.css";
+
+.badge {
+  @apply h-auto w-16 justify-center py-1 font-mono text-xs font-bold;
+}
+
+.badge--get {
+  @apply bg-green-600 text-white hover:bg-green-700;
+}
+.badge--post {
+  @apply bg-blue-600 text-white hover:bg-blue-700;
+}
+.badge--put {
+  @apply bg-orange-500 text-white hover:bg-orange-600;
+}
+.badge--patch {
+  @apply bg-yellow-500 text-black hover:bg-yellow-600;
+}
+.badge--delete {
+  @apply bg-red-600 text-white hover:bg-red-700;
+}
+.badge--default {
+  @apply bg-gray-500 text-white hover:bg-gray-600;
+}
