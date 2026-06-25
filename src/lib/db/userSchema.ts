@@ -3,13 +3,12 @@ import { SavedSchema } from '@/types/dbTypes';
 
 const schemas = new Map<string, SavedSchema>();
 
-export function saveUserSchema(schema: SavedSchema) {
-  if (schemas.has(schema.userId)) {
-    schemas.delete(schema.userId);
-  }
+export async function saveUserSchema(schema: SavedSchema) {
   schemas.set(schema.userId, schema);
 }
 
-export function getUserSchema(userId: string): SavedSchema | null {
+export async function getUserSchema(
+  userId: string,
+): Promise<SavedSchema | null> {
   return schemas.get(userId) ?? null;
 }

@@ -3,10 +3,10 @@ export interface UseAuthResult {
   signOut: () => Promise<void>;
   signUp: (email: string) => Promise<void>;
   isLoading: boolean;
-  user: AuthUser | null;
+  user: User | null;
   isAuthenticated: boolean;
 }
-export interface AuthUser {
+export interface User {
   uid: string;
   email: string;
 }

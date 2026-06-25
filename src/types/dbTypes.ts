@@ -1,4 +1,4 @@
-export type RequestHistoryEntry = {
+export type RequestRecord = {
   id: string;
   userId: string;
   method: string;

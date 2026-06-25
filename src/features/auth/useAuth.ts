@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { UseAuthResult, AuthUser } from '../../types/authTypes';
+import { UseAuthResult, User } from '../../types/authTypes';
 
 export function useAuth(): UseAuthResult {
-  const [user, setUser] = useState<AuthUser | null>(
+  const [user, setUser] = useState<User | null>(
     process.env.NEXT_PUBLIC_DEV_MOCK_AUTH
       ? { uid: 'mock-user-1', email: 'mock@test.com' }
       : null,

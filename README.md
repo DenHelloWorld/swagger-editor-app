@@ -16,3 +16,7 @@ _Link will be added after deployment._
 npm install
 npm run dev
 ```
+
+# Dev only: enable auth/db mocks
+
+NEXT_PUBLIC_DEV_MOCK_AUTH=true
