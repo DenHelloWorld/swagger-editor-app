@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { UseAuthResult, User } from '../../types/authTypes';
+import { UseAuthResult, User } from '@/types/authTypes';
 
 export function useAuth(): UseAuthResult {
   const [user, setUser] = useState<User | null>(
