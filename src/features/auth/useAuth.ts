@@ -20,7 +20,12 @@ export function useAuth(): UseAuthResult {
     setIsLoading(false);
   };
   const signUp = async (email: string) => {
-    setUser({ uid: 'mock-user-1', email });
+    setIsLoading(true);
+    setUser({
+      uid: 'mock-user-1',
+      email,
+    });
+    setIsLoading(false);
   };
   const signOut = async () => {
     setUser(null);

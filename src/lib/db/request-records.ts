@@ -1,10 +1,13 @@
 //mock
 // TODO add getRequestRecordById(userId, id)
-import { RequestRecord } from '@/types/dbTypes';
+import { RequestRecord, RequestRecordInput } from '@/types/dbTypes';
 
 const recordsStore = new Map<string, RequestRecord[]>();
 
-export async function saveRequestRecord(userId: string, record: RequestRecord) {
+export async function saveRequestRecord(
+  userId: string,
+  record: RequestRecordInput,
+) {
   const list = recordsStore.get(userId) ?? [];
   list.push({ ...record, id: crypto.randomUUID(), userId });
   recordsStore.set(userId, list);
