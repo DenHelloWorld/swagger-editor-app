@@ -21,19 +21,16 @@ export function EndpointGroup({ path, pathItem }: Props) {
       </CardHeader>
       <CardContent>
         <Accordion type="multiple">
-          <ul>
-            {Object.entries(pathItem ?? {})
-              .filter(([method]) => HTTP_METHODS.has(method))
-              .map(([method, operation]) => (
-                <li key={method}>
-                  <EndpointItem
-                    method={method}
-                    path={path}
-                    operation={operation}
-                  />
-                </li>
-              ))}
-          </ul>
+          {Object.entries(pathItem ?? {})
+            .filter(([method]) => HTTP_METHODS.has(method))
+            .map(([method, operation]) => (
+              <EndpointItem
+                key={method}
+                method={method}
+                path={path}
+                operation={operation}
+              />
+            ))}
         </Accordion>
       </CardContent>
     </Card>
