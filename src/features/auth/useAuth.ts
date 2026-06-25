@@ -1,21 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { UseAuthResult, AuthUser } from '../../types/authTypes';
 
-interface useAuthResult {
-  signIn: (email: string) => Promise<void>;
-  signOut: () => Promise<void>;
-  signUp: (email: string) => Promise<void>;
-  isLoading: boolean;
-  user: userSchema | null;
-  isAuthenticated: boolean;
-}
-interface userSchema {
-  uid: string;
-  email: string;
-}
-export function useAuth(): useAuthResult {
-  const [user, setUser] = useState<userSchema | null>(
+export function useAuth(): UseAuthResult {
+  const [user, setUser] = useState<AuthUser | null>(
     process.env.NEXT_PUBLIC_DEV_MOCK_AUTH
       ? { uid: 'mock-user-1', email: 'mock@test.com' }
       : null,
