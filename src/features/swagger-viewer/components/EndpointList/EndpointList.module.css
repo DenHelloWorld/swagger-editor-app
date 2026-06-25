@@ -1,0 +1,29 @@
+@reference "../../../../app/globals.css";
+
+.list {
+  @apply h-full;
+}
+
+.list__inner {
+  @apply flex flex-col gap-2 p-4;
+}
+
+.list__empty {
+  @apply h-full;
+}
+
+.list__empty_content {
+  @apply flex h-full flex-col items-center justify-center gap-3 py-16 text-center;
+}
+
+.list__empty_icon {
+  @apply text-muted-foreground h-12 w-12;
+}
+
+.list__empty_title {
+  @apply text-foreground text-lg font-semibold;
+}
+
+.list__empty_hint {
+  @apply text-muted-foreground max-w-64 text-sm;
+}
