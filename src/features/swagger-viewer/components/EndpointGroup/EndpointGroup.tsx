@@ -20,7 +20,7 @@ export function EndpointGroup({ path, pathItem }: Props) {
         </Badge>
       </CardHeader>
       <CardContent>
-        <Accordion type="multiple">
+        <Accordion type="multiple" className={styles.accordion}>
           {Object.entries(pathItem ?? {})
             .filter(([method]) => HTTP_METHODS.has(method))
             .map(([method, operation]) => (
@@ -29,6 +29,7 @@ export function EndpointGroup({ path, pathItem }: Props) {
                 method={method}
                 path={path}
                 operation={operation}
+                pathItem={pathItem ?? {}}
               />
             ))}
         </Accordion>
