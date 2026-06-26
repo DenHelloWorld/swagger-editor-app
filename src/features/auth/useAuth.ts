@@ -5,7 +5,7 @@ import { UseAuthResult, User } from '@/types/authTypes';
 
 export function useAuth(): UseAuthResult {
   const [user, setUser] = useState<User | null>(
-    process.env.NEXT_PUBLIC_DEV_MOCK_AUTH
+    process.env.NEXT_PUBLIC_DEV_MOCK_AUTH === 'true'
       ? { uid: 'mock-user-1', email: 'mock@test.com' }
       : null,
   );
