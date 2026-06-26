@@ -1,5 +1,9 @@
 @reference "../../../../app/globals.css";
 
+.item {
+  @apply rounded-lg border;
+}
+
 .row {
   @apply hover:bg-muted/50 cursor-pointer items-center px-4 py-3 transition-colors hover:no-underline;
 }
@@ -25,5 +29,9 @@
 }
 
 .content {
-  @apply text-muted-foreground px-4 py-3 text-sm;
+  @apply px-4 py-3 text-sm;
+}
+
+.description {
+  @apply text-muted-foreground;
 }

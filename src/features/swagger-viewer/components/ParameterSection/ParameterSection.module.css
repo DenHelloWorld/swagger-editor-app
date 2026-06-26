@@ -1,0 +1,33 @@
+@reference "../../../../app/globals.css";
+
+.root {
+  @apply mt-3 space-y-3;
+}
+
+.title {
+  @apply text-muted-foreground text-xs font-semibold tracking-wider uppercase;
+}
+
+.cell {
+  @apply w-48 align-top;
+}
+
+.cell__header {
+  @apply flex items-baseline gap-2;
+}
+
+.cell__name {
+  @apply font-mono font-semibold;
+}
+
+.cell__type {
+  @apply text-muted-foreground text-xs;
+}
+
+.cell__required {
+  @apply text-destructive text-xs;
+}
+
+.cell__desc {
+  @apply text-muted-foreground align-top;
+}
