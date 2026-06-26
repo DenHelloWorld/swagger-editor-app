@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { useSchemaStore } from '@/store/schemaStore';
-import { FormatToggle } from '../../FormatToggle/FormatToggle';
+import { FormatToggle } from '@/features/swagger-editor/components/FormatToggle/FormatToggle';
 
 const MonacoEditor = dynamic(
   () => import('@monaco-editor/react').then((mod) => mod.default),
