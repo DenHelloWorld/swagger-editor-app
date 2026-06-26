@@ -2,6 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { useSchemaStore } from '@/store/schemaStore';
+import { FormatToggle } from '../../FormatToggle/FormatToggle';
 
 const MonacoEditor = dynamic(
   () => import('@monaco-editor/react').then((mod) => mod.default),
@@ -17,6 +18,9 @@ export function SchemaEditor() {
 
   return (
     <>
+      <div className="border-b px-4 py-2">
+        <FormatToggle />
+      </div>
       <MonacoEditor
         height="600px"
         language={format}
