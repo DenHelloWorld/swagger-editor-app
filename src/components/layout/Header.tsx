@@ -9,7 +9,7 @@ export default function Header() {
   const { isAuthenticated, signIn, signUp, signOut } = useAuth();
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 w-full border-b backdrop-blur">
-      <div className="container flex h-16 items-center justify-between">
+      <div className="mx-4 flex h-16 items-center justify-between">
         <Link
           href="/"
           className="flex items-center space-x-2 text-xl font-bold"
@@ -44,7 +44,7 @@ export default function Header() {
 
           <Link
             href="/about"
-            className="hidden text-sm font-medium hover:underline sm:block"
+            className="text-sm font-medium hover:underline sm:block"
           >
             About
           </Link>
