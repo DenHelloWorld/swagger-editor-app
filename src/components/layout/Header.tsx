@@ -1,8 +1,12 @@
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import { useAuth } from '@/features/auth/useAuth';
 
 export default function Header() {
+  const { isAuthenticated, signIn, signUp, signOut } = useAuth();
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 w-full border-b backdrop-blur">
       <div className="container flex h-16 items-center justify-between">
@@ -20,8 +24,24 @@ export default function Header() {
         </Link>
 
         <div className="flex items-center space-x-4">
-          <Button>Sign In</Button>
-          <Button>Sign Up</Button>
+          {isAuthenticated ? (
+            <>
+              <Button asChild>
+                <Link href="/history">History</Link>
+              </Button>
+              <Button onClick={() => signOut()}>Sign Out</Button>
+            </>
+          ) : (
+            <>
+              <Button onClick={() => signIn('example@gmail.com')}>
+                Sign In
+              </Button>
+              <Button onClick={() => signUp('example@gmail.com')}>
+                Sign Up
+              </Button>
+            </>
+          )}
+
           <Link
             href="/about"
             className="hidden text-sm font-medium hover:underline sm:block"
