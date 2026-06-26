@@ -2,6 +2,7 @@
 
 import { useSchemaStore } from '@/store/schemaStore';
 import { convertFormat } from '../../utils/convertFormat';
+import { Button } from '@/components/ui/button';
 
 export function FormatToggle() {
   const { raw, format, setRaw, setFormat } = useSchemaStore();
@@ -19,11 +20,13 @@ export function FormatToggle() {
   }
 
   return (
-    <button
+    <Button
       onClick={handleToggle}
-      className="cursor-pointer rounded border px-3 py-1 font-mono text-sm"
+      variant="outline"
+      size="sm"
+      className="cursor-pointer"
     >
       {format === 'json' ? 'YAML' : 'JSON'}
-    </button>
+    </Button>
   );
 }
