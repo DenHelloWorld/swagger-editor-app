@@ -7,6 +7,7 @@ export default function Footer() {
         <Link href="/about" className="text-sm font-medium hover:underline">
           About
         </Link>
+        <p className="text-sm font-medium">© 2026 Swagger Editor</p>
         <a
           href="https://rs.school/courses/reactjs"
           className="text-sm font-medium hover:underline"
