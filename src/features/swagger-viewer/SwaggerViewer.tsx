@@ -1,3 +1,5 @@
+'use client';
+
 import { useSchema } from './hooks/useSchema';
 import { EndpointList } from './components/EndpointList/EndpointList';
 

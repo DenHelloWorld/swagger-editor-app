@@ -21,9 +21,9 @@ export function FormatToggle() {
   return (
     <button
       onClick={handleToggle}
-      className="rounded border px-3 py-1 font-mono text-sm"
+      className="cursor-pointer rounded border px-3 py-1 font-mono text-sm"
     >
-      {format.toUpperCase()}
+      {format === 'json' ? 'YAML' : 'JSON'}
     </button>
   );
 }
