@@ -26,28 +26,35 @@ export default function Header() {
         <div className="flex items-center space-x-4">
           {isAuthenticated ? (
             <>
-              <Button asChild>
+              <Button variant="ghost" size="sm" asChild>
                 <Link href="/history">History</Link>
               </Button>
-              <Button onClick={() => signOut()}>Sign Out</Button>
+              <Button variant="outline" size="sm" onClick={() => signOut()}>
+                Sign Out
+              </Button>
             </>
           ) : (
             <>
-              <Button onClick={() => signIn('example@gmail.com')}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => signIn('example@gmail.com')}
+              >
                 Sign In
               </Button>
-              <Button onClick={() => signUp('example@gmail.com')}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => signUp('example@gmail.com')}
+              >
                 Sign Up
               </Button>
             </>
           )}
 
-          <Link
-            href="/about"
-            className="text-sm font-medium hover:underline sm:block"
-          >
-            About
-          </Link>
+          <Button variant="ghost" size="sm" asChild>
+            <Link href="/about">About</Link>
+          </Button>
         </div>
       </div>
     </header>
