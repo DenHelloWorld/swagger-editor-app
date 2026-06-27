@@ -20,12 +20,7 @@ export function FormatToggle() {
   }
 
   return (
-    <Button
-      onClick={handleToggle}
-      variant="outline"
-      size="sm"
-      className="cursor-pointer"
-    >
+    <Button onClick={handleToggle} variant="outline" size="sm">
       {format === 'json' ? 'YAML' : 'JSON'}
     </Button>
   );
