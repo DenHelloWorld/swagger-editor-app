@@ -12,7 +12,6 @@ export default function Footer() {
         <Button variant="ghost" size="sm" asChild>
           <a
             href="https://rs.school/courses/reactjs"
-            className="hover:none text-sm font-medium"
             target="_blank"
             rel="noopener noreferrer"
           >
