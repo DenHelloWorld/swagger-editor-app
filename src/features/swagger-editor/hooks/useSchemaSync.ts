@@ -38,5 +38,5 @@ export const useSchemaSync = () => {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [raw]);
+  }, [raw, format]);
 };

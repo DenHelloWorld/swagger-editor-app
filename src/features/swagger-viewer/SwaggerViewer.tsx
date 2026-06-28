@@ -23,14 +23,14 @@ function MockControls() {
         size="sm"
         onClick={() => loadMock(MOCK_SPEC_V3)}
       >
-        Load V3 mock
+        Load V3 {format.toUpperCase()}
       </Button>
       <Button
         variant="outline"
         size="sm"
         onClick={() => loadMock(MOCK_SPEC_V2)}
       >
-        Load V2 mock
+        Load V2 {format.toUpperCase()}
       </Button>
     </div>
   );
