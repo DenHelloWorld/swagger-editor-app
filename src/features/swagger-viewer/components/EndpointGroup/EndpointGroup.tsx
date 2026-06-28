@@ -1,37 +1,30 @@
 import { Accordion } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import type { OpenAPIPathItem } from '@/types/openapi';
-import { HTTP_METHODS } from '@/constants/openapi';
+import type { ProcessedGroup } from '@/types/openapi';
 import { EndpointItem } from '../EndpointItem/EndpointItem';
 import styles from './EndpointGroup.module.css';
 
 type Props = {
-  path: string;
-  pathItem: OpenAPIPathItem | undefined;
+  group: ProcessedGroup;
 };
 
-export function EndpointGroup({ path, pathItem }: Props) {
+export function EndpointGroup({ group }: Props) {
   return (
     <Card>
       <CardHeader>
         <Badge variant="outline" className={styles.header__badge}>
-          {path}
+          {group.path}
         </Badge>
       </CardHeader>
       <CardContent>
         <Accordion type="multiple" className={styles.accordion}>
-          {Object.entries(pathItem ?? {})
-            .filter(([method]) => HTTP_METHODS.has(method))
-            .map(([method, operation]) => (
-              <EndpointItem
-                key={method}
-                method={method}
-                path={path}
-                operation={operation}
-                pathItem={pathItem ?? {}}
-              />
-            ))}
+          {group.endpoints.map((endpoint) => (
+            <EndpointItem
+              key={`${endpoint.method}-${endpoint.path}`}
+              endpoint={endpoint}
+            />
+          ))}
         </Accordion>
       </CardContent>
     </Card>

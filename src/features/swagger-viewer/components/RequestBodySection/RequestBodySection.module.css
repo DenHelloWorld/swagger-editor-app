@@ -1,0 +1,57 @@
+@reference "../../../../app/globals.css";
+
+.root {
+  @apply mt-3 space-y-3;
+}
+
+.header {
+  @apply flex items-baseline gap-2;
+}
+
+.title {
+  @apply text-muted-foreground text-xs font-semibold tracking-wider uppercase;
+}
+
+.header__type {
+  @apply bg-muted rounded px-1.5 py-0.5 font-mono text-xs;
+}
+
+.header__required {
+  @apply text-destructive text-xs;
+}
+
+.cell {
+  @apply w-48 align-top;
+}
+
+.cell__header {
+  @apply flex items-baseline gap-2;
+}
+
+.cell__name {
+  @apply font-mono font-semibold;
+}
+
+.cell__type {
+  @apply text-muted-foreground text-xs;
+}
+
+.cell__required {
+  @apply text-destructive text-xs;
+}
+
+.cell__desc {
+  @apply text-muted-foreground align-top;
+}
+
+.example {
+  @apply space-y-1;
+}
+
+.example__title {
+  @apply text-muted-foreground text-xs font-semibold;
+}
+
+.example__code {
+  @apply bg-muted overflow-x-auto rounded-md p-3 font-mono text-xs whitespace-pre;
+}

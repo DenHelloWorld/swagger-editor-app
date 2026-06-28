@@ -1,7 +1,7 @@
 @reference "../../../../app/globals.css";
 
 .list {
-  @apply h-full;
+  @apply min-h-0 flex-1;
 }
 
 .list__inner {

@@ -29,13 +29,30 @@ export const MOCK_SPEC_V3: OpenAPIV3.Document = {
             description: 'Optional request trace ID',
           },
         ],
-        responses: {},
+        responses: { 200: { description: 'OK' } },
       },
       post: {
         summary: 'Create a pet',
         description: 'Creates a new pet record in the store.',
         tags: ['Pets'],
-        responses: {},
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['name', 'species'],
+                properties: {
+                  name: { type: 'string', description: 'Pet name' },
+                  species: { type: 'string', enum: ['dog', 'cat', 'bird'] },
+                  age: { type: 'integer', description: 'Age in years' },
+                },
+              },
+              example: { name: 'Buddy', species: 'dog', age: 3 },
+            },
+          },
+        },
+        responses: { 201: { description: 'Created' } },
       },
     },
     '/pets/{id}': {
@@ -50,8 +67,7 @@ export const MOCK_SPEC_V3: OpenAPIV3.Document = {
       ],
       get: {
         summary: 'Get pet by ID',
-        description:
-          'Returns a single pet. Use the expand parameter to include related resources.',
+        description: 'Returns a single pet.',
         tags: ['Pets'],
         parameters: [
           {
@@ -63,22 +79,38 @@ export const MOCK_SPEC_V3: OpenAPIV3.Document = {
             name: 'session_id',
             in: 'cookie',
             schema: { type: 'string' },
-            description: 'Session cookie for tracking',
+            description: 'Session cookie',
           },
         ],
-        responses: {},
+        responses: { 200: { description: 'OK' } },
       },
       put: {
         summary: 'Update pet',
         description: 'Updates an existing pet record.',
         tags: ['Pets'],
-        responses: {},
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                  species: { type: 'string', enum: ['dog', 'cat', 'bird'] },
+                  age: { type: 'integer' },
+                },
+              },
+              example: { name: 'Buddy', species: 'cat', age: 4 },
+            },
+          },
+        },
+        responses: { 200: { description: 'OK' } },
       },
       delete: {
         summary: 'Delete pet',
         description: 'Permanently removes a pet from the store.',
         tags: ['Pets'],
-        responses: {},
+        responses: { 204: { description: 'No Content' } },
       },
     },
     '/pets/{id}/photos': {
@@ -93,21 +125,37 @@ export const MOCK_SPEC_V3: OpenAPIV3.Document = {
       ],
       get: {
         summary: 'List pet photos',
-        description: 'Returns all photos associated with a pet.',
         tags: ['Photos'],
-        responses: {},
+        responses: { 200: { description: 'OK' } },
       },
       post: {
         summary: 'Upload photo',
-        description: 'Uploads a new photo for the specified pet.',
         tags: ['Photos'],
-        responses: {},
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['url'],
+                properties: {
+                  url: { type: 'string', description: 'Photo URL' },
+                  caption: { type: 'string' },
+                },
+              },
+              example: {
+                url: 'https://example.com/photo.jpg',
+                caption: 'Playing fetch',
+              },
+            },
+          },
+        },
+        responses: { 201: { description: 'Created' } },
       },
       delete: {
         summary: 'Delete photo',
-        description: 'Removes a photo from the specified pet.',
         tags: ['Photos'],
-        responses: {},
+        responses: { 204: { description: 'No Content' } },
       },
     },
     '/pets/{id}/tags': {
@@ -122,45 +170,49 @@ export const MOCK_SPEC_V3: OpenAPIV3.Document = {
       ],
       get: {
         summary: 'List pet tags',
-        description: 'Returns all tags assigned to a pet.',
         tags: ['Tags'],
-        responses: {},
+        responses: { 200: { description: 'OK' } },
       },
       post: {
         summary: 'Add tag to pet',
-        description: 'Assigns a new tag to the specified pet.',
         tags: ['Tags'],
-        responses: {},
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['name'],
+                properties: {
+                  name: { type: 'string', description: 'Tag name' },
+                },
+              },
+              example: { name: 'vaccinated' },
+            },
+          },
+        },
+        responses: { 201: { description: 'Created' } },
       },
     },
     '/pets/{id}/tags/{tagId}': {
       parameters: [
-        {
-          name: 'id',
-          in: 'path',
-          required: true,
-          schema: { type: 'string' },
-          description: 'Pet ID',
-        },
+        { name: 'id', in: 'path', required: true, schema: { type: 'string' } },
         {
           name: 'tagId',
           in: 'path',
           required: true,
           schema: { type: 'string' },
-          description: 'Tag ID',
         },
       ],
       delete: {
         summary: 'Remove tag from pet',
-        description: 'Removes a specific tag from the specified pet.',
         tags: ['Tags'],
-        responses: {},
+        responses: { 204: { description: 'No Content' } },
       },
     },
     '/categories': {
       get: {
         summary: 'List all categories',
-        description: 'Returns all available pet categories.',
         tags: ['Categories'],
         parameters: [
           {
@@ -170,13 +222,28 @@ export const MOCK_SPEC_V3: OpenAPIV3.Document = {
             description: 'Filter by name',
           },
         ],
-        responses: {},
+        responses: { 200: { description: 'OK' } },
       },
       post: {
         summary: 'Create category',
-        description: 'Creates a new pet category.',
         tags: ['Categories'],
-        responses: {},
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['name'],
+                properties: {
+                  name: { type: 'string' },
+                  description: { type: 'string' },
+                },
+              },
+              example: { name: 'Exotic', description: 'Exotic pets' },
+            },
+          },
+        },
+        responses: { 201: { description: 'Created' } },
       },
     },
     '/categories/{id}': {
@@ -191,71 +258,88 @@ export const MOCK_SPEC_V3: OpenAPIV3.Document = {
       ],
       get: {
         summary: 'Get category by ID',
-        description: 'Returns a single category by its ID.',
         tags: ['Categories'],
-        responses: {},
+        responses: { 200: { description: 'OK' } },
       },
       put: {
         summary: 'Update category',
-        description: 'Updates an existing category.',
         tags: ['Categories'],
-        responses: {},
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                  description: { type: 'string' },
+                },
+              },
+              example: { name: 'Exotic', description: 'Updated description' },
+            },
+          },
+        },
+        responses: { 200: { description: 'OK' } },
       },
       delete: {
         summary: 'Delete category',
-        description: 'Permanently removes a category.',
         tags: ['Categories'],
-        responses: {},
+        responses: { 204: { description: 'No Content' } },
       },
     },
     '/users': {
       get: {
         summary: 'List all users',
-        description: 'Returns all registered users. Requires admin role.',
         tags: ['Users'],
         parameters: [
           {
             name: 'role',
             in: 'query',
             schema: { type: 'string', enum: ['admin', 'user'] },
-            description: 'Filter by role',
           },
           {
             name: 'Authorization',
             in: 'header',
             required: true,
             schema: { type: 'string' },
-            description: 'Bearer token',
           },
-          {
-            name: 'locale',
-            in: 'cookie',
-            schema: { type: 'string' },
-            description: 'User locale preference',
-          },
+          { name: 'locale', in: 'cookie', schema: { type: 'string' } },
         ],
-        responses: {},
+        responses: { 200: { description: 'OK' } },
       },
       post: {
         summary: 'Create user',
-        description: 'Registers a new user account.',
         tags: ['Users'],
-        responses: {},
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['email', 'password'],
+                properties: {
+                  email: { type: 'string', format: 'email' },
+                  password: { type: 'string', format: 'password' },
+                  role: { type: 'string', enum: ['admin', 'user'] },
+                },
+              },
+              example: {
+                email: 'user@example.com',
+                password: 'secret',
+                role: 'user',
+              },
+            },
+          },
+        },
+        responses: { 201: { description: 'Created' } },
       },
     },
     '/users/{id}': {
       parameters: [
-        {
-          name: 'id',
-          in: 'path',
-          required: true,
-          schema: { type: 'string' },
-          description: 'User ID',
-        },
+        { name: 'id', in: 'path', required: true, schema: { type: 'string' } },
       ],
       get: {
         summary: 'Get user by ID',
-        description: 'Returns a single user profile.',
         tags: ['Users'],
         parameters: [
           {
@@ -263,45 +347,64 @@ export const MOCK_SPEC_V3: OpenAPIV3.Document = {
             in: 'header',
             required: true,
             schema: { type: 'string' },
-            description: 'Bearer token',
           },
         ],
-        responses: {},
+        responses: { 200: { description: 'OK' } },
       },
       put: {
         summary: 'Update user',
-        description: 'Updates user profile information.',
         tags: ['Users'],
-        responses: {},
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  email: { type: 'string', format: 'email' },
+                  role: { type: 'string', enum: ['admin', 'user'] },
+                },
+              },
+              example: { email: 'updated@example.com', role: 'admin' },
+            },
+          },
+        },
+        responses: { 200: { description: 'OK' } },
       },
       delete: {
         summary: 'Delete user',
-        description: 'Permanently removes a user account.',
         tags: ['Users'],
-        responses: {},
+        responses: { 204: { description: 'No Content' } },
       },
     },
     '/users/{id}/favorites': {
       parameters: [
-        {
-          name: 'id',
-          in: 'path',
-          required: true,
-          schema: { type: 'string' },
-          description: 'User ID',
-        },
+        { name: 'id', in: 'path', required: true, schema: { type: 'string' } },
       ],
       get: {
         summary: 'List favorite pets',
-        description: "Returns the user's saved favorite pets.",
         tags: ['Users'],
-        responses: {},
+        responses: { 200: { description: 'OK' } },
       },
       post: {
         summary: 'Add to favorites',
-        description: "Adds a pet to the user's favorites list.",
         tags: ['Users'],
-        responses: {},
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['petId'],
+                properties: {
+                  petId: { type: 'string', description: 'Pet ID to add' },
+                },
+              },
+              example: { petId: 'abc123' },
+            },
+          },
+        },
+        responses: { 201: { description: 'Created' } },
       },
     },
   },
@@ -345,13 +448,36 @@ export const MOCK_SPEC_V2: OpenAPIV2.Document = {
             description: 'API key',
           },
         ],
-        responses: {},
+        responses: { 200: { description: 'OK' } },
       },
       post: {
         summary: 'Add a book',
         description: 'Adds a new book to the store catalog.',
         tags: ['Books'],
-        responses: {},
+        parameters: [
+          {
+            name: 'body',
+            in: 'body',
+            required: true,
+            schema: {
+              type: 'object',
+              required: ['title', 'author'],
+              properties: {
+                title: { type: 'string', description: 'Book title' },
+                author: { type: 'string', description: 'Author name' },
+                genre: { type: 'string' },
+                year: { type: 'integer' },
+              },
+              example: {
+                title: 'The Great Gatsby',
+                author: 'F. Scott Fitzgerald',
+                genre: 'fiction',
+                year: 1925,
+              },
+            },
+          },
+        ],
+        responses: { 201: { description: 'Created' } },
       },
     },
     '/books/{id}': {
@@ -366,7 +492,6 @@ export const MOCK_SPEC_V2: OpenAPIV2.Document = {
       ],
       get: {
         summary: 'Get book by ID',
-        description: 'Returns a single book by its ID.',
         tags: ['Books'],
         parameters: [
           {
@@ -377,19 +502,33 @@ export const MOCK_SPEC_V2: OpenAPIV2.Document = {
             description: 'API key',
           },
         ],
-        responses: {},
+        responses: { 200: { description: 'OK' } },
       },
       patch: {
         summary: 'Update book',
-        description: 'Partially updates a book record.',
         tags: ['Books'],
-        responses: {},
+        parameters: [
+          {
+            name: 'body',
+            in: 'body',
+            required: true,
+            schema: {
+              type: 'object',
+              properties: {
+                title: { type: 'string' },
+                genre: { type: 'string' },
+                year: { type: 'integer' },
+              },
+              example: { title: 'Dune', genre: 'Science Fiction', year: 1965 },
+            },
+          },
+        ],
+        responses: { 200: { description: 'OK' } },
       },
       delete: {
         summary: 'Delete book',
-        description: 'Permanently removes a book from the catalog.',
         tags: ['Books'],
-        responses: {},
+        responses: { 204: { description: 'No Content' } },
       },
     },
     '/books/{id}/reviews': {
@@ -404,7 +543,6 @@ export const MOCK_SPEC_V2: OpenAPIV2.Document = {
       ],
       get: {
         summary: 'List book reviews',
-        description: 'Returns all reviews for the specified book.',
         tags: ['Reviews'],
         parameters: [
           {
@@ -414,55 +552,67 @@ export const MOCK_SPEC_V2: OpenAPIV2.Document = {
             description: 'Filter by rating (1-5)',
           },
         ],
-        responses: {},
+        responses: { 200: { description: 'OK' } },
       },
       post: {
         summary: 'Add review',
-        description: 'Submits a new review for the specified book.',
         tags: ['Reviews'],
-        responses: {},
+        parameters: [
+          {
+            name: 'body',
+            in: 'body',
+            required: true,
+            schema: {
+              type: 'object',
+              required: ['rating', 'text'],
+              properties: {
+                rating: { type: 'integer', description: 'Rating from 1 to 5' },
+                text: { type: 'string', description: 'Review text' },
+              },
+            },
+          },
+        ],
+        responses: { 201: { description: 'Created' } },
       },
     },
     '/books/{id}/reviews/{reviewId}': {
       parameters: [
-        {
-          name: 'id',
-          in: 'path',
-          type: 'integer',
-          required: true,
-          description: 'Book ID',
-        },
-        {
-          name: 'reviewId',
-          in: 'path',
-          type: 'integer',
-          required: true,
-          description: 'Review ID',
-        },
+        { name: 'id', in: 'path', type: 'integer', required: true },
+        { name: 'reviewId', in: 'path', type: 'integer', required: true },
       ],
       get: {
         summary: 'Get review',
-        description: 'Returns a single review by its ID.',
         tags: ['Reviews'],
-        responses: {},
+        responses: { 200: { description: 'OK' } },
       },
       put: {
         summary: 'Update review',
-        description: 'Updates an existing review.',
         tags: ['Reviews'],
-        responses: {},
+        parameters: [
+          {
+            name: 'body',
+            in: 'body',
+            required: true,
+            schema: {
+              type: 'object',
+              properties: {
+                rating: { type: 'integer' },
+                text: { type: 'string' },
+              },
+            },
+          },
+        ],
+        responses: { 200: { description: 'OK' } },
       },
       delete: {
         summary: 'Delete review',
-        description: 'Removes a review from the book.',
         tags: ['Reviews'],
-        responses: {},
+        responses: { 204: { description: 'No Content' } },
       },
     },
     '/authors': {
       get: {
         summary: 'List all authors',
-        description: 'Returns all authors in the catalog.',
         tags: ['Authors'],
         parameters: [
           {
@@ -472,162 +622,138 @@ export const MOCK_SPEC_V2: OpenAPIV2.Document = {
             description: 'Search by name',
           },
         ],
-        responses: {},
+        responses: { 200: { description: 'OK' } },
       },
       post: {
         summary: 'Add author',
-        description: 'Adds a new author to the catalog.',
-        tags: ['Authors'],
-        responses: {},
-      },
-    },
-    '/authors/{id}': {
-      parameters: [
-        {
-          name: 'id',
-          in: 'path',
-          type: 'integer',
-          required: true,
-          description: 'Author ID',
-        },
-      ],
-      get: {
-        summary: 'Get author by ID',
-        description: 'Returns a single author by their ID.',
-        tags: ['Authors'],
-        responses: {},
-      },
-      patch: {
-        summary: 'Update author',
-        description: 'Partially updates an author record.',
-        tags: ['Authors'],
-        responses: {},
-      },
-      delete: {
-        summary: 'Delete author',
-        description: 'Permanently removes an author from the catalog.',
-        tags: ['Authors'],
-        responses: {},
-      },
-    },
-    '/authors/{id}/books': {
-      parameters: [
-        {
-          name: 'id',
-          in: 'path',
-          type: 'integer',
-          required: true,
-          description: 'Author ID',
-        },
-      ],
-      get: {
-        summary: "List author's books",
-        description: 'Returns all books written by the specified author.',
         tags: ['Authors'],
         parameters: [
           {
-            name: 'limit',
-            in: 'query',
-            type: 'integer',
-            description: 'Max number of results',
+            name: 'body',
+            in: 'body',
+            required: true,
+            schema: {
+              type: 'object',
+              required: ['name'],
+              properties: {
+                name: { type: 'string' },
+                bio: { type: 'string' },
+              },
+            },
           },
         ],
-        responses: {},
+        responses: { 201: { description: 'Created' } },
       },
     },
-    '/genres': {
+    '/authors/{id}': {
+      parameters: [{ name: 'id', in: 'path', type: 'integer', required: true }],
       get: {
-        summary: 'List all genres',
-        description: 'Returns all available book genres.',
-        tags: ['Genres'],
-        responses: {},
+        summary: 'Get author by ID',
+        tags: ['Authors'],
+        responses: { 200: { description: 'OK' } },
       },
-      post: {
-        summary: 'Create genre',
-        description: 'Creates a new book genre.',
-        tags: ['Genres'],
-        responses: {},
-      },
-    },
-    '/genres/{id}': {
-      parameters: [
-        {
-          name: 'id',
-          in: 'path',
-          type: 'integer',
-          required: true,
-          description: 'Genre ID',
-        },
-      ],
-      get: {
-        summary: 'Get genre by ID',
-        description: 'Returns a single genre by its ID.',
-        tags: ['Genres'],
-        responses: {},
+      patch: {
+        summary: 'Update author',
+        tags: ['Authors'],
+        parameters: [
+          {
+            name: 'body',
+            in: 'body',
+            schema: {
+              type: 'object',
+              properties: {
+                name: { type: 'string' },
+                bio: { type: 'string' },
+              },
+            },
+          },
+        ],
+        responses: { 200: { description: 'OK' } },
       },
       delete: {
-        summary: 'Delete genre',
-        description: 'Permanently removes a genre.',
-        tags: ['Genres'],
-        responses: {},
+        summary: 'Delete author',
+        tags: ['Authors'],
+        responses: { 204: { description: 'No Content' } },
+      },
+    },
+    '/authors/{id}/books': {
+      parameters: [{ name: 'id', in: 'path', type: 'integer', required: true }],
+      get: {
+        summary: "List author's books",
+        tags: ['Authors'],
+        parameters: [{ name: 'limit', in: 'query', type: 'integer' }],
+        responses: { 200: { description: 'OK' } },
       },
     },
     '/orders': {
       get: {
         summary: 'List all orders',
-        description: 'Returns all orders. Requires authentication.',
         tags: ['Orders'],
         parameters: [
-          {
-            name: 'status',
-            in: 'query',
-            type: 'string',
-            description: 'Filter by status',
-          },
+          { name: 'status', in: 'query', type: 'string' },
           {
             name: 'Authorization',
             in: 'header',
             type: 'string',
             required: true,
-            description: 'Bearer token',
           },
         ],
-        responses: {},
+        responses: { 200: { description: 'OK' } },
       },
       post: {
         summary: 'Create order',
-        description: 'Places a new book order.',
         tags: ['Orders'],
-        responses: {},
+        parameters: [
+          {
+            name: 'body',
+            in: 'body',
+            required: true,
+            schema: {
+              type: 'object',
+              required: ['bookId', 'quantity'],
+              properties: {
+                bookId: { type: 'integer' },
+                quantity: { type: 'integer' },
+              },
+            },
+          },
+        ],
+        responses: { 201: { description: 'Created' } },
       },
     },
     '/orders/{id}': {
-      parameters: [
-        {
-          name: 'id',
-          in: 'path',
-          type: 'integer',
-          required: true,
-          description: 'Order ID',
-        },
-      ],
+      parameters: [{ name: 'id', in: 'path', type: 'integer', required: true }],
       get: {
         summary: 'Get order by ID',
-        description: 'Returns a single order by its ID.',
         tags: ['Orders'],
-        responses: {},
+        responses: { 200: { description: 'OK' } },
       },
       patch: {
         summary: 'Update order status',
-        description: 'Updates the status of an existing order.',
         tags: ['Orders'],
-        responses: {},
+        parameters: [
+          {
+            name: 'body',
+            in: 'body',
+            required: true,
+            schema: {
+              type: 'object',
+              required: ['status'],
+              properties: {
+                status: {
+                  type: 'string',
+                  enum: ['pending', 'shipped', 'delivered', 'cancelled'],
+                },
+              },
+            },
+          },
+        ],
+        responses: { 200: { description: 'OK' } },
       },
       delete: {
         summary: 'Cancel order',
-        description: 'Cancels and removes an order.',
         tags: ['Orders'],
-        responses: {},
+        responses: { 204: { description: 'No Content' } },
       },
     },
   },
