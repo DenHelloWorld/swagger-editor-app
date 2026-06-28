@@ -1,5 +1,3 @@
-'use client';
-
 import { AuthState } from '@/types/authTypes';
 import { create } from 'zustand';
 
