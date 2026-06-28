@@ -8,13 +8,12 @@ import type {
   SpecVersion,
 } from '@/types/openapi';
 import { HTTP_METHODS } from '@/constants/openapi';
-import { isSwaggerV2, isOpenAPIV31 } from './guards';
+import { isSwaggerV2 } from './guards';
 import { mergeParameters } from './parameters';
 import { getV2RequestBody, getV3RequestBody } from './requestBody';
 
 function getSpecVersion(doc: OpenAPI.Document): SpecVersion {
   if (isSwaggerV2(doc)) return 'v2';
-  if (isOpenAPIV31(doc)) return 'v3.1';
   return 'v3';
 }
 

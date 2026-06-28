@@ -1,4 +1,4 @@
-import type { OpenAPI, OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from 'openapi-types';
+import type { OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 
 /** Alias for `OpenAPI.Document` — the root object of any OpenAPI/Swagger spec. */
 export type OpenAPIDocument = OpenAPI.Document;
@@ -7,19 +7,15 @@ export type OpenAPIDocument = OpenAPI.Document;
 export type OpenAPIOperation = OpenAPI.Operation;
 
 /** Discriminated spec version derived from the document root (`swagger`/`openapi` field). */
-export type SpecVersion = 'v2' | 'v3' | 'v3.1';
+export type SpecVersion = 'v2' | 'v3';
 
-/** Path item object containing one or more operations — V2, V3, or V3.1. */
+/** Path item object containing one or more operations — V2 or V3. */
 export type OpenAPIPathItem =
   | OpenAPIV2.PathItemObject
-  | OpenAPIV3.PathItemObject
-  | OpenAPIV3_1.PathItemObject;
+  | OpenAPIV3.PathItemObject;
 
 /** A `$ref` pointer — identical shape across all spec versions. */
-export type OpenAPIRef =
-  | OpenAPIV2.ReferenceObject
-  | OpenAPIV3.ReferenceObject
-  | OpenAPIV3_1.ReferenceObject;
+export type OpenAPIRef = OpenAPIV2.ReferenceObject | OpenAPIV3.ReferenceObject;
 
 /**
  * Concrete parameter with no `$ref` — safe to access `name`, `in`, `schema`, etc.
@@ -28,8 +24,7 @@ export type OpenAPIRef =
 export type ResolvedParameter =
   | OpenAPIV2.InBodyParameterObject
   | OpenAPIV2.GeneralParameterObject
-  | OpenAPIV3.ParameterObject
-  | OpenAPIV3_1.ParameterObject;
+  | OpenAPIV3.ParameterObject;
 
 /** A single schema property normalized by `resolveProperties` — `$ref` entries are already excluded. */
 export type ProcessedSchemaProperty = {
