@@ -1,10 +1,4 @@
-import type { OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
-
-/** Alias for `OpenAPI.Document` — the root object of any OpenAPI/Swagger spec. */
-export type OpenAPIDocument = OpenAPI.Document;
-
-/** Alias for `OpenAPI.Operation` — a single HTTP operation on a path. */
-export type OpenAPIOperation = OpenAPI.Operation;
+import type { OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 
 /** Discriminated spec version derived from the document root (`swagger`/`openapi` field). */
 export type SpecVersion = 'v2' | 'v3';

@@ -1,6 +1,5 @@
 import type { OpenAPI } from 'openapi-types';
 import type {
-  OpenAPIOperation,
   OpenAPIPathItem,
   ProcessedEndpoint,
   ProcessedGroup,
@@ -28,7 +27,7 @@ export function processSpec(doc: OpenAPI.Document): ProcessedSpec {
       const endpoints: ProcessedEndpoint[] = Object.entries(pi)
         .filter(([method]) => HTTP_METHODS.has(method))
         .map(([method, operation]) => {
-          const op = operation as OpenAPIOperation;
+          const op = operation;
           return {
             method,
             path,

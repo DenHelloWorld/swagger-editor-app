@@ -1,6 +1,5 @@
 import SwaggerParser from '@apidevtools/swagger-parser';
 import type { OpenAPI } from 'openapi-types';
-import type { OpenAPIDocument } from '@/types/openapi';
 
 type ValidationResult =
   | { valid: true; doc: OpenAPI.Document }
@@ -11,7 +10,7 @@ type ValidationResult =
  * @returns `{ valid: true, doc }` with the dereferenced document on success, `{ valid: false, errors }` on failure.
  */
 export async function validateSchema(
-  doc: OpenAPIDocument,
+  doc: OpenAPI.Document,
 ): Promise<ValidationResult> {
   try {
     const resolved = (await SwaggerParser.validate(
