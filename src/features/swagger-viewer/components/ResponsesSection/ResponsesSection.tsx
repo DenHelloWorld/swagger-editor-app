@@ -13,7 +13,14 @@ export function ResponsesSection({ responses }: Props) {
     <div className={styles.root}>
       <p className={styles.title}>Responses</p>
       {responses.map(
-        ({ statusCode, description, contentType, properties, example }) => (
+        ({
+          statusCode,
+          description,
+          contentType,
+          isArray,
+          properties,
+          example,
+        }) => (
           <div key={statusCode} className={styles.response}>
             <div className={styles.response__header}>
               <Badge
@@ -23,7 +30,10 @@ export function ResponsesSection({ responses }: Props) {
                 {statusCode}
               </Badge>
               {contentType && (
-                <span className={styles.response__type}>{contentType}</span>
+                <span className={styles.response__type}>
+                  {contentType}
+                  {isArray ? ' · array' : ''}
+                </span>
               )}
               {description && (
                 <span className={styles.response__desc}>{description}</span>

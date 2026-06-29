@@ -8,19 +8,25 @@ type Props = {
 };
 
 export function RequestBodySection({ requestBody }: Props) {
-  const { contentType, required, properties, example } = requestBody;
+  const { contentType, required, isArray, properties, example } = requestBody;
   return (
     <div className={styles.root}>
       {contentType ? (
         <div className={styles.header}>
           <p className={styles.title}>Request Body</p>
-          <span className={styles.header__type}>{contentType}</span>
+          <span className={styles.header__type}>
+            {contentType}
+            {isArray ? ' · array' : ''}
+          </span>
           {required && (
             <span className={styles.header__required}>* required</span>
           )}
         </div>
       ) : (
-        <p className={styles.title}>Request Body</p>
+        <div className={styles.header}>
+          <p className={styles.title}>Request Body</p>
+          {isArray && <span className={styles.header__type}>array</span>}
+        </div>
       )}
       <SchemaTable properties={properties} />
       {example !== undefined && <ExampleBlock example={example} />}

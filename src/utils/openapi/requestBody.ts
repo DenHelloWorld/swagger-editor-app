@@ -40,10 +40,13 @@ export function getV2RequestBody(
   );
   if (!rb?.schema) return null;
   const schema = rb.schema as OpenAPIV2.SchemaObject;
+  const isArray = schema.type === 'array';
+  const body = (isArray ? schema.items : schema) as OpenAPIV2.SchemaObject;
   return {
+    isArray,
     properties: resolveProperties(
-      schema.properties as Record<string, object> | undefined,
-      schema.required,
+      body?.properties as Record<string, object> | undefined,
+      body?.required,
     ),
     example: (schema as OpenAPIV2.SchemaObject & { example?: object }).example,
   };
@@ -62,12 +65,15 @@ export function getV3RequestBody(
   const [contentType, media] = Object.entries(rb.content ?? {})[0] ?? [];
   if (!contentType || !media) return null;
   const schema = media.schema as OpenAPIV3.SchemaObject | undefined;
+  const isArray = schema?.type === 'array';
+  const body = (isArray ? schema?.items : schema) as OpenAPIV3.SchemaObject;
   return {
     contentType,
     required: rb.required,
+    isArray,
     properties: resolveProperties(
-      schema?.properties as Record<string, object> | undefined,
-      schema?.required,
+      body?.properties as Record<string, object> | undefined,
+      body?.required,
     ),
     example: media.example as object | undefined,
   };

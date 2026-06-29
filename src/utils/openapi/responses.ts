@@ -13,12 +13,15 @@ export function getV2Responses(
     const schema = r.schema as
       | (OpenAPIV2.SchemaObject & { example?: object })
       | undefined;
+    const isArray = schema?.type === 'array';
+    const body = (isArray ? schema?.items : schema) as OpenAPIV2.SchemaObject;
     return {
       statusCode,
       description: r.description,
+      isArray,
       properties: resolveProperties(
-        schema?.properties as Record<string, object> | undefined,
-        schema?.required,
+        body?.properties as Record<string, object> | undefined,
+        body?.required,
       ),
       example: schema?.example,
     };
@@ -35,13 +38,16 @@ export function getV3Responses(
     const r = res as OpenAPIV3.ResponseObject;
     const [contentType, media] = Object.entries(r.content ?? {})[0] ?? [];
     const schema = media?.schema as OpenAPIV3.SchemaObject | undefined;
+    const isArray = schema?.type === 'array';
+    const body = (isArray ? schema?.items : schema) as OpenAPIV3.SchemaObject;
     return {
       statusCode,
       description: r.description,
       contentType,
+      isArray,
       properties: resolveProperties(
-        schema?.properties as Record<string, object> | undefined,
-        schema?.required,
+        body?.properties as Record<string, object> | undefined,
+        body?.required,
       ),
       example: media?.example as object | undefined,
     };

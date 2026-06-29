@@ -36,6 +36,7 @@ export type ProcessedRequestBody = {
   contentType?: string;
   /** Whether the request body is required (V3 only). */
   required?: boolean;
+  isArray: boolean;
   /** Flattened, `$ref`-free list of schema properties ready for rendering. */
   properties: ProcessedSchemaProperty[];
   example?: object;
@@ -47,6 +48,7 @@ export type ProcessedResponse = {
   description?: string;
   /** MIME type of the first `content` entry (V3 only). */
   contentType?: string;
+  isArray: boolean;
   /** Flattened, `$ref`-free list of schema properties ready for rendering. */
   properties: ProcessedSchemaProperty[];
   example?: object;
