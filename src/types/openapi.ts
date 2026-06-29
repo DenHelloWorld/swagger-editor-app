@@ -41,6 +41,17 @@ export type ProcessedRequestBody = {
   example?: object;
 };
 
+/** A single normalized response entry produced by `getV2Responses` / `getV3Responses`. */
+export type ProcessedResponse = {
+  statusCode: string;
+  description?: string;
+  /** MIME type of the first `content` entry (V3 only). */
+  contentType?: string;
+  /** Flattened, `$ref`-free list of schema properties ready for rendering. */
+  properties: ProcessedSchemaProperty[];
+  example?: object;
+};
+
 /** A single API endpoint normalized from a path item operation. */
 export type ProcessedEndpoint = {
   method: string;
@@ -50,6 +61,7 @@ export type ProcessedEndpoint = {
   /** Deduplicated, `$ref`-free parameters — produced by `mergeParameters`. */
   parameters: ResolvedParameter[];
   requestBody: ProcessedRequestBody | null;
+  responses: ProcessedResponse[];
 };
 
 /** All endpoints under a single path, grouped for rendering by `processSpec`. */

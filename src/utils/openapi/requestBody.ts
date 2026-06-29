@@ -8,7 +8,7 @@ import type {
  * Flattens a raw `properties` map into a normalized array.
  * Marks each property as required based on the parent schema's `required` array.
  */
-function resolveProperties(
+export function resolveProperties(
   properties: Record<string, object> | undefined,
   required: string[] = [],
 ): ProcessedSchemaProperty[] {
