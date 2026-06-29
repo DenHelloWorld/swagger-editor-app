@@ -5,7 +5,7 @@ import { create } from 'zustand';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut,
+  signOut as firebaseSignOut,
 } from 'firebase/auth';
 import { getFirebaseAuth } from '@/lib/db/firebase/client';
 
@@ -68,7 +68,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   signOut: async () => {
     set({ isLoading: true });
     try {
-      await signOut(auth);
+      await firebaseSignOut(auth);
       set({ user: null });
     } catch {
       //TODO toast to notify user

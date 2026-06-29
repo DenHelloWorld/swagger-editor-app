@@ -35,7 +35,8 @@ export default function SignInForm() {
   });
 
   function onSubmit(data: SignInFields) {
-    signIn(data.email);
+    signIn(data.email, data.password);
+    form.reset();
   }
 
   return (
