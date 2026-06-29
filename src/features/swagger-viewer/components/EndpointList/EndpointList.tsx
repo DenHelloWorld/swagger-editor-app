@@ -1,13 +1,11 @@
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card, CardContent } from '@/components/ui/card';
-import type { OpenAPIDocument } from '@/types/openapi';
+import type { ProcessedSpec } from '@/types/openapi';
 import { FileCode2 } from 'lucide-react';
 import { EndpointGroup } from '../EndpointGroup/EndpointGroup';
 import styles from './EndpointList.module.css';
 
-type Props = {
-  spec: OpenAPIDocument | null;
-};
+type Props = { spec: ProcessedSpec | null };
 
 function EmptyState() {
   return (
@@ -24,16 +22,16 @@ function EmptyState() {
 }
 
 export function EndpointList({ spec }: Props) {
-  if (!spec?.paths) {
+  if (!spec) {
     return <EmptyState />;
   }
 
   return (
     <ScrollArea className={styles.list}>
       <ul className={styles.list__inner}>
-        {Object.entries(spec.paths).map(([path, pathItem]) => (
-          <li key={path}>
-            <EndpointGroup path={path} pathItem={pathItem} />
+        {spec.groups.map((group) => (
+          <li key={group.path}>
+            <EndpointGroup group={group} />
           </li>
         ))}
       </ul>

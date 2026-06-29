@@ -1,28 +1,28 @@
 import { create } from 'zustand';
-import type { OpenAPIDocument } from '@/types/openapi';
+import type { ProcessedSpec } from '@/types/openapi';
 
 type Format = 'json' | 'yaml';
 
 type SchemaStore = {
-  spec: OpenAPIDocument | null;
+  processedSpec: ProcessedSpec | null;
   raw: string;
   format: Format;
   errors: string[];
 
   setRaw: (raw: string) => void;
   setFormat: (format: Format) => void;
-  setSpec: (spec: OpenAPIDocument | null) => void;
+  setSpec: (processedSpec: ProcessedSpec | null) => void;
   setErrors: (errors: string[]) => void;
 };
 
 export const useSchemaStore = create<SchemaStore>((set) => ({
-  spec: null,
+  processedSpec: null,
   raw: '',
   format: 'json',
   errors: [],
 
   setRaw: (raw) => set({ raw }),
   setFormat: (format) => set({ format }),
-  setSpec: (spec) => set({ spec }),
+  setSpec: (processedSpec) => set({ processedSpec }),
   setErrors: (errors) => set({ errors }),
 }));

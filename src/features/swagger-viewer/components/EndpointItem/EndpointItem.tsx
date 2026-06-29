@@ -1,41 +1,35 @@
+import type { ProcessedEndpoint } from '@/types/openapi';
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import type { OpenAPIOperation, OpenAPIPathItem } from '@/types/openapi';
-import { mergeParameters } from '@/utils/openapi';
 import { MethodBadge } from '../MethodBadge/MethodBadge';
 import { ParameterSection } from '../ParameterSection/ParameterSection';
+import { RequestBodySection } from '../RequestBodySection/RequestBodySection';
 import styles from './EndpointItem.module.css';
 
 type Props = {
-  method: string;
-  path: string;
-  operation: OpenAPIOperation;
-  pathItem: OpenAPIPathItem;
+  endpoint: ProcessedEndpoint;
 };
 
-export function EndpointItem({ method, path, operation, pathItem }: Props) {
+export function EndpointItem({ endpoint }: Props) {
+  const { method, path, summary, description, parameters, requestBody } =
+    endpoint;
   const rowModifier = styles[`row--${method.toLowerCase()}`];
-  const parameters = mergeParameters(
-    pathItem.parameters ?? [],
-    operation.parameters ?? [],
-  );
 
   return (
     <AccordionItem value={`${method}-${path}`} className={styles.item}>
       <AccordionTrigger className={`${styles.row} ${rowModifier ?? ''}`}>
         <div className={styles.row__body}>
           <MethodBadge method={method} />
-          {operation.summary && <span>{operation.summary}</span>}
+          {summary && <span>{summary}</span>}
         </div>
       </AccordionTrigger>
       <AccordionContent className={styles.content}>
-        {operation.description && (
-          <p className={styles.description}>{operation.description}</p>
-        )}
+        {description && <p className={styles.description}>{description}</p>}
         {!!parameters.length && <ParameterSection parameters={parameters} />}
+        {requestBody && <RequestBodySection requestBody={requestBody} />}
       </AccordionContent>
     </AccordionItem>
   );
