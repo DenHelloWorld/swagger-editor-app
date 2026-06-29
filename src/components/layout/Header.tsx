@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useAuth } from '@/features/auth/useAuth';
 
 export default function Header() {
-  const { isAuthenticated, signIn, signUp, signOut } = useAuth();
+  const { isAuthenticated, signOut } = useAuth();
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 w-full border-b backdrop-blur">
       <div className="mx-4 flex h-16 items-center justify-between">
@@ -35,19 +35,11 @@ export default function Header() {
             </>
           ) : (
             <>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => signIn('example@gmail.com')}
-              >
-                Sign In
+              <Button variant="ghost" size="sm">
+                <Link href="/sign-in">Sign In</Link>
               </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => signUp('example@gmail.com')}
-              >
-                Sign Up
+              <Button variant="ghost" size="sm">
+                <Link href="/sign-up">Sign Up</Link>
               </Button>
             </>
           )}
