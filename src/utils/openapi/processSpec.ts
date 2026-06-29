@@ -5,6 +5,7 @@ import type {
   ProcessedEndpoint,
   ProcessedGroup,
   ProcessedSpec,
+  ResolvedParameter,
   SpecVersion,
 } from '@/types/openapi';
 import { HTTP_METHODS } from '@/constants/openapi';
@@ -39,8 +40,8 @@ export function processSpec(doc: OpenAPI.Document): ProcessedSpec {
             summary: op.summary,
             description: op.description,
             parameters: mergeParameters(
-              pi.parameters ?? [],
-              op.parameters ?? [],
+              (pi.parameters ?? []) as ResolvedParameter[],
+              (op.parameters ?? []) as ResolvedParameter[],
             ),
             requestBody: getRequestBody(op),
           };

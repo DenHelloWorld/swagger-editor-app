@@ -14,12 +14,9 @@ export type OpenAPIPathItem =
   | OpenAPIV2.PathItemObject
   | OpenAPIV3.PathItemObject;
 
-/** A `$ref` pointer — identical shape across all spec versions. */
-export type OpenAPIRef = OpenAPIV2.ReferenceObject | OpenAPIV3.ReferenceObject;
-
 /**
- * Concrete parameter with no `$ref` — safe to access `name`, `in`, `schema`, etc.
- * Produced by `mergeParameters` after deduplication and dropping `$ref` entries and V2 body params.
+ * Concrete parameter — safe to access `name`, `in`, `schema`, etc.
+ * Produced by `mergeParameters` after deduplication and dropping V2 body params.
  */
 export type ResolvedParameter =
   | OpenAPIV2.InBodyParameterObject

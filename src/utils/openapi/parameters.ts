@@ -1,6 +1,5 @@
-import type { OpenAPI, OpenAPIV2 } from 'openapi-types';
+import type { OpenAPIV2 } from 'openapi-types';
 import type { ResolvedParameter } from '@/types/openapi';
-import { isRef } from './guards';
 
 /** Returns `true` if the parameter is a Swagger 2.0 parameter (has a `type` field directly). */
 export function isV2Param(
@@ -18,17 +17,16 @@ export function getParamType(p: ResolvedParameter): string | undefined {
 /**
  * Merges path-item and operation-level parameters into a single deduplicated list.
  * Operation-level parameters win on `name+in` collision.
- * Drops `$ref` entries and V2 `in: body` parameters.
+ * Drops V2 `in: body` parameters.
  * @see https://spec.openapis.org/oas/v3.0.3.html#pathItemParameters
  */
 export function mergeParameters(
-  pathItemParams: OpenAPI.Parameter[],
-  operationParams: OpenAPI.Parameter[],
+  pathItemParams: ResolvedParameter[],
+  operationParams: ResolvedParameter[],
 ): ResolvedParameter[] {
   const seen = new Set<string>();
   const result: ResolvedParameter[] = [];
   for (const p of [...operationParams, ...pathItemParams]) {
-    if (isRef(p)) continue;
     if (p.in === 'body') continue;
     const key = `${p.name}:${p.in}`;
     if (!seen.has(key)) {

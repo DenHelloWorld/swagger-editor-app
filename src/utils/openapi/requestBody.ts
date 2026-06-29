@@ -3,10 +3,9 @@ import type {
   ProcessedRequestBody,
   ProcessedSchemaProperty,
 } from '@/types/openapi';
-import { isRef } from './guards';
 
 /**
- * Flattens a raw `properties` map into a normalized array, dropping `$ref` entries.
+ * Flattens a raw `properties` map into a normalized array.
  * Marks each property as required based on the parent schema's `required` array.
  */
 function resolveProperties(
@@ -14,31 +13,32 @@ function resolveProperties(
   required: string[] = [],
 ): ProcessedSchemaProperty[] {
   if (!properties) return [];
-  return Object.entries(properties)
-    .filter(([, prop]) => !isRef(prop))
-    .map(([name, prop]) => {
-      const p = prop as OpenAPIV2.SchemaObject & OpenAPIV3.SchemaObject;
-      return {
-        name,
-        type: p.type as string | undefined,
-        enum: p.enum as string[] | undefined,
-        description: p.description,
-        required: required.includes(name),
-      };
-    });
+  return Object.entries(properties).map(([name, prop]) => {
+    const p = prop as OpenAPIV2.SchemaObject & OpenAPIV3.SchemaObject;
+    return {
+      name,
+      type: p.type as string | undefined,
+      enum: p.enum as string[] | undefined,
+      description: p.description,
+      required: required.includes(name),
+    };
+  });
 }
 
 /**
  * Extracts and normalizes the request body from a Swagger 2.0 operation (`in: body` parameter).
- * Returns `null` if no body parameter exists or if the schema is a `$ref`.
+ * Returns `null` if no body parameter exists or if the schema is absent.
  */
 export function getV2RequestBody(
   operation: OpenAPI.Operation,
 ): ProcessedRequestBody | null {
-  const rb = (operation.parameters as OpenAPIV2.Parameter[] | undefined)?.find(
-    (p): p is OpenAPIV2.InBodyParameterObject => !isRef(p) && p.in === 'body',
+  const params = operation.parameters as
+    | (OpenAPIV2.InBodyParameterObject | OpenAPIV2.GeneralParameterObject)[]
+    | undefined;
+  const rb = params?.find(
+    (p): p is OpenAPIV2.InBodyParameterObject => p.in === 'body',
   );
-  if (!rb?.schema || isRef(rb.schema)) return null;
+  if (!rb?.schema) return null;
   const schema = rb.schema as OpenAPIV2.SchemaObject;
   return {
     properties: resolveProperties(
@@ -51,23 +51,20 @@ export function getV2RequestBody(
 
 /**
  * Extracts and normalizes the request body from an OpenAPI 3.x operation.
- * Takes the first `content` entry. Returns `null` if absent or if `requestBody` is a `$ref`.
+ * Takes the first `content` entry. Returns `null` if absent.
  */
 export function getV3RequestBody(
   operation: OpenAPI.Operation,
 ): ProcessedRequestBody | null {
-  const rb = (operation as { requestBody?: object }).requestBody;
-  if (!rb || isRef(rb)) return null;
-  const v3rb = rb as OpenAPIV3.RequestBodyObject;
-  const [contentType, media] = Object.entries(v3rb.content ?? {})[0] ?? [];
+  const rb = (operation as { requestBody?: OpenAPIV3.RequestBodyObject })
+    .requestBody;
+  if (!rb) return null;
+  const [contentType, media] = Object.entries(rb.content ?? {})[0] ?? [];
   if (!contentType || !media) return null;
-  const schema =
-    media.schema && !isRef(media.schema)
-      ? (media.schema as OpenAPIV3.SchemaObject)
-      : undefined;
+  const schema = media.schema as OpenAPIV3.SchemaObject | undefined;
   return {
     contentType,
-    required: v3rb.required,
+    required: rb.required,
     properties: resolveProperties(
       schema?.properties as Record<string, object> | undefined,
       schema?.required,

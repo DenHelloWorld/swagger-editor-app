@@ -30,7 +30,7 @@ export const useSchemaSync = () => {
             setSpec(null);
             setErrors(result.errors);
           } else {
-            setSpec(processSpec(parsed.doc));
+            setSpec(processSpec(result.doc));
             setErrors([]);
           }
         })

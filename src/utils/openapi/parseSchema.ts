@@ -19,7 +19,10 @@ export function parseSchema(raw: string): ParseResult {
   if (!raw.trim()) return { success: false, error: 'Schema is empty' };
   const format = detectFormat(raw);
   try {
-    const doc = format === 'json' ? JSON.parse(raw) : yaml.load(raw);
+    const doc = yaml.load(raw);
+    if (doc == null || typeof doc !== 'object') {
+      return { success: false, error: 'Schema must be a valid OpenAPI object' };
+    }
     return { success: true, doc: doc as OpenAPI.Document, format };
   } catch (e) {
     const message = e instanceof Error ? e.message : 'Failed to parse schema';
