@@ -51,7 +51,7 @@ export function getV2RequestBody(
 
 /**
  * Extracts and normalizes the request body from an OpenAPI 3.x operation.
- * Takes the first `content` entry. Returns `null` if absent.
+ * Takes the first `content` entry. Returns `null` if `requestBody` is absent or has no content entries.
  */
 export function getV3RequestBody(
   operation: OpenAPI.Operation,

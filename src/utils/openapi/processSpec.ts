@@ -13,18 +13,13 @@ import { isSwaggerV2 } from './guards';
 import { mergeParameters } from './parameters';
 import { getV2RequestBody, getV3RequestBody } from './requestBody';
 
-function getSpecVersion(doc: OpenAPI.Document): SpecVersion {
-  if (isSwaggerV2(doc)) return 'v2';
-  return 'v3';
-}
-
 /**
  * Transforms a raw OpenAPI document into a normalized `ProcessedSpec` ready for rendering.
  * Groups endpoints by path, merges parameters, and normalizes request bodies.
  */
 export function processSpec(doc: OpenAPI.Document): ProcessedSpec {
-  const version = getSpecVersion(doc);
-  const getRequestBody = version === 'v2' ? getV2RequestBody : getV3RequestBody;
+  const version: SpecVersion = isSwaggerV2(doc) ? 'v2' : 'v3';
+  const getRequestBody = isSwaggerV2(doc) ? getV2RequestBody : getV3RequestBody;
 
   const groups: ProcessedGroup[] = Object.entries(doc.paths ?? {})
     .filter(([, pathItem]) => pathItem != null)
