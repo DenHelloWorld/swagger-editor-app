@@ -1,13 +1,5 @@
 @reference "../../../../app/globals.css";
 
-.root {
-  @apply mt-3 space-y-3;
-}
-
-.title {
-  @apply text-foreground text-sm font-semibold tracking-wider uppercase;
-}
-
 .cell {
   @apply w-48 align-top;
 }

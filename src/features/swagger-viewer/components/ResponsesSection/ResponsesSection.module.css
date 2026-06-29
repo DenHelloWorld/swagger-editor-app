@@ -1,0 +1,41 @@
+@reference "../../../../app/globals.css";
+
+.root {
+  @apply mt-3 space-y-3;
+}
+
+.title {
+  @apply text-foreground text-sm font-semibold tracking-wider uppercase;
+}
+
+.response {
+  @apply space-y-2;
+}
+
+.response__header {
+  @apply flex items-baseline gap-2;
+}
+
+.response__status {
+  @apply border-current font-mono font-semibold;
+}
+
+.response__status--2 {
+  @apply text-green-600;
+}
+
+.response__status--4 {
+  @apply text-yellow-600;
+}
+
+.response__status--5 {
+  @apply text-destructive;
+}
+
+.response__type {
+  @apply bg-muted rounded px-1.5 py-0.5 font-mono text-xs;
+}
+
+.response__desc {
+  @apply text-muted-foreground text-xs;
+}
