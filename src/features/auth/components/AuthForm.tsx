@@ -67,9 +67,15 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
     form.reset();
   }
 
-  if (isLoading || isAuthenticated) {
+  if (isLoading) {
     return <Spinner className="size-8" />;
   }
+  if (isAuthenticated) {
+    return null;
+  }
+
+  const isSubmitting = form.formState.isSubmitting;
+
   return (
     <Card className="w-full sm:max-w-md">
       <CardHeader>
@@ -147,12 +153,19 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
             )}
           </FieldGroup>
           <Button
-            disabled={!form.formState.isValid}
+            disabled={!form.formState.isValid || isSubmitting}
             type="submit"
             form="auth-form"
             className="mt-3"
           >
-            Submit
+            {isSubmitting ? (
+              <>
+                <Spinner data-icon="inline-start" />
+                Submitting...
+              </>
+            ) : (
+              'Submit'
+            )}
           </Button>
         </form>
       </CardContent>

@@ -35,23 +35,19 @@ export const useAuthStore = create<AuthState>((set) => {
     isLoading: true,
 
     signIn: async (email: string, password: string) => {
-      set({ isLoading: true });
       try {
         await signInWithEmailAndPassword(auth, email, password);
         return null;
       } catch (error: unknown) {
-        set({ isLoading: false });
         return getAuthErrorMessage(error);
       }
     },
 
     signUp: async (email: string, password: string) => {
-      set({ isLoading: true });
       try {
         await createUserWithEmailAndPassword(auth, email, password);
         return null;
       } catch (error: unknown) {
-        set({ isLoading: false });
         return getAuthErrorMessage(error);
       }
     },
