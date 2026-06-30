@@ -21,9 +21,16 @@ import { useAuth } from '../useAuth';
 import { Controller, useForm } from 'react-hook-form';
 import { SignUpFields, signUpSchema } from '../schemas/auth.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function SignUpForm() {
-  const { signUp } = useAuth();
+  const router = useRouter();
+  const { isAuthenticated, signUp } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) router.replace('/');
+  }, [isAuthenticated, router]);
 
   const form = useForm<SignUpFields>({
     resolver: zodResolver(signUpSchema),
@@ -35,9 +42,10 @@ export default function SignUpForm() {
     mode: 'onChange',
   });
 
-  function onSubmit(data: SignUpFields) {
-    signUp(data.email, data.password);
+  async function onSubmit(data: SignUpFields) {
+    await signUp(data.email, data.password);
     form.reset();
+    router.replace('/');
   }
 
   return (

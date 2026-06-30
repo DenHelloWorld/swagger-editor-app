@@ -21,9 +21,16 @@ import { useAuth } from '../useAuth';
 import { Controller, useForm } from 'react-hook-form';
 import { SignInFields, signInSchema } from '../schemas/auth.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function SignInForm() {
-  const { signIn } = useAuth();
+  const router = useRouter();
+  const { isAuthenticated, signIn } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) router.replace('/');
+  }, [isAuthenticated, router]);
 
   const form = useForm<SignInFields>({
     resolver: zodResolver(signInSchema),
@@ -34,9 +41,10 @@ export default function SignInForm() {
     mode: 'onChange',
   });
 
-  function onSubmit(data: SignInFields) {
-    signIn(data.email, data.password);
+  async function onSubmit(data: SignInFields) {
+    await signIn(data.email, data.password);
     form.reset();
+    router.replace('/');
   }
 
   return (
