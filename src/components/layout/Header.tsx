@@ -5,11 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Image from 'next/image';
 import { useAuth } from '@/features/auth/useAuth';
+import { Toaster } from 'sonner';
 
 export default function Header() {
   const { isAuthenticated, signOut, isLoading } = useAuth();
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 w-full border-b backdrop-blur">
+      <Toaster position="bottom-center" offset={24} />
       <div className="mx-4 flex h-16 items-center justify-between">
         <Link
           href="/"

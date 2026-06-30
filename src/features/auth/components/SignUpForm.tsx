@@ -24,6 +24,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { Spinner } from '@/components/ui/spinner';
+import { toast } from 'sonner';
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -44,7 +45,14 @@ export default function SignUpForm() {
   });
 
   async function onSubmit(data: SignUpFields) {
-    await signUp(data.email, data.password);
+    const signUpError = await signUp(data.email, data.password);
+
+    if (signUpError) {
+      toast.error(signUpError);
+      return;
+    }
+
+    toast.success('Account created');
     form.reset();
   }
 

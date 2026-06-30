@@ -24,6 +24,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { Spinner } from '@/components/ui/spinner';
+import { toast } from 'sonner';
 
 export default function SignInForm() {
   const router = useRouter();
@@ -43,7 +44,14 @@ export default function SignInForm() {
   });
 
   async function onSubmit(data: SignInFields) {
-    await signIn(data.email, data.password);
+    const signInError = await signIn(data.email, data.password);
+
+    if (signInError) {
+      toast.error(signInError);
+      return;
+    }
+
+    toast.success('Welcome back');
     form.reset();
   }
 

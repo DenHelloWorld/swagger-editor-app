@@ -9,8 +9,10 @@ import {
   signOut as firebaseSignOut,
 } from 'firebase/auth';
 import { getFirebaseAuth } from '@/lib/db/firebase/client';
+import { getAuthErrorMessage } from '@/features/auth/utils/getAuthErrorMessage';
 
 const auth = getFirebaseAuth();
+
 export const useAuthStore = create<AuthState>((set) => {
   if (
     typeof window !== 'undefined' &&
@@ -24,6 +26,7 @@ export const useAuthStore = create<AuthState>((set) => {
             email: firebaseUser.email ?? '',
           },
           isLoading: false,
+          error: '',
         });
       } else {
         set({ user: null, isLoading: false });
@@ -36,37 +39,42 @@ export const useAuthStore = create<AuthState>((set) => {
         ? { uid: 'mock-user-1', email: 'mock@test.com' }
         : null,
     isLoading: process.env.NEXT_PUBLIC_DEV_MOCK_AUTH !== 'true',
+    error: '',
 
     signIn: async (email: string, password: string) => {
-      set({ isLoading: true });
+      set({ isLoading: true, error: '' });
       try {
         await signInWithEmailAndPassword(auth, email, password);
-      } catch {
-        //TODO toast to notify user
-        set({ isLoading: false });
+        return null;
+      } catch (error: unknown) {
+        const message = getAuthErrorMessage(error);
+        set({ error: message, isLoading: false });
+        return message;
       }
     },
 
     signUp: async (email: string, password: string) => {
-      set({ isLoading: true });
+      set({ isLoading: true, error: '' });
       try {
         await createUserWithEmailAndPassword(auth, email, password);
-      } catch {
-        //TODO toast to notify user
-        set({ isLoading: false });
+        return null;
+      } catch (error: unknown) {
+        const message = getAuthErrorMessage(error);
+        set({ error: message, isLoading: false });
+        return message;
       }
     },
 
     signOut: async () => {
-      set({ isLoading: true });
+      set({ isLoading: true, error: '' });
       try {
         await firebaseSignOut(auth);
         if (process.env.NEXT_PUBLIC_DEV_MOCK_AUTH === 'true') {
           set({ user: null, isLoading: false });
         }
-      } catch {
-        //TODO toast to notify user
-        set({ isLoading: false });
+      } catch (error: unknown) {
+        const message = getAuthErrorMessage(error);
+        set({ error: message, isLoading: false });
       }
     },
   };

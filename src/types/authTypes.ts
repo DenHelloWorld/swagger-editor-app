@@ -1,10 +1,11 @@
 export interface UseAuthResult {
-  signIn: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<string | null>;
   signOut: () => Promise<void>;
-  signUp: (email: string, password: string) => Promise<void>;
+  signUp: (email: string, password: string) => Promise<string | null>;
   isLoading: boolean;
   user: User | null;
   isAuthenticated: boolean;
+  error: string;
 }
 export interface User {
   uid: string;
@@ -13,7 +14,8 @@ export interface User {
 export interface AuthState {
   user: User | null;
   isLoading: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string) => Promise<void>;
+  error: string;
+  signIn: (email: string, password: string) => Promise<string | null>;
+  signUp: (email: string, password: string) => Promise<string | null>;
   signOut: () => Promise<void>;
 }
