@@ -16,6 +16,7 @@ import {
   FieldLabel,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import Link from 'next/link';
 import { useAuth } from '../useAuth';
 import { Controller, useForm } from 'react-hook-form';
@@ -95,7 +96,7 @@ export default function SignInForm() {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <Input
+                  <PasswordInput
                     {...field}
                     id="password"
                     placeholder="**********"
