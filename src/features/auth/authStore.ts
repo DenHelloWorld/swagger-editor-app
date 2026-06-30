@@ -23,7 +23,6 @@ export const useAuthStore = create<AuthState>((set) => {
             email: firebaseUser.email ?? '',
           },
           isLoading: false,
-          error: '',
         });
       } else {
         set({ user: null, isLoading: false });
@@ -34,39 +33,37 @@ export const useAuthStore = create<AuthState>((set) => {
   return {
     user: null,
     isLoading: true,
-    error: '',
 
     signIn: async (email: string, password: string) => {
-      set({ isLoading: true, error: '' });
+      set({ isLoading: true });
       try {
         await signInWithEmailAndPassword(auth, email, password);
         return null;
       } catch (error: unknown) {
-        const message = getAuthErrorMessage(error);
-        set({ error: message, isLoading: false });
-        return message;
+        set({ isLoading: false });
+        return getAuthErrorMessage(error);
       }
     },
 
     signUp: async (email: string, password: string) => {
-      set({ isLoading: true, error: '' });
+      set({ isLoading: true });
       try {
         await createUserWithEmailAndPassword(auth, email, password);
         return null;
       } catch (error: unknown) {
-        const message = getAuthErrorMessage(error);
-        set({ error: message, isLoading: false });
-        return message;
+        set({ isLoading: false });
+        return getAuthErrorMessage(error);
       }
     },
 
     signOut: async () => {
-      set({ isLoading: true, error: '' });
+      set({ isLoading: true });
       try {
         await firebaseSignOut(auth);
+        return null;
       } catch (error: unknown) {
-        const message = getAuthErrorMessage(error);
-        set({ error: message, isLoading: false });
+        set({ isLoading: false });
+        return getAuthErrorMessage(error);
       }
     },
   };

@@ -113,7 +113,7 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
                     {...field}
                     id="password"
                     placeholder="**********"
-                    autoComplete="off"
+                    autoComplete="on"
                     aria-invalid={fieldState.invalid}
                   />
                   {fieldState.invalid && (
@@ -135,7 +135,7 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
                       {...field}
                       id="confirmPassword"
                       placeholder="**********"
-                      autoComplete="off"
+                      autoComplete="on"
                       aria-invalid={fieldState.invalid}
                     />
                     {fieldState.invalid && (

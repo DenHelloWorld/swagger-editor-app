@@ -6,10 +6,9 @@ export interface User {
 export interface AuthState {
   user: User | null;
   isLoading: boolean;
-  error: string;
   signIn: (email: string, password: string) => Promise<string | null>;
   signUp: (email: string, password: string) => Promise<string | null>;
-  signOut: () => Promise<void>;
+  signOut: () => Promise<string | null>;
 }
 
 export type UseAuthResult = AuthState & {

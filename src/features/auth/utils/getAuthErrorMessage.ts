@@ -6,7 +6,7 @@ const AUTH_ERROR_MESSAGES: Record<string, string> = {
   'auth/wrong-password': 'Incorrect password.',
   'auth/user-not-found': 'Incorrect email or password.',
   'auth/email-already-in-use': 'An account with this email already exists.',
-  'auth/weak-password': 'Password must be at least 6 characters.',
+  'auth/weak-password': 'Password must be at least 8 characters.',
   'auth/too-many-requests': 'Too many attempts. Please try again later.',
   'auth/user-disabled': 'This account has been disabled.',
   'auth/network-request-failed':

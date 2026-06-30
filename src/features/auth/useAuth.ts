@@ -4,7 +4,7 @@ import { UseAuthResult } from '@/types/authTypes';
 import { useAuthStore } from './authStore';
 
 export function useAuth(): UseAuthResult {
-  const { signIn, signOut, signUp, isLoading, user, error } = useAuthStore();
+  const { signIn, signOut, signUp, isLoading, user } = useAuthStore();
 
   return {
     signIn,
@@ -12,7 +12,6 @@ export function useAuth(): UseAuthResult {
     signUp,
     isLoading,
     user,
-    error,
     isAuthenticated: user !== null,
   };
 }

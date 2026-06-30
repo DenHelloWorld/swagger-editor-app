@@ -5,10 +5,16 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Image from 'next/image';
 import { useAuth } from '@/features/auth/useAuth';
-import { Toaster } from 'sonner';
+import { Toaster, toast } from 'sonner';
 
 export default function Header() {
   const { isAuthenticated, signOut, isLoading } = useAuth();
+
+  async function handleSignOut() {
+    const error = await signOut();
+    if (error) toast.error(error);
+  }
+
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 w-full border-b backdrop-blur">
       <Toaster position="bottom-center" offset={24} />
@@ -45,16 +51,16 @@ export default function Header() {
                 <Button variant="ghost" size="sm" asChild>
                   <Link href="/history">History</Link>
                 </Button>
-                <Button variant="outline" size="sm" onClick={() => signOut()}>
+                <Button variant="outline" size="sm" onClick={handleSignOut}>
                   Sign Out
                 </Button>
               </>
             ) : (
               <>
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" asChild>
                   <Link href="/sign-in">Sign In</Link>
                 </Button>
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" asChild>
                   <Link href="/sign-up">Sign Up</Link>
                 </Button>
               </>
