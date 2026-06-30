@@ -35,30 +35,24 @@ export const useAuthStore = create<AuthState>((set) => {
       process.env.NEXT_PUBLIC_DEV_MOCK_AUTH === 'true'
         ? { uid: 'mock-user-1', email: 'mock@test.com' }
         : null,
-    isLoading: false,
+    isLoading: process.env.NEXT_PUBLIC_DEV_MOCK_AUTH !== 'true',
 
     signIn: async (email: string, password: string) => {
+      set({ isLoading: true });
       try {
-        set({ isLoading: true });
         await signInWithEmailAndPassword(auth, email, password);
       } catch {
-        /*     const errorCode = error.code;
-      const errorMessage = error.message; */
         //TODO toast to notify user
-      } finally {
         set({ isLoading: false });
       }
     },
 
     signUp: async (email: string, password: string) => {
+      set({ isLoading: true });
       try {
-        set({ isLoading: true });
         await createUserWithEmailAndPassword(auth, email, password);
       } catch {
-        /*     const errorCode = error.code;
-      const errorMessage = error.message; */
         //TODO toast to notify user
-      } finally {
         set({ isLoading: false });
       }
     },
@@ -67,9 +61,11 @@ export const useAuthStore = create<AuthState>((set) => {
       set({ isLoading: true });
       try {
         await firebaseSignOut(auth);
+        if (process.env.NEXT_PUBLIC_DEV_MOCK_AUTH === 'true') {
+          set({ user: null, isLoading: false });
+        }
       } catch {
         //TODO toast to notify user
-      } finally {
         set({ isLoading: false });
       }
     },

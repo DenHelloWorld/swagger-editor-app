@@ -23,10 +23,11 @@ import { SignUpFields, signUpSchema } from '../schemas/auth.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { Spinner } from '@/components/ui/spinner';
 
 export default function SignUpForm() {
   const router = useRouter();
-  const { isAuthenticated, signUp } = useAuth();
+  const { isAuthenticated, signUp, isLoading } = useAuth();
 
   useEffect(() => {
     if (isAuthenticated) router.replace('/');
@@ -45,9 +46,11 @@ export default function SignUpForm() {
   async function onSubmit(data: SignUpFields) {
     await signUp(data.email, data.password);
     form.reset();
-    router.replace('/');
   }
 
+  if (isLoading || isAuthenticated) {
+    return <Spinner className="size-8" />;
+  }
   return (
     <Card className="w-full sm:max-w-md">
       <CardHeader>
