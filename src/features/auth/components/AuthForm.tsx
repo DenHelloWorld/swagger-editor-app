@@ -100,7 +100,7 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
                     id="email"
                     aria-invalid={fieldState.invalid}
                     placeholder="example@gmail.com"
-                    autoComplete="on"
+                    autoComplete="email"
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -119,7 +119,9 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
                     {...field}
                     id="password"
                     placeholder="**********"
-                    autoComplete="on"
+                    autoComplete={
+                      type === 'Sign In' ? 'current-password' : 'new-password'
+                    }
                     aria-invalid={fieldState.invalid}
                   />
                   {fieldState.invalid && (
@@ -141,7 +143,7 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
                       {...field}
                       id="confirmPassword"
                       placeholder="**********"
-                      autoComplete="on"
+                      autoComplete="new-password"
                       aria-invalid={fieldState.invalid}
                     />
                     {fieldState.invalid && (
