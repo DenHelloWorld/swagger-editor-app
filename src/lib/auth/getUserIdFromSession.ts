@@ -1,7 +1,4 @@
 export async function getUserIdFromSession(): Promise<string | null> {
-  // mock  - as an argument is going be _req: NextRequest, and id will come from cookies
-  if (process.env.NEXT_PUBLIC_DEV_MOCK_AUTH === 'true') {
-    return 'mock-user-1';
-  }
+  // TODO: read user id from session cookie / Firebase Admin token
   return null;
 }

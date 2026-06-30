@@ -1,5 +1,5 @@
-import SignInForm from '@/features/auth/components/SignInForm';
+import AuthForm from '@/features/auth/components/AuthForm';
 
 export default function SignIn() {
-  return <SignInForm />;
+  return <AuthForm type="Sign In" />;
 }

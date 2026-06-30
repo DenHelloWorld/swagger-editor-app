@@ -14,9 +14,7 @@ _Link will be added after deployment._
 
 ```bash
 npm install
+cp .env.example .env.local
+# fill in NEXT_PUBLIC_FIREBASE_* values from Firebase Console
 npm run dev
 ```
-
-# Dev only: enable auth/db mocks
-
-NEXT_PUBLIC_DEV_MOCK_AUTH=true
