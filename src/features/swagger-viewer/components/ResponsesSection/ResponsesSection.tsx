@@ -29,11 +29,15 @@ export function ResponsesSection({ responses }: Props) {
               >
                 {statusCode}
               </Badge>
-              {contentType && (
+              {contentType ? (
                 <span className={styles.response__type}>
                   {contentType}
                   {isArray ? ' · array' : ''}
                 </span>
+                ) : (
+                  isArray && (
+                    <span className={styles.response__type}>array</span>
+                  )
               )}
               {description && (
                 <span className={styles.response__desc}>{description}</span>
