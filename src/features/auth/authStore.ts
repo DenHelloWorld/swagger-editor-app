@@ -15,21 +15,25 @@ export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   isLoading: true,
   initAuth: () => {
-    const auth = getFirebaseAuth();
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      if (firebaseUser) {
-        set({
-          user: {
-            uid: firebaseUser.uid,
-            email: firebaseUser.email ?? '',
-          },
-          isLoading: false,
-        });
-      } else {
-        set({ user: null, isLoading: false });
-      }
-    });
-    return unsubscribe;
+    try {
+      const auth = getFirebaseAuth();
+      return onAuthStateChanged(auth, (firebaseUser) => {
+        if (firebaseUser) {
+          set({
+            user: {
+              uid: firebaseUser.uid,
+              email: firebaseUser.email ?? '',
+            },
+            isLoading: false,
+          });
+        } else {
+          set({ user: null, isLoading: false });
+        }
+      });
+    } catch {
+      set({ user: null, isLoading: false });
+      return () => {};
+    }
   },
 
   signIn: async (email: string, password: string) => {
