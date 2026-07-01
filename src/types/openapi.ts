@@ -3,6 +3,9 @@ import type { OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 /** Discriminated spec version derived from the document root (`swagger`/`openapi` field). */
 export type SpecVersion = 'v2' | 'v3';
 
+/** Union of V2 and V3 schema objects — used for array-aware schema resolution. */
+export type AnySchemaObject = OpenAPIV2.SchemaObject & OpenAPIV3.SchemaObject;
+
 /** Path item object containing one or more operations — V2 or V3. */
 export type OpenAPIPathItem =
   | OpenAPIV2.PathItemObject

@@ -1,6 +1,7 @@
 import type { OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 import type { ProcessedResponse } from '@/types/openapi';
-import { resolveProperties } from './requestBody';
+import type { AnySchemaObject } from '@/types/openapi';
+import { resolveArrayableSchema } from './requestBody';
 
 export function getV2Responses(
   operation: OpenAPI.Operation,
@@ -13,17 +14,10 @@ export function getV2Responses(
     const schema = r.schema as
       | (OpenAPIV2.SchemaObject & { example?: object })
       | undefined;
-    const isArray = schema?.type === 'array';
-    const body = (isArray ? schema?.items : schema) as OpenAPIV2.SchemaObject;
     return {
       statusCode,
       description: r.description,
-      isArray,
-      properties: resolveProperties(
-        body?.properties as Record<string, object> | undefined,
-        body?.required,
-      ),
-      example: schema?.example,
+      ...resolveArrayableSchema(schema as AnySchemaObject, schema?.example),
     };
   });
 }
@@ -38,18 +32,14 @@ export function getV3Responses(
     const r = res as OpenAPIV3.ResponseObject;
     const [contentType, media] = Object.entries(r.content ?? {})[0] ?? [];
     const schema = media?.schema as OpenAPIV3.SchemaObject | undefined;
-    const isArray = schema?.type === 'array';
-    const body = (isArray ? schema?.items : schema) as OpenAPIV3.SchemaObject;
     return {
       statusCode,
       description: r.description,
       contentType,
-      isArray,
-      properties: resolveProperties(
-        body?.properties as Record<string, object> | undefined,
-        body?.required,
+      ...resolveArrayableSchema(
+        schema as AnySchemaObject,
+        media?.example as object | undefined,
       ),
-      example: media?.example as object | undefined,
     };
   });
 }
