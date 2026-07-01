@@ -11,12 +11,11 @@ import {
 import { getFirebaseAuth } from '@/lib/db/firebase/client';
 import { getAuthErrorMessage } from '@/features/auth/utils/getAuthErrorMessage';
 
-const auth = getFirebaseAuth();
-
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   isLoading: true,
   initAuth: () => {
+    const auth = getFirebaseAuth();
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
         set({
@@ -34,6 +33,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   signIn: async (email: string, password: string) => {
+    const auth = getFirebaseAuth();
     try {
       await signInWithEmailAndPassword(auth, email, password);
       return null;
@@ -43,6 +43,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   signUp: async (email: string, password: string) => {
+    const auth = getFirebaseAuth();
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       return null;
@@ -53,6 +54,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   signOut: async () => {
     set({ isLoading: true });
+    const auth = getFirebaseAuth();
     try {
       await firebaseSignOut(auth);
       return null;
