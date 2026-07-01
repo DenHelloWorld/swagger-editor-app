@@ -3,6 +3,9 @@ import type { OpenAPIV2, OpenAPIV3 } from 'openapi-types';
 /** Discriminated spec version derived from the document root (`swagger`/`openapi` field). */
 export type SpecVersion = 'v2' | 'v3';
 
+/** Union of V2 and V3 schema objects — used for array-aware schema resolution. */
+export type AnySchemaObject = OpenAPIV2.SchemaObject & OpenAPIV3.SchemaObject;
+
 /** Path item object containing one or more operations — V2 or V3. */
 export type OpenAPIPathItem =
   | OpenAPIV2.PathItemObject
@@ -36,6 +39,19 @@ export type ProcessedRequestBody = {
   contentType?: string;
   /** Whether the request body is required (V3 only). */
   required?: boolean;
+  isArray: boolean;
+  /** Flattened, `$ref`-free list of schema properties ready for rendering. */
+  properties: ProcessedSchemaProperty[];
+  example?: object;
+};
+
+/** A single normalized response entry produced by `getV2Responses` / `getV3Responses`. */
+export type ProcessedResponse = {
+  statusCode: string;
+  description?: string;
+  /** MIME type of the first `content` entry (V3 only). */
+  contentType?: string;
+  isArray: boolean;
   /** Flattened, `$ref`-free list of schema properties ready for rendering. */
   properties: ProcessedSchemaProperty[];
   example?: object;
@@ -50,6 +66,7 @@ export type ProcessedEndpoint = {
   /** Deduplicated, `$ref`-free parameters — produced by `mergeParameters`. */
   parameters: ResolvedParameter[];
   requestBody: ProcessedRequestBody | null;
+  responses: ProcessedResponse[];
 };
 
 /** All endpoints under a single path, grouped for rendering by `processSpec`. */

@@ -9,7 +9,7 @@
 }
 
 .list__empty {
-  @apply h-full;
+  @apply h-full rounded-none border-none shadow-none;
 }
 
 .list__empty_content {

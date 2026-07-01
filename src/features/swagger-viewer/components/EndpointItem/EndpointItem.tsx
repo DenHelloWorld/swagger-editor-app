@@ -7,6 +7,7 @@ import {
 import { MethodBadge } from '../MethodBadge/MethodBadge';
 import { ParameterSection } from '../ParameterSection/ParameterSection';
 import { RequestBodySection } from '../RequestBodySection/RequestBodySection';
+import { ResponsesSection } from '../ResponsesSection/ResponsesSection';
 import styles from './EndpointItem.module.css';
 
 type Props = {
@@ -14,8 +15,15 @@ type Props = {
 };
 
 export function EndpointItem({ endpoint }: Props) {
-  const { method, path, summary, description, parameters, requestBody } =
-    endpoint;
+  const {
+    method,
+    path,
+    summary,
+    description,
+    parameters,
+    requestBody,
+    responses,
+  } = endpoint;
   const rowModifier = styles[`row--${method.toLowerCase()}`];
 
   return (
@@ -30,6 +38,7 @@ export function EndpointItem({ endpoint }: Props) {
         {description && <p className={styles.description}>{description}</p>}
         {!!parameters.length && <ParameterSection parameters={parameters} />}
         {requestBody && <RequestBodySection requestBody={requestBody} />}
+        {!!responses.length && <ResponsesSection responses={responses} />}
       </AccordionContent>
     </AccordionItem>
   );
