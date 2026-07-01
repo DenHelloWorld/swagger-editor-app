@@ -13,6 +13,6 @@ export interface AuthState {
   initAuth: () => Unsubscribe;
 }
 
-export type UseAuthResult = AuthState & {
+export type UseAuthResult = Omit<AuthState, 'initAuth'> & {
   isAuthenticated: boolean;
 };
