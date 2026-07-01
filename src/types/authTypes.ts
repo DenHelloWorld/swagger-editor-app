@@ -1,3 +1,4 @@
+import type { Unsubscribe } from 'firebase/auth';
 export interface User {
   uid: string;
   email: string;
@@ -9,6 +10,7 @@ export interface AuthState {
   signIn: (email: string, password: string) => Promise<string | null>;
   signUp: (email: string, password: string) => Promise<string | null>;
   signOut: () => Promise<string | null>;
+  initAuth: () => Unsubscribe;
 }
 
 export type UseAuthResult = AuthState & {
