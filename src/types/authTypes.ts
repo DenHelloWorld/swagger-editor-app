@@ -1,19 +1,18 @@
-export interface UseAuthResult {
-  signIn: (email: string) => Promise<void>;
-  signOut: () => Promise<void>;
-  signUp: (email: string) => Promise<void>;
-  isLoading: boolean;
-  user: User | null;
-  isAuthenticated: boolean;
-}
+import type { Unsubscribe } from 'firebase/auth';
 export interface User {
   uid: string;
   email: string;
 }
+
 export interface AuthState {
   user: User | null;
   isLoading: boolean;
-  signIn: (email: string) => Promise<void>;
-  signUp: (email: string) => Promise<void>;
-  signOut: () => Promise<void>;
+  signIn: (email: string, password: string) => Promise<string | null>;
+  signUp: (email: string, password: string) => Promise<string | null>;
+  signOut: () => Promise<string | null>;
+  initAuth: () => Unsubscribe;
 }
+
+export type UseAuthResult = AuthState & {
+  isAuthenticated: boolean;
+};
