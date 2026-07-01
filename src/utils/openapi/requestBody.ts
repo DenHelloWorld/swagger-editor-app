@@ -82,10 +82,13 @@ export function getV3RequestBody(
   if (!rb) return null;
   const [contentType, media] = Object.entries(rb.content ?? {})[0] ?? [];
   if (!contentType || !media) return null;
-  const schema = media.schema as AnySchemaObject | undefined;
+  const schema = media.schema as
+    | (AnySchemaObject & { example?: object })
+    | undefined;
+  const example = (media.example ?? schema?.example) as object | undefined;
   return {
     contentType,
     required: rb.required,
-    ...resolveArrayableSchema(schema, media.example as object | undefined),
+    ...resolveArrayableSchema(schema, example),
   };
 }

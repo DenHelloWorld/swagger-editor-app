@@ -34,10 +34,8 @@ export function ResponsesSection({ responses }: Props) {
                   {contentType}
                   {isArray ? ' · array' : ''}
                 </span>
-                ) : (
-                  isArray && (
-                    <span className={styles.response__type}>array</span>
-                  )
+              ) : (
+                isArray && <span className={styles.response__type}>array</span>
               )}
               {description && (
                 <span className={styles.response__desc}>{description}</span>

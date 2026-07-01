@@ -8,6 +8,7 @@ import { MethodBadge } from '../MethodBadge/MethodBadge';
 import { ParameterSection } from '../ParameterSection/ParameterSection';
 import { RequestBodySection } from '../RequestBodySection/RequestBodySection';
 import { ResponsesSection } from '../ResponsesSection/ResponsesSection';
+import { TryItOutSection } from '../TryItOutSection/TryItOutSection';
 import styles from './EndpointItem.module.css';
 
 type Props = {
@@ -39,6 +40,7 @@ export function EndpointItem({ endpoint }: Props) {
         {!!parameters.length && <ParameterSection parameters={parameters} />}
         {requestBody && <RequestBodySection requestBody={requestBody} />}
         {!!responses.length && <ResponsesSection responses={responses} />}
+        <TryItOutSection endpoint={endpoint} />
       </AccordionContent>
     </AccordionItem>
   );

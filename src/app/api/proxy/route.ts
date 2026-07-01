@@ -30,9 +30,13 @@ async function fetchExternal(
   body?: string,
 ): Promise<{ response: Response; text: string; durationMs: number }> {
   const startTime = Date.now();
-  const response = await fetch(url, { method, headers, body });
-  const text = await response.text();
-  return { response, text, durationMs: Date.now() - startTime };
+  try {
+    const response = await fetch(url, { method, headers, body });
+    const text = await response.text();
+    return { response, text, durationMs: Date.now() - startTime };
+  } catch (err) {
+    throw Object.assign(err as Error, { durationMs: Date.now() - startTime });
+  }
 }
 
 function buildResponseHeaders(response: Response): Record<string, string> {
@@ -76,6 +80,24 @@ export async function POST(req: NextRequest) {
     ));
   } catch (err) {
     const errorDetails = err instanceof Error ? err.message : String(err);
+    const errDurationMs =
+      (err as Error & { durationMs?: number }).durationMs ?? 0;
+
+    const userId = await getUserIdFromSession();
+    if (userId) {
+      void saveRequestRecord(userId, {
+        method,
+        url,
+        endpoint: endpoint ?? url,
+        statusCode: 0,
+        durationMs: errDurationMs,
+        requestSize: body?.length ?? 0,
+        responseSize: 0,
+        errorDetails,
+        timestamp: new Date().toISOString(),
+      });
+    }
+
     return NextResponse.json(
       { error: 'Bad Gateway', errorDetails },
       { status: 502 },

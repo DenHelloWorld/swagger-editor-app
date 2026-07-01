@@ -1,0 +1,61 @@
+@reference "../../../../app/globals.css";
+
+.root {
+  @apply mt-3 space-y-3;
+}
+
+.section {
+  @apply space-y-2;
+}
+
+.section__title {
+  @apply text-foreground text-sm font-semibold tracking-wider uppercase;
+}
+
+.param {
+  @apply flex items-center gap-3;
+}
+
+.param__label {
+  @apply w-40 shrink-0 font-mono text-sm;
+}
+
+.param__meta {
+  @apply text-muted-foreground font-mono text-xs;
+}
+
+.response__header {
+  @apply flex items-baseline gap-2;
+}
+
+.response__status {
+  @apply border-current font-mono font-semibold;
+}
+
+.response__status--2 {
+  @apply text-green-600;
+}
+
+.response__status--4 {
+  @apply text-yellow-600;
+}
+
+.response__status--5 {
+  @apply text-destructive;
+}
+
+.response__label {
+  @apply text-muted-foreground text-xs font-medium;
+}
+
+.response__body {
+  @apply max-h-96 w-full overflow-y-auto rounded-md bg-zinc-900 p-3 font-mono text-xs break-words whitespace-pre-wrap text-zinc-100;
+}
+
+.textarea {
+  @apply bg-muted border-input focus:border-ring min-h-32 w-full resize-y rounded-md border p-3 font-mono text-xs outline-none;
+}
+
+.error {
+  @apply text-destructive font-mono text-xs;
+}
