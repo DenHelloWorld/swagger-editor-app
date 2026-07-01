@@ -5,19 +5,18 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Image from 'next/image';
 import { useAuth } from '@/features/auth/useAuth';
-import { Toaster, toast } from 'sonner';
+import { toast } from 'sonner';
 
 export default function Header() {
   const { isAuthenticated, signOut, isLoading } = useAuth();
 
   async function handleSignOut() {
     const error = await signOut();
-    if (error) toast.error(error);
+    if (error) toast.error(error, { position: 'top-center' });
   }
 
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 w-full border-b backdrop-blur">
-      <Toaster position="bottom-center" offset={24} />
       <div className="mx-4 flex h-16 items-center justify-between">
         <Link
           href="/"

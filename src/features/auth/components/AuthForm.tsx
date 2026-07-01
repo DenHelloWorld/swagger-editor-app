@@ -59,11 +59,13 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
         : await signUp(data.email, data.password);
 
     if (authError) {
-      toast.error(authError);
+      toast.error(authError, { position: 'top-center' });
       return;
     }
 
-    toast.success(type === 'Sign In' ? 'Welcome back' : 'Account created');
+    toast.success(type === 'Sign In' ? 'Welcome back' : 'Account created', {
+      position: 'top-center',
+    });
     form.reset();
   }
 

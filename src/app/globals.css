@@ -131,3 +131,12 @@
     @apply cursor-pointer;
   }
 }
+[data-sonner-toast][data-type='success'] [data-icon] {
+  color: oklch(0.6 0.15 145);
+}
+[data-sonner-toast][data-type='error'] [data-icon] {
+  color: var(--destructive);
+}
+[data-sonner-toast][data-type='warning'] [data-icon] {
+  color: rgb(250, 219, 63);
+}
