@@ -25,5 +25,6 @@ export type RequestRecord = RequestRecordInput & {
 export type SavedSchema = {
   userId: string;
   content: string;
+  format: 'json' | 'yaml';
   updatedAt: string;
 };
