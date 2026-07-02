@@ -8,7 +8,11 @@ Next.js (App Router), React, TypeScript, shadcn/ui, Redux Toolkit, Zustand, Vite
 
 ## Demo
 
-_Link will be added after deployment._
+[https://swagger-editor-app-tyys.onrender.com/](https://swagger-editor-app-tyys.onrender.com/)
+
+Deployed on Render, auto-deployed on every push to `develop`.
+
+PR previews are manual: add the label `render-preview` (or `[render preview]` in the PR title) to spin up a temporary preview instance for that pull request.
 
 ## Getting Started
 
