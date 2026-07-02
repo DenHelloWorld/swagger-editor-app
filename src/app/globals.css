@@ -130,9 +130,6 @@
   button {
     @apply cursor-pointer;
   }
-  button:disabled {
-    @apply pointer-events-auto cursor-not-allowed;
-  }
 }
 [data-sonner-toast][data-type='success'] [data-icon] {
   color: oklch(0.6 0.15 145);
