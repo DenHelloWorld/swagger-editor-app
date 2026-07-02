@@ -19,6 +19,10 @@ PR previews are manual: add the label `render-preview` (or `[render preview]` in
 ```bash
 npm install
 cp .env.example .env.local
-# fill in NEXT_PUBLIC_FIREBASE_* values from Firebase Console
+# fill in NEXT_PUBLIC_FIREBASE_* and server-side FIREBASE_* values (see .env.example)
 npm run dev
 ```
+
+## Firestore
+
+Database structure and composite indexes are documented in [`src/lib/db/README.md`](src/lib/db/README.md).
