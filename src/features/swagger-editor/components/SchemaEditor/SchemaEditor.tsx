@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic';
 import { useSchemaStore } from '@/store/schemaStore';
 import { FormatToggle } from '@/features/swagger-editor/components/FormatToggle/FormatToggle';
+import { SaveSchemaButton } from '@/features/swagger-editor/components/SchemaEditor/SaveSchemaButton';
 
 const MonacoEditor = dynamic(
   () => import('@monaco-editor/react').then((mod) => mod.default),
@@ -18,8 +19,9 @@ export function SchemaEditor() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <div className="border-b px-4 py-2">
+      <div className="flex items-center justify-between border-b px-4 py-2">
         <FormatToggle />
+        <SaveSchemaButton />
       </div>
       <div style={{ flex: 1, minHeight: 0 }}>
         <MonacoEditor

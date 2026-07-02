@@ -25,7 +25,8 @@ export function SplitView({ left, right }: Props) {
       style={{
         display: 'flex',
         flexDirection: isHorizontal ? 'row' : 'column',
-        height: '100vh',
+        flex: 1,
+        minHeight: 0,
         width: '100%',
       }}
     >
