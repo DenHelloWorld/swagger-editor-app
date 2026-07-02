@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth';
 import { getFirebaseAuth } from '@/lib/db/firebase/client';
 import { getAuthErrorMessage } from '@/features/auth/utils/getAuthErrorMessage';
+import { clearSession, syncSession } from '@/features/auth/authService';
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
@@ -15,8 +16,11 @@ export const useAuthStore = create<AuthState>((set) => ({
   initAuth: () => {
     try {
       const auth = getFirebaseAuth();
-      return onAuthStateChanged(auth, (firebaseUser) => {
+      return onAuthStateChanged(auth, async (firebaseUser) => {
         if (firebaseUser) {
+          const idToken = await firebaseUser.getIdToken();
+          await syncSession(idToken);
+
           set({
             user: {
               uid: firebaseUser.uid,
@@ -37,7 +41,14 @@ export const useAuthStore = create<AuthState>((set) => ({
   signIn: async (email: string, password: string) => {
     const auth = getFirebaseAuth();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const credential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const idToken = await credential.user.getIdToken();
+      const sessionError = await syncSession(idToken);
+      if (sessionError) return sessionError;
       return null;
     } catch (error: unknown) {
       return getAuthErrorMessage(error);
@@ -47,7 +58,14 @@ export const useAuthStore = create<AuthState>((set) => ({
   signUp: async (email: string, password: string) => {
     const auth = getFirebaseAuth();
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const credential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const idToken = await credential.user.getIdToken();
+      const sessionError = await syncSession(idToken);
+      if (sessionError) return sessionError;
       return null;
     } catch (error: unknown) {
       return getAuthErrorMessage(error);
@@ -58,6 +76,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ isLoading: true });
     const auth = getFirebaseAuth();
     try {
+      await clearSession();
       await firebaseSignOut(auth);
       return null;
     } catch (error: unknown) {
