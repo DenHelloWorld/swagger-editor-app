@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import type { ProcessedEndpoint, ResolvedParameter } from '@/types/openapi';
 import type { ProxyResponseBody } from '@/types/proxyTypes';
-import { useSchemaStore } from '@/store/schemaStore';
-import { isHttpUrl } from '@/utils/url';
 
 const BODY_METHODS = new Set(['POST', 'PUT', 'PATCH']);
 
@@ -50,21 +48,9 @@ function buildHeaders(
   };
 }
 
-function getMissingRequired(
-  params: ResolvedParameter[],
-  paramValues: Record<string, string>,
-): string[] {
-  return params
-    .filter((p) => p.in === 'path' && p.required && !paramValues[p.name])
-    .map((p) => p.name);
-}
-
 export function useTryItOut(endpoint: ProcessedEndpoint) {
   const hasBody = BODY_METHODS.has(endpoint.method.toUpperCase());
-  const specBaseUrl = useSchemaStore((s) => s.processedSpec?.baseUrl ?? '');
-  const [baseUrl, setBaseUrl] = useState(() =>
-    isHttpUrl(specBaseUrl) ? specBaseUrl : '',
-  );
+  const [baseUrl, setBaseUrl] = useState('');
   const [paramValues, setParamValues] = useState<Record<string, string>>({});
   const [bodyValue, setBodyValue] = useState(() =>
     endpoint.requestBody?.example
@@ -80,17 +66,6 @@ export function useTryItOut(endpoint: ProcessedEndpoint) {
   }
 
   async function execute() {
-    if (!isHttpUrl(baseUrl)) {
-      setError('Server URL must be a valid http:// or https:// URL');
-      return;
-    }
-
-    const missing = getMissingRequired(endpoint.parameters, paramValues);
-    if (missing.length) {
-      setError(`Required path parameters are missing: ${missing.join(', ')}`);
-      return;
-    }
-
     setIsLoading(true);
     setError(null);
     setResponse(null);

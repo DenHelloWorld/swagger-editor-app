@@ -78,6 +78,5 @@ export type ProcessedGroup = {
 /** The full normalized output of `processSpec` — ready for the viewer to render without touching the raw doc. */
 export type ProcessedSpec = {
   version: SpecVersion;
-  baseUrl?: string;
   groups: ProcessedGroup[];
 };

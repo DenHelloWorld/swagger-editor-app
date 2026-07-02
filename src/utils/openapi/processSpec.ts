@@ -1,4 +1,4 @@
-import type { OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
+import type { OpenAPI } from 'openapi-types';
 import type {
   OpenAPIPathItem,
   ProcessedEndpoint,
@@ -12,17 +12,6 @@ import { isSwaggerV2 } from './guards';
 import { mergeParameters } from './parameters';
 import { getV2RequestBody, getV3RequestBody } from './requestBody';
 import { getV2Responses, getV3Responses } from './responses';
-
-function extractBaseUrl(doc: OpenAPI.Document): string | undefined {
-  if (isSwaggerV2(doc)) {
-    const v2 = doc as OpenAPIV2.Document;
-    if (!v2.host) return undefined;
-    const scheme = v2.schemes?.[0] ?? 'https';
-    return `${scheme}://${v2.host}${v2.basePath ?? ''}`;
-  }
-  const v3 = doc as OpenAPIV3.Document;
-  return v3.servers?.[0]?.url;
-}
 
 /**
  * Transforms a raw OpenAPI document into a normalized `ProcessedSpec` ready for rendering.
@@ -57,5 +46,5 @@ export function processSpec(doc: OpenAPI.Document): ProcessedSpec {
       return { path, endpoints };
     });
 
-  return { version, baseUrl: extractBaseUrl(doc), groups };
+  return { version, groups };
 }
