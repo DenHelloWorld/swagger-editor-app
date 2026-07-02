@@ -1,8 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ProxyResponseBody } from '@/types/proxyTypes';
+import { RequestRecordInput } from '@/types/dbTypes';
 import { proxyPostRequestSchema } from '@/lib/proxy/schema';
 import { getUserIdFromSession } from '@/lib/auth/getUserIdFromSession';
 import { saveRequestRecord } from '@/lib/db/request-records';
+
+/**
+ * Best-effort history write for the authenticated user. Never throws —
+ * a failed write must not mask the real proxy response/error.
+ */
+async function recordHistory(record: RequestRecordInput): Promise<void> {
+  const userId = await getUserIdFromSession();
+  if (!userId) return;
+  try {
+    await saveRequestRecord(userId, record);
+  } catch {
+    // best-effort — the caller's response already reflects the real outcome
+  }
+}
 
 const HOP_BY_HOP = new Set([
   'host',
@@ -83,20 +98,17 @@ export async function POST(req: NextRequest) {
     const errDurationMs =
       (err as Error & { durationMs?: number }).durationMs ?? 0;
 
-    const userId = await getUserIdFromSession();
-    if (userId) {
-      void saveRequestRecord(userId, {
-        method,
-        url,
-        endpoint: endpoint ?? url,
-        statusCode: 0,
-        durationMs: errDurationMs,
-        requestSize: body?.length ?? 0,
-        responseSize: 0,
-        errorDetails,
-        timestamp: new Date().toISOString(),
-      });
-    }
+    await recordHistory({
+      method,
+      url,
+      endpoint: endpoint ?? url,
+      statusCode: 0,
+      durationMs: errDurationMs,
+      requestSize: body?.length ?? 0,
+      responseSize: 0,
+      errorDetails,
+      timestamp: new Date().toISOString(),
+    });
 
     return NextResponse.json(
       { error: 'Bad Gateway', errorDetails },
@@ -104,19 +116,16 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const userId = await getUserIdFromSession();
-  if (userId) {
-    void saveRequestRecord(userId, {
-      method,
-      url,
-      endpoint: endpoint ?? url,
-      statusCode: response.status,
-      durationMs,
-      requestSize: body?.length ?? 0,
-      responseSize: text.length,
-      timestamp: new Date().toISOString(),
-    });
-  }
+  await recordHistory({
+    method,
+    url,
+    endpoint: endpoint ?? url,
+    statusCode: response.status,
+    durationMs,
+    requestSize: body?.length ?? 0,
+    responseSize: text.length,
+    timestamp: new Date().toISOString(),
+  });
 
   const result: ProxyResponseBody = {
     status: response.status,

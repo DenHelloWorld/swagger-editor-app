@@ -124,6 +124,12 @@ export function useTryItOut(endpoint: ProcessedEndpoint) {
         }),
       });
 
+      if (!res.ok) {
+        const errData: { error: string } = await res.json();
+        setError(errData.error);
+        return;
+      }
+
       const data: ProxyResponseBody = await res.json();
       let body = data.body;
       try {

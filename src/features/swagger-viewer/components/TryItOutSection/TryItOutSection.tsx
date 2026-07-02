@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import type { ProcessedEndpoint } from '@/types/openapi';
 import { Play, X, Send, Loader2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -28,6 +29,10 @@ export function TryItOutSection({ endpoint }: Props) {
     execute,
     hasBody,
   } = useTryItOut(endpoint);
+
+  useEffect(() => {
+    if (error) toast.error(error, { position: 'top-center' });
+  }, [error]);
 
   const pathParams = endpoint.parameters.filter((p) => p.in === 'path');
   const queryParams = endpoint.parameters.filter((p) => p.in === 'query');
