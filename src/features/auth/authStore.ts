@@ -13,13 +13,23 @@ import { clearSession, syncSession } from '@/features/auth/authService';
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   isLoading: true,
+  sessionError: null,
+
+  clearSessionError: () => set({ sessionError: null }),
+
   initAuth: () => {
     try {
       const auth = getFirebaseAuth();
       return onAuthStateChanged(auth, async (firebaseUser) => {
         if (firebaseUser) {
           const idToken = await firebaseUser.getIdToken();
-          await syncSession(idToken);
+          const sessionError = await syncSession(idToken);
+
+          if (sessionError) {
+            await firebaseSignOut(auth);
+            set({ user: null, isLoading: false, sessionError });
+            return;
+          }
 
           set({
             user: {
@@ -27,6 +37,7 @@ export const useAuthStore = create<AuthState>((set) => ({
               email: firebaseUser.email ?? '',
             },
             isLoading: false,
+            sessionError: null,
           });
         } else {
           set({ user: null, isLoading: false });
@@ -39,16 +50,10 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   signIn: async (email: string, password: string) => {
+    set({ sessionError: null });
     const auth = getFirebaseAuth();
     try {
-      const credential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      const idToken = await credential.user.getIdToken();
-      const sessionError = await syncSession(idToken);
-      if (sessionError) return sessionError;
+      await signInWithEmailAndPassword(auth, email, password);
       return null;
     } catch (error: unknown) {
       return getAuthErrorMessage(error);
@@ -56,16 +61,10 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   signUp: async (email: string, password: string) => {
+    set({ sessionError: null });
     const auth = getFirebaseAuth();
     try {
-      const credential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      const idToken = await credential.user.getIdToken();
-      const sessionError = await syncSession(idToken);
-      if (sessionError) return sessionError;
+      await createUserWithEmailAndPassword(auth, email, password);
       return null;
     } catch (error: unknown) {
       return getAuthErrorMessage(error);

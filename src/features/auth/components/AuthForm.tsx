@@ -34,7 +34,14 @@ import { toast } from 'sonner';
 
 export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
   const router = useRouter();
-  const { isAuthenticated, signUp, isLoading, signIn } = useAuth();
+  const {
+    isAuthenticated,
+    signUp,
+    isLoading,
+    signIn,
+    sessionError,
+    clearSessionError,
+  } = useAuth();
 
   const baseDefaults = { email: '', password: '' };
   const defaultValues =
@@ -43,8 +50,19 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
       : baseDefaults;
 
   useEffect(() => {
-    if (isAuthenticated) router.replace('/');
-  }, [isAuthenticated, router]);
+    if (isAuthenticated) {
+      toast.success(type === 'Sign In' ? 'Welcome back' : 'Account created', {
+        position: 'top-center',
+      });
+      router.replace('/');
+    }
+  }, [isAuthenticated, router, type]);
+
+  useEffect(() => {
+    if (!sessionError) return;
+    toast.error(sessionError, { position: 'top-center' });
+    clearSessionError();
+  }, [sessionError, clearSessionError]);
 
   const form = useForm<SignUpFields | SignInFields>({
     resolver: zodResolver(type === 'Sign In' ? signInSchema : signUpSchema),
@@ -63,9 +81,6 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
       return;
     }
 
-    toast.success(type === 'Sign In' ? 'Welcome back' : 'Account created', {
-      position: 'top-center',
-    });
     form.reset();
   }
 
