@@ -6,6 +6,6 @@ import { SchemaEditor } from './components/SchemaEditor/SchemaEditor';
 
 export function SwaggerEditor() {
   useSchemaSync();
-  useSchemaRestore();
-  return <SchemaEditor />;
+  const { isRestoring } = useSchemaRestore();
+  return <SchemaEditor isRestoring={isRestoring} />;
 }

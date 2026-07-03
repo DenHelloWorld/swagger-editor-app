@@ -4,13 +4,18 @@ import dynamic from 'next/dynamic';
 import { useSchemaStore } from '@/store/schemaStore';
 import { FormatToggle } from '@/features/swagger-editor/components/FormatToggle/FormatToggle';
 import { SaveSchemaButton } from '@/features/swagger-editor/components/SchemaEditor/SaveSchemaButton';
+import { Spinner } from '@/components/ui/spinner';
+
+type Props = {
+  isRestoring?: boolean;
+};
 
 const MonacoEditor = dynamic(
   () => import('@monaco-editor/react').then((mod) => mod.default),
   { ssr: false, loading: () => <div>Loading editor...</div> },
 );
 
-export function SchemaEditor() {
+export function SchemaEditor({ isRestoring = false }: Props) {
   const { raw, format, errors, setRaw } = useSchemaStore();
 
   function handleChange(value: string | undefined) {
@@ -23,7 +28,15 @@ export function SchemaEditor() {
         <FormatToggle />
         <SaveSchemaButton />
       </div>
-      <div style={{ flex: 1, minHeight: 0 }}>
+      <div style={{ flex: 1, minHeight: 0, position: 'relative' }}>
+        {isRestoring && (
+          <div className="bg-background/80 absolute inset-0 z-10 flex flex-col items-center justify-center gap-2">
+            <Spinner className="size-5" />
+            <span className="text-muted-foreground text-sm">
+              Loading your schema...
+            </span>
+          </div>
+        )}
         <MonacoEditor
           height="100%"
           width="100%"
