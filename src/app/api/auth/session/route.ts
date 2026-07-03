@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { getFirebaseAdminAuth } from '@/lib/db/firebase/admin';
 import {
   createSessionCookie,
   revokeSessionCookie,
@@ -19,7 +18,6 @@ export async function POST(req: Request) {
   }
 
   try {
-    await getFirebaseAdminAuth().verifyIdToken(idToken);
     const sessionCookie = await createSessionCookie(idToken);
     const cookieStore = await cookies();
 
