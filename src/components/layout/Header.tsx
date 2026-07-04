@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import Image from 'next/image';
@@ -8,11 +9,19 @@ import { useAuth } from '@/features/auth/useAuth';
 import { toast } from 'sonner';
 
 export default function Header() {
+  const router = useRouter();
+  const pathname = usePathname();
   const { isAuthenticated, signOut, isLoading } = useAuth();
 
   async function handleSignOut() {
     const error = await signOut();
-    if (error) toast.error(error, { position: 'top-center' });
+    if (error) {
+      toast.error(error, { position: 'top-center' });
+      return;
+    }
+    if (pathname.startsWith('/history')) {
+      router.replace('/');
+    }
   }
 
   return (
