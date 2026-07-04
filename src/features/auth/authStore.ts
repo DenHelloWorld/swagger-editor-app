@@ -79,7 +79,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       await firebaseSignOut(auth);
       return null;
     } catch (error: unknown) {
-      set({ isLoading: false });
+      set({ isLoading: false, user: null });
       return getAuthErrorMessage(error);
     }
   },
