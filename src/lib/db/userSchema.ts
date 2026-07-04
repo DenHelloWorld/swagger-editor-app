@@ -3,12 +3,10 @@ import { getFirebaseFirestore } from './firebase/client';
 
 import { SavedSchema } from '@/types/dbTypes';
 
-const SCHEMAS_COLLECTION = 'schemas';
-
 export async function saveUserSchema(schema: SavedSchema): Promise<void> {
   try {
     const db = getFirebaseFirestore();
-    const ref = doc(db, SCHEMAS_COLLECTION, schema.userId);
+    const ref = doc(db, 'users', schema.userId, 'schemas', 'current');
     await setDoc(ref, schema);
   } catch (error) {
     throw new Error(
@@ -22,7 +20,7 @@ export async function getUserSchema(
 ): Promise<SavedSchema | null> {
   try {
     const db = getFirebaseFirestore();
-    const ref = doc(db, SCHEMAS_COLLECTION, userId);
+    const ref = doc(db, 'users', userId, 'schemas', 'current');
     const snap = await getDoc(ref);
     return snap.exists() ? (snap.data() as SavedSchema) : null;
   } catch (error) {
