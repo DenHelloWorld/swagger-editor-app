@@ -34,7 +34,9 @@ export const useSchemaSync = () => {
             setErrors([]);
           }
         })
-        .catch(() => setErrors(['Unexpected validation error']));
+        .catch(() => {
+          setErrors(['Unexpected validation error']);
+        });
     }, 500);
 
     return () => clearTimeout(timer);
