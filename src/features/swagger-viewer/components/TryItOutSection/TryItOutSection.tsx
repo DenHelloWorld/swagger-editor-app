@@ -31,7 +31,8 @@ export function TryItOutSection({ endpoint }: Props) {
   } = useTryItOut(endpoint);
 
   useEffect(() => {
-    if (error) toast.error(error, { position: 'top-center' });
+    if (error)
+      toast.error(error, { position: 'top-center', id: 'try-it-out-error' });
   }, [error]);
 
   const pathParams = endpoint.parameters.filter((p) => p.in === 'path');
