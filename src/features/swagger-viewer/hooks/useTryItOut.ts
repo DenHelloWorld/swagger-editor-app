@@ -100,8 +100,9 @@ export function useTryItOut(endpoint: ProcessedEndpoint) {
       });
 
       if (!res.ok) {
-        const errData: { error: string } = await res.json();
-        setError(errData.error);
+        const errData: { error: string; errorDetails?: string } =
+          await res.json();
+        setError(errData.errorDetails ?? errData.error);
         return;
       }
 

@@ -1,5 +1,6 @@
 import { initializeApp, getApps, cert, type App } from 'firebase-admin/app';
 import { getAuth, type Auth } from 'firebase-admin/auth';
+import { getFirestore, type Firestore } from 'firebase-admin/firestore';
 
 function getAdminCredentials() {
   const projectId = process.env.FIREBASE_PROJECT_ID;
@@ -13,6 +14,7 @@ function getAdminCredentials() {
   return { projectId, clientEmail, privateKey };
 }
 let adminAuth: Auth | null = null;
+let adminFirestore: Firestore | null = null;
 function getAdminApp(): App {
   if (getApps().length) {
     return getApps()[0]!;
@@ -31,4 +33,11 @@ export function getFirebaseAdminAuth(): Auth {
     adminAuth = getAuth(getAdminApp());
   }
   return adminAuth;
+}
+
+export function getFirebaseAdminFirestore(): Firestore {
+  if (!adminFirestore) {
+    adminFirestore = getFirestore(getAdminApp());
+  }
+  return adminFirestore;
 }
