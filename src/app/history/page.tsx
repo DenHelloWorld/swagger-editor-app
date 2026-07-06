@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { getUserIdFromSession } from '@/lib/auth/getUserIdFromSession';
 import { getRequestRecords } from '@/lib/db/request-records';
-import HistoryList from '@/features/history/componets/HistoryList';
+import HistoryList from '@/features/history/components/HistoryList';
 
 export default async function History() {
   const userId = await getUserIdFromSession();
