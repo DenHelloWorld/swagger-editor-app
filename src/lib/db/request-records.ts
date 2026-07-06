@@ -1,22 +1,28 @@
-//mock
-// TODO add getRequestRecordById(userId, id)
+import { getFirebaseAdminFirestore } from './firebase/admin';
 import { RequestRecord, RequestRecordInput } from '@/types/dbTypes';
-
-const recordsStore = new Map<string, RequestRecord[]>();
 
 export async function saveRequestRecord(
   userId: string,
   record: RequestRecordInput,
-) {
-  const list = recordsStore.get(userId) ?? [];
-  list.push({ ...record, id: crypto.randomUUID(), userId });
-  recordsStore.set(userId, list);
+): Promise<void> {
+  const db = getFirebaseAdminFirestore();
+  const ref = db
+    .collection('users')
+    .doc(userId)
+    .collection('requestRecords')
+    .doc();
+  await ref.set({ ...record, id: ref.id, userId });
 }
 
 export async function getRequestRecords(
   userId: string,
 ): Promise<RequestRecord[]> {
-  return (recordsStore.get(userId) ?? [])
-    .slice()
-    .sort((a, b) => b.timestamp.localeCompare(a.timestamp));
+  const db = getFirebaseAdminFirestore();
+  const snapshot = await db
+    .collection('users')
+    .doc(userId)
+    .collection('requestRecords')
+    .orderBy('timestamp', 'desc')
+    .get();
+  return snapshot.docs.map((doc) => doc.data() as RequestRecord);
 }

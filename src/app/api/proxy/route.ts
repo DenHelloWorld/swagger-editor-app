@@ -94,7 +94,12 @@ export async function POST(req: NextRequest) {
       body,
     ));
   } catch (err) {
-    const errorDetails = err instanceof Error ? err.message : String(err);
+    const message = err instanceof Error ? err.message : String(err);
+    const cause =
+      err instanceof Error && err.cause instanceof Error
+        ? `: ${err.cause.message}`
+        : '';
+    const errorDetails = `${message}${cause}`;
     const errDurationMs =
       (err as Error & { durationMs?: number }).durationMs ?? 0;
 
@@ -111,7 +116,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(
-      { error: 'Bad Gateway', errorDetails },
+      { error: 'Bad Gateway', errorDetails: 'Failed to reach the target URL' },
       { status: 502 },
     );
   }

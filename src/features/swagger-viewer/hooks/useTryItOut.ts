@@ -70,13 +70,16 @@ export function useTryItOut(endpoint: ProcessedEndpoint) {
     setError(null);
     setResponse(null);
 
+    let url: string;
     try {
-      const url = buildUrl(
-        baseUrl,
-        endpoint.path,
-        paramValues,
-        endpoint.parameters,
-      );
+      url = buildUrl(baseUrl, endpoint.path, paramValues, endpoint.parameters);
+    } catch {
+      setError('Please enter a valid Server URL');
+      setIsLoading(false);
+      return;
+    }
+
+    try {
       const headers = {
         ...buildHeaders(paramValues, endpoint.parameters),
         ...(hasBody && bodyValue
@@ -100,8 +103,9 @@ export function useTryItOut(endpoint: ProcessedEndpoint) {
       });
 
       if (!res.ok) {
-        const errData: { error: string } = await res.json();
-        setError(errData.error);
+        const errData: { error: string; errorDetails?: string } =
+          await res.json();
+        setError(errData.errorDetails ?? errData.error);
         return;
       }
 
