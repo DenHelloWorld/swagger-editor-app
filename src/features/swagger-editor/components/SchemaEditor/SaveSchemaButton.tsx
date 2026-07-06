@@ -10,10 +10,9 @@ export function SaveSchemaButton() {
 
   useEffect(() => {
     if (status === 'success') {
-      toast.success('Saved', { position: 'top-center' });
-    }
-    if (status === 'error' && error) {
-      toast.error(error, { position: 'top-center' });
+      toast.success('Saved');
+    } else if (status === 'error' && error) {
+      toast.error(error);
     }
   }, [status, error]);
 
@@ -25,7 +24,7 @@ export function SaveSchemaButton() {
       disabled={!isValid || status === 'saving'}
       aria-busy={status === 'saving'}
       size="sm"
-      variant={status === 'error' ? 'destructive' : 'default'}
+      variant="default"
     >
       {status === 'saving' ? 'Saving...' : 'Save'}
     </Button>

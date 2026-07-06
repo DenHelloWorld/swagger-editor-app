@@ -47,7 +47,6 @@ export const useSchemaSync = () => {
             hadUnexpectedError.current = true;
             toast.error(
               'Something went wrong while validating your schema. Your edits are safe.',
-              { position: 'top-center' },
             );
           }
         });

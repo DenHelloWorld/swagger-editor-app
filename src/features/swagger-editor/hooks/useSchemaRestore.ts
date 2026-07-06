@@ -28,7 +28,6 @@ export function useSchemaRestore() {
         if (cancelled) return;
         toast.error(
           'Could not restore your saved schema. You can keep working or try refreshing.',
-          { position: 'top-center' },
         );
       })
       .finally(() => {
