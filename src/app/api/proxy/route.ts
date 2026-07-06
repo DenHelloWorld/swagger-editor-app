@@ -116,7 +116,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(
-      { error: 'Bad Gateway', errorDetails },
+      { error: 'Bad Gateway', errorDetails: 'Failed to reach the target URL' },
       { status: 502 },
     );
   }
