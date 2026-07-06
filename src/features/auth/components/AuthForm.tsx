@@ -51,9 +51,7 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
 
   useEffect(() => {
     if (isAuthenticated) {
-      toast.success(type === 'Sign In' ? 'Welcome back' : 'Account created', {
-        position: 'top-center',
-      });
+      toast.success(type === 'Sign In' ? 'Welcome back' : 'Account created');
       router.replace('/');
     }
   }, [isAuthenticated, router, type]);
