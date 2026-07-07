@@ -15,6 +15,8 @@ import {
   getStatusVariant,
 } from '@/features/history/utils/recordFormat';
 import { DetailItem } from './DetailItem';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 interface HistoryDetailsProps {
   record: RequestRecord;
@@ -77,6 +79,9 @@ export default function HistoryDetails({ record }: HistoryDetailsProps) {
           </dl>
         </CardContent>
       </Card>
+      <Button variant="outline" size="sm" asChild className="mt-2">
+        <Link href="/history">Back to History</Link>
+      </Button>
     </section>
   );
 }

@@ -99,6 +99,9 @@ export default function HistoryList({ records }: HistoryListProps) {
           </li>
         ))}
       </ul>
+      <Button variant="outline" size="sm" asChild className="mt-2">
+        <Link href="/">Back to Editor &amp; Viewer</Link>
+      </Button>
     </section>
   );
 }
