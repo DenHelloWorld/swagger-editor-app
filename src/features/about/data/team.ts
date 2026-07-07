@@ -13,4 +13,11 @@ export const team: TeamMember[] = [
     githubUrl: 'https://github.com/DenHelloWorld',
     linkedinUrl: 'https://www.linkedin.com/in/denis-saveliev-b216a7269/',
   },
+  {
+    name: 'Svetlana Angeliuk',
+    role: 'Auth, History & Infrastructure',
+    bio: 'Set up project infrastructure, db, delivered the app header, footer, sign-in/sign-up flow, and server-side History & Analytics pages.',
+    githubUrl: 'https://github.com/SwetlanaAng',
+    linkedinUrl: 'https://www.linkedin.com/in/svetlana-angeliuk-827233308/',
+  },
 ];
