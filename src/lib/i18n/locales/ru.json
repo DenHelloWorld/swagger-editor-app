@@ -1,0 +1,15 @@
+{
+  "header": {
+    "signIn": "Войти",
+    "signUp": "Регистрация",
+    "signOut": "Выйти",
+    "history": "История",
+    "about": "О нас"
+  },
+  "footer": {},
+  "common": {
+    "save": ""
+  },
+  "toast": {},
+  "errors": {}
+}

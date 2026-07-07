@@ -1,0 +1,15 @@
+{
+  "header": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "history": "History",
+    "about": "About"
+  },
+  "footer": {},
+  "common": {
+    "save": ""
+  },
+  "toast": {},
+  "errors": {}
+}
