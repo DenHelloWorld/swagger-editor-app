@@ -7,16 +7,19 @@ import { Spinner } from '@/components/ui/spinner';
 import Image from 'next/image';
 import { useAuth } from '@/features/auth/useAuth';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
+import { LanguageToggle } from '@/components/layout/LanguageToggle';
 
 export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const { isAuthenticated, signOut, isLoading } = useAuth();
+  const { t } = useTranslation();
 
   async function handleSignOut() {
     const error = await signOut();
     if (error) {
-      toast.error(error, { position: 'top-center' });
+      toast.error(error);
       return;
     }
     if (pathname.startsWith('/history')) {
@@ -45,11 +48,11 @@ export default function Header() {
             <>
               <Button variant="outline" disabled>
                 <Spinner data-icon="inline-start" />
-                Sign In
+                {t('header.signIn')}
               </Button>
               <Button variant="outline" disabled>
                 <Spinner data-icon="inline-start" />
-                Sign Up
+                {t('header.signUp')}
               </Button>
             </>
           )}
@@ -57,26 +60,27 @@ export default function Header() {
             (isAuthenticated ? (
               <>
                 <Button variant="ghost" size="sm" asChild>
-                  <Link href="/history">History</Link>
+                  <Link href="/history">{t('header.history')}</Link>
                 </Button>
                 <Button variant="outline" size="sm" onClick={handleSignOut}>
-                  Sign Out
+                  {t('header.signOut')}
                 </Button>
               </>
             ) : (
               <>
                 <Button variant="ghost" size="sm" asChild>
-                  <Link href="/sign-in">Sign In</Link>
+                  <Link href="/sign-in">{t('header.signIn')}</Link>
                 </Button>
                 <Button variant="ghost" size="sm" asChild>
-                  <Link href="/sign-up">Sign Up</Link>
+                  <Link href="/sign-up">{t('header.signUp')}</Link>
                 </Button>
               </>
             ))}
 
           <Button variant="ghost" size="sm" asChild>
-            <Link href="/about">About</Link>
+            <Link href="/about">{t('header.about')}</Link>
           </Button>
+          <LanguageToggle />
         </div>
       </div>
     </header>
