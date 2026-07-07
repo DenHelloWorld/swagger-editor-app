@@ -20,4 +20,11 @@ export const team: TeamMember[] = [
     githubUrl: 'https://github.com/SwetlanaAng',
     linkedinUrl: 'https://www.linkedin.com/in/svetlana-angeliuk-827233308/',
   },
+  {
+    name: 'Alena Danilchenko',
+    role: 'Swagger Editor & i18n',
+    bio: 'Built the Swagger Editor with JSON/YAML support and validation, i18n, sticky header, and app-wide error handling.',
+    githubUrl: 'https://github.com/anelka777',
+    linkedinUrl: 'https://www.linkedin.com/in/alena-danilchenko/',
+  },
 ];
