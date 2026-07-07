@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { setCookie } from '@/lib/cookies';
 
 const LANGUAGES = [
   { code: 'en', label: 'English' },
@@ -20,6 +21,7 @@ export function LanguageToggle() {
 
   function handleSelect(code: string) {
     i18n.changeLanguage(code);
+    setCookie('app_language', code);
   }
 
   return (

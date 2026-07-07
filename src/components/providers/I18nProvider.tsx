@@ -4,14 +4,10 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { I18nextProvider } from 'react-i18next';
 import { initI18n } from '@/lib/i18n/config';
+import { getCookie, setCookie } from '@/lib/cookies';
 
 const SUPPORTED_LANGUAGES = ['en', 'ru'] as const;
 type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];
-
-function getCookie(name: string): string | undefined {
-  const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
-  return match ? decodeURIComponent(match[1]) : undefined;
-}
 
 export function I18nProvider({
   lng,
@@ -29,7 +25,7 @@ export function I18nProvider({
     const browserLng = navigator.language.split('-')[0] as SupportedLanguage;
 
     if (SUPPORTED_LANGUAGES.includes(browserLng) && browserLng !== 'en') {
-      document.cookie = `app_language=${browserLng}; path=/; max-age=31536000; samesite=lax`;
+      setCookie('app_language', browserLng);
       router.refresh();
     }
   }, [router]);
