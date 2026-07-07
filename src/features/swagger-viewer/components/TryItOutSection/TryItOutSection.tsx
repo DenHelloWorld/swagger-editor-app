@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import type { ProcessedEndpoint } from '@/types/openapi';
-import { Play, X, Send, Loader2 } from 'lucide-react';
+import { Play, X, Send, Loader2, Copy } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -27,6 +27,7 @@ export function TryItOutSection({ endpoint }: Props) {
     isLoading,
     error,
     execute,
+    generateCurl,
     hasBody,
   } = useTryItOut(endpoint);
 
@@ -34,6 +35,17 @@ export function TryItOutSection({ endpoint }: Props) {
     if (error)
       toast.error(error, { position: 'top-center', id: 'try-it-out-error' });
   }, [error]);
+
+  async function handleCopyCurl() {
+    try {
+      await navigator.clipboard.writeText(generateCurl());
+      toast.success('cURL command copied to clipboard', {
+        position: 'top-center',
+      });
+    } catch {
+      toast.error('Failed to copy cURL command', { position: 'top-center' });
+    }
+  }
 
   const pathParams = endpoint.parameters.filter((p) => p.in === 'path');
   const queryParams = endpoint.parameters.filter((p) => p.in === 'query');
@@ -147,10 +159,25 @@ export function TryItOutSection({ endpoint }: Props) {
             </div>
           )}
 
-          <Button size="lg" onClick={execute} disabled={isLoading || !baseUrl}>
-            {isLoading ? <Loader2 className="animate-spin" /> : <Send />}
-            {isLoading ? 'Executing…' : 'Execute'}
-          </Button>
+          <div className={styles.actions}>
+            <Button
+              size="lg"
+              onClick={execute}
+              disabled={isLoading || !baseUrl}
+            >
+              {isLoading ? <Loader2 className="animate-spin" /> : <Send />}
+              {isLoading ? 'Executing…' : 'Execute'}
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={handleCopyCurl}
+              disabled={!baseUrl}
+            >
+              <Copy />
+              Generate cURL
+            </Button>
+          </div>
 
           {error && <p className={styles.error}>{error}</p>}
 

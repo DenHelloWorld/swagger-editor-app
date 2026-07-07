@@ -1,52 +1,9 @@
 import { useState } from 'react';
-import type { ProcessedEndpoint, ResolvedParameter } from '@/types/openapi';
+import type { ProcessedEndpoint } from '@/types/openapi';
 import type { ProxyResponseBody } from '@/types/proxyTypes';
+import { buildUrl, buildHeaders, buildCurlCommand } from '@/utils/openapi';
 
 const BODY_METHODS = new Set(['POST', 'PUT', 'PATCH']);
-
-function buildUrl(
-  baseUrl: string,
-  path: string,
-  paramValues: Record<string, string>,
-  params: ResolvedParameter[],
-): string {
-  const withPathParams = path
-    .replace(/\{(\w+)\}/g, (_, name: string) =>
-      encodeURIComponent(paramValues[name] ?? ''),
-    )
-    .replace(/^\//, '');
-
-  const url = new URL(
-    withPathParams,
-    baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`,
-  );
-
-  params
-    .filter((p) => p.in === 'query' && paramValues[p.name])
-    .forEach((p) => url.searchParams.set(p.name, paramValues[p.name]));
-
-  return url.toString();
-}
-
-function buildHeaders(
-  paramValues: Record<string, string>,
-  params: ResolvedParameter[],
-): Record<string, string> {
-  const headerParams = Object.fromEntries(
-    params
-      .filter((p) => p.in === 'header' && paramValues[p.name])
-      .map((p) => [p.name, paramValues[p.name]]),
-  );
-
-  const cookieParts = params
-    .filter((p) => p.in === 'cookie' && paramValues[p.name])
-    .map((p) => `${p.name}=${encodeURIComponent(paramValues[p.name])}`);
-
-  return {
-    ...headerParams,
-    ...(cookieParts.length ? { Cookie: cookieParts.join('; ') } : {}),
-  };
-}
 
 export function useTryItOut(endpoint: ProcessedEndpoint) {
   const hasBody = BODY_METHODS.has(endpoint.method.toUpperCase());
@@ -122,6 +79,31 @@ export function useTryItOut(endpoint: ProcessedEndpoint) {
     }
   }
 
+  function generateCurl(): string {
+    const url = buildUrl(
+      baseUrl,
+      endpoint.path,
+      paramValues,
+      endpoint.parameters,
+    );
+    const headers = {
+      ...buildHeaders(paramValues, endpoint.parameters),
+      ...(hasBody && bodyValue
+        ? {
+            'Content-Type':
+              endpoint.requestBody?.contentType ?? 'application/json',
+          }
+        : {}),
+    };
+
+    return buildCurlCommand(
+      endpoint.method,
+      url,
+      headers,
+      hasBody && bodyValue ? bodyValue : undefined,
+    );
+  }
+
   return {
     baseUrl,
     setBaseUrl,
@@ -133,6 +115,7 @@ export function useTryItOut(endpoint: ProcessedEndpoint) {
     isLoading,
     error,
     execute,
+    generateCurl,
     hasBody,
   };
 }
