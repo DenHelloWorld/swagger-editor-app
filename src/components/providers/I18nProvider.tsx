@@ -1,29 +1,38 @@
 'use client';
 
-import { useSyncExternalStore } from 'react';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { I18nextProvider } from 'react-i18next';
-import i18n from '@/lib/i18n/config';
-import { Skeleton } from '@/components/ui/skeleton';
+import { initI18n } from '@/lib/i18n/config';
 
-function subscribe(callback: () => void) {
-  i18n.on('initialized', callback);
-  return () => i18n.off('initialized', callback);
+const SUPPORTED_LANGUAGES = ['en', 'ru'] as const;
+type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];
+
+function getCookie(name: string): string | undefined {
+  const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
+  return match ? decodeURIComponent(match[1]) : undefined;
 }
 
-function getSnapshot() {
-  return i18n.isInitialized;
-}
+export function I18nProvider({
+  lng,
+  children,
+}: {
+  lng: string;
+  children: React.ReactNode;
+}) {
+  const router = useRouter();
+  const instance = initI18n(lng);
 
-function getServerSnapshot() {
-  return false;
-}
+  useEffect(() => {
+    if (getCookie('app_language')) return;
 
-export function I18nProvider({ children }: { children: React.ReactNode }) {
-  const ready = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+    const browserLng = navigator.language.split('-')[0] as SupportedLanguage;
 
-  if (!ready) {
-    return <Skeleton className="h-16 w-full" />;
-  }
+    if (SUPPORTED_LANGUAGES.includes(browserLng) && browserLng !== 'en') {
+      document.cookie = `app_language=${browserLng}; path=/; max-age=31536000; samesite=lax`;
+      router.refresh();
+    }
+  }, [router]);
 
-  return <I18nextProvider i18n={i18n}>{children}</I18nextProvider>;
+  return <I18nextProvider i18n={instance}>{children}</I18nextProvider>;
 }
