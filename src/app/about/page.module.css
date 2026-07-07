@@ -1,0 +1,25 @@
+@reference "../globals.css";
+
+.root {
+  @apply mx-auto flex w-full max-w-4xl flex-col gap-8 px-4 py-10;
+}
+
+.section {
+  @apply flex flex-col gap-3;
+}
+
+.section__title {
+  @apply font-heading text-xl font-semibold;
+}
+
+.section__text {
+  @apply text-muted-foreground text-sm;
+}
+
+.stack {
+  @apply grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4;
+}
+
+.team {
+  @apply grid grid-cols-1 gap-4 sm:grid-cols-2;
+}
