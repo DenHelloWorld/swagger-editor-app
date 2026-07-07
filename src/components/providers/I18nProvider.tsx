@@ -1,18 +1,25 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '@/lib/i18n/config';
 import { Skeleton } from '@/components/ui/skeleton';
 
-export function I18nProvider({ children }: { children: React.ReactNode }) {
-  const [ready, setReady] = useState(i18n.isInitialized);
+function subscribe(callback: () => void) {
+  i18n.on('initialized', callback);
+  return () => i18n.off('initialized', callback);
+}
 
-  useEffect(() => {
-    if (!i18n.isInitialized) {
-      i18n.on('initialized', () => setReady(true));
-    }
-  }, []);
+function getSnapshot() {
+  return i18n.isInitialized;
+}
+
+function getServerSnapshot() {
+  return false;
+}
+
+export function I18nProvider({ children }: { children: React.ReactNode }) {
+  const ready = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   if (!ready) {
     return <Skeleton className="h-16 w-full" />;
