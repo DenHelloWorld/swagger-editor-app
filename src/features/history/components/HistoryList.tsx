@@ -88,6 +88,16 @@ export default function HistoryList({ records }: HistoryListProps) {
                     </p>
                   </div>
                 </div>
+                {record.errorDetails && (
+                  <div className="sm:col-span-2">
+                    <p className="text-muted-foreground text-xs tracking-wide uppercase">
+                      Error Details
+                    </p>
+                    <p className="text-destructive mt-1 font-mono text-xs break-all">
+                      {record.errorDetails}
+                    </p>
+                  </div>
+                )}
               </CardContent>
 
               <CardFooter className="justify-end">
