@@ -21,11 +21,6 @@ function getInitials(name: string): string {
     .toUpperCase();
 }
 
-/** GitHub serves a user's avatar at `<profile-url>.png`. */
-function getGithubAvatarUrl(githubUrl: string): string {
-  return `${githubUrl}.png`;
-}
-
 export function TeamMemberCard({
   name,
   role,
@@ -37,7 +32,7 @@ export function TeamMemberCard({
     <Card className={styles.card}>
       <CardHeader className={styles.header}>
         <Avatar size="lg">
-          <AvatarImage src={getGithubAvatarUrl(githubUrl)} alt={name} />
+          <AvatarImage src={`${githubUrl}.png`} alt={name} />
           <AvatarFallback>{getInitials(name)}</AvatarFallback>
         </Avatar>
         <div className={styles.identity}>
