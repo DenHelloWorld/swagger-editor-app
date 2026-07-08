@@ -16,6 +16,10 @@
   @apply flex items-center gap-3;
 }
 
+.actions {
+  @apply flex gap-3;
+}
+
 .param__label {
   @apply w-40 shrink-0 font-mono text-sm;
 }

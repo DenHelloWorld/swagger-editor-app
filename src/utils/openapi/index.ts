@@ -5,3 +5,4 @@ export * from './parameters';
 export * from './requestBody';
 export * from './responses';
 export * from './processSpec';
+export * from './buildRequest';

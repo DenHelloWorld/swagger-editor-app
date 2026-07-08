@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import type { ProcessedEndpoint } from '@/types/openapi';
-import { Play, X, Send, Loader2 } from 'lucide-react';
+import { Play, X, Send, Loader2, Copy } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -27,13 +27,34 @@ export function TryItOutSection({ endpoint }: Props) {
     isLoading,
     error,
     execute,
+    generateCurl,
     hasBody,
   } = useTryItOut(endpoint);
 
+  const toastId = `try-it-out-error-${endpoint.method}-${endpoint.path}`;
+
   useEffect(() => {
-    if (error)
-      toast.error(error, { position: 'top-center', id: 'try-it-out-error' });
-  }, [error]);
+    if (error) toast.error(error, { id: toastId });
+  }, [error, toastId]);
+
+  async function handleCopyCurl() {
+    let curl: string;
+    try {
+      curl = generateCurl();
+    } catch (err) {
+      toast.error(
+        err instanceof Error ? err.message : 'Please enter a valid Server URL',
+      );
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(curl);
+      toast.success('cURL command copied to clipboard');
+    } catch {
+      toast.error('Failed to copy cURL command');
+    }
+  }
 
   const pathParams = endpoint.parameters.filter((p) => p.in === 'path');
   const queryParams = endpoint.parameters.filter((p) => p.in === 'query');
@@ -105,7 +126,10 @@ export function TryItOutSection({ endpoint }: Props) {
               <p className={styles.section__title}>Header Parameters</p>
               {headerParams.map((param) => (
                 <div key={param.name} className={styles.param}>
-                  <span className={styles.param__label}>{param.name}</span>
+                  <span className={styles.param__label}>
+                    {param.name}
+                    {param.required && <span className={styles.error}> *</span>}
+                  </span>
                   <Input
                     placeholder="value"
                     value={paramValues[param.name] ?? ''}
@@ -147,10 +171,25 @@ export function TryItOutSection({ endpoint }: Props) {
             </div>
           )}
 
-          <Button size="lg" onClick={execute} disabled={isLoading || !baseUrl}>
-            {isLoading ? <Loader2 className="animate-spin" /> : <Send />}
-            {isLoading ? 'Executing…' : 'Execute'}
-          </Button>
+          <div className={styles.actions}>
+            <Button
+              size="lg"
+              onClick={execute}
+              disabled={isLoading || !baseUrl}
+            >
+              {isLoading ? <Loader2 className="animate-spin" /> : <Send />}
+              {isLoading ? 'Executing…' : 'Execute'}
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={handleCopyCurl}
+              disabled={!baseUrl}
+            >
+              <Copy />
+              Generate cURL
+            </Button>
+          </div>
 
           {error && <p className={styles.error}>{error}</p>}
 
