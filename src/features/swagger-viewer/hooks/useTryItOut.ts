@@ -22,6 +22,18 @@ export function useTryItOut(endpoint: ProcessedEndpoint) {
     setParamValues((prev) => ({ ...prev, [name]: value }));
   }
 
+  function buildRequestHeaders(): Record<string, string> {
+    return {
+      ...buildHeaders(paramValues, endpoint.parameters),
+      ...(hasBody && bodyValue
+        ? {
+            'Content-Type':
+              endpoint.requestBody?.contentType ?? 'application/json',
+          }
+        : {}),
+    };
+  }
+
   async function execute() {
     setIsLoading(true);
     setError(null);
@@ -37,15 +49,7 @@ export function useTryItOut(endpoint: ProcessedEndpoint) {
     }
 
     try {
-      const headers = {
-        ...buildHeaders(paramValues, endpoint.parameters),
-        ...(hasBody && bodyValue
-          ? {
-              'Content-Type':
-                endpoint.requestBody?.contentType ?? 'application/json',
-            }
-          : {}),
-      };
+      const headers = buildRequestHeaders();
 
       const res = await fetch('/api/proxy', {
         method: 'POST',
@@ -80,26 +84,17 @@ export function useTryItOut(endpoint: ProcessedEndpoint) {
   }
 
   function generateCurl(): string {
-    const url = buildUrl(
-      baseUrl,
-      endpoint.path,
-      paramValues,
-      endpoint.parameters,
-    );
-    const headers = {
-      ...buildHeaders(paramValues, endpoint.parameters),
-      ...(hasBody && bodyValue
-        ? {
-            'Content-Type':
-              endpoint.requestBody?.contentType ?? 'application/json',
-          }
-        : {}),
-    };
+    let url: string;
+    try {
+      url = buildUrl(baseUrl, endpoint.path, paramValues, endpoint.parameters);
+    } catch {
+      throw new Error('Please enter a valid Server URL');
+    }
 
     return buildCurlCommand(
       endpoint.method,
       url,
-      headers,
+      buildRequestHeaders(),
       hasBody && bodyValue ? bodyValue : undefined,
     );
   }

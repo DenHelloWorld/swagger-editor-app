@@ -31,14 +31,26 @@ export function TryItOutSection({ endpoint }: Props) {
     hasBody,
   } = useTryItOut(endpoint);
 
+  const toastId = `try-it-out-error-${endpoint.method}-${endpoint.path}`;
+
   useEffect(() => {
-    if (error)
-      toast.error(error, { position: 'top-center', id: 'try-it-out-error' });
-  }, [error]);
+    if (error) toast.error(error, { position: 'top-center', id: toastId });
+  }, [error, toastId]);
 
   async function handleCopyCurl() {
+    let curl: string;
     try {
-      await navigator.clipboard.writeText(generateCurl());
+      curl = generateCurl();
+    } catch (err) {
+      toast.error(
+        err instanceof Error ? err.message : 'Please enter a valid Server URL',
+        { position: 'top-center' },
+      );
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(curl);
       toast.success('cURL command copied to clipboard', {
         position: 'top-center',
       });
@@ -117,7 +129,10 @@ export function TryItOutSection({ endpoint }: Props) {
               <p className={styles.section__title}>Header Parameters</p>
               {headerParams.map((param) => (
                 <div key={param.name} className={styles.param}>
-                  <span className={styles.param__label}>{param.name}</span>
+                  <span className={styles.param__label}>
+                    {param.name}
+                    {param.required && <span className={styles.error}> *</span>}
+                  </span>
                   <Input
                     placeholder="value"
                     value={paramValues[param.name] ?? ''}
