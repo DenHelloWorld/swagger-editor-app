@@ -7,6 +7,17 @@
     "about": "About"
   },
   "footer": {},
+  "about": {
+    "title": "About this project",
+    "introBeforeLink": "This app was built as part of the",
+    "introLinkText": "RS School React course",
+    "introAfterLink": ", a free, community-driven program teaching modern front-end development through real, team-built projects.",
+    "description": "It's a Swagger/OpenAPI editor and viewer with REST client capabilities: paste or write an OpenAPI schema, browse its endpoints, and try them out directly from the browser.",
+    "builtWithTitle": "Built with",
+    "teamTitle": "Team",
+    "githubLinkLabel": "GitHub",
+    "linkedinLinkLabel": "LinkedIn"
+  },
   "common": {
     "save": ""
   },

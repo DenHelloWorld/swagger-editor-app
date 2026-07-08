@@ -1,3 +1,6 @@
+'use client';
+
+import { useTranslation } from 'react-i18next';
 import {
   Card,
   CardHeader,
@@ -10,7 +13,6 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import type { TeamMember } from '../../types';
-import { aboutContent } from '../../content';
 import styles from './TeamMemberCard.module.css';
 
 function getInitials(name: string): string {
@@ -28,6 +30,9 @@ export function TeamMemberCard({
   githubUrl,
   linkedinUrl,
 }: TeamMember) {
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language.split('-')[0] === 'ru' ? 'ru' : 'en';
+
   return (
     <Card className={styles.card}>
       <CardHeader className={styles.header}>
@@ -38,12 +43,14 @@ export function TeamMemberCard({
         <div className={styles.identity}>
           <CardTitle>{name}</CardTitle>
           <CardDescription>
-            <Badge variant="secondary">{role}</Badge>
+            <Badge variant="secondary" className={styles.role}>
+              {role[lang]}
+            </Badge>
           </CardDescription>
         </div>
       </CardHeader>
-      <CardContent>
-        <p className={styles.bio}>{bio}</p>
+      <CardContent className={styles.content}>
+        <p className={styles.bio}>{bio[lang]}</p>
       </CardContent>
       <CardFooter className={styles.footer}>
         <Button variant="ghost" size="sm" className={styles.link} asChild>
@@ -51,7 +58,7 @@ export function TeamMemberCard({
             <svg className={styles.icon} aria-hidden="true">
               <use href="/icons.svg#github" />
             </svg>
-            {aboutContent.githubLinkLabel}
+            {t('about.githubLinkLabel')}
           </a>
         </Button>
         {linkedinUrl && (
@@ -60,7 +67,7 @@ export function TeamMemberCard({
               <svg className={styles.icon} aria-hidden="true">
                 <use href="/icons.svg#linkedin" />
               </svg>
-              {aboutContent.linkedinLinkLabel}
+              {t('about.linkedinLinkLabel')}
             </a>
           </Button>
         )}

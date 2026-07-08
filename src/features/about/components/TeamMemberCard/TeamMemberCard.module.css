@@ -12,8 +12,16 @@
   @apply flex flex-col gap-1;
 }
 
+.role {
+  @apply h-auto max-w-full overflow-visible whitespace-normal;
+}
+
 .bio {
   @apply text-muted-foreground text-sm;
+}
+
+.content {
+  @apply flex-1;
 }
 
 .footer {
