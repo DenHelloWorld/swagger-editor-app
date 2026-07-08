@@ -7,6 +7,17 @@
     "about": "О нас"
   },
   "footer": {},
+  "about": {
+    "title": "О проекте",
+    "introBeforeLink": "Это приложение было создано в рамках курса",
+    "introLinkText": "RS School React",
+    "introAfterLink": " — бесплатной программы, которая учит современной фронтенд-разработке на реальных командных проектах.",
+    "description": "Это редактор и просмотрщик Swagger/OpenAPI с возможностями REST-клиента: вставьте или напишите схему OpenAPI, изучите её эндпоинты и попробуйте их прямо в браузере.",
+    "builtWithTitle": "Технологии",
+    "teamTitle": "Команда",
+    "githubLinkLabel": "GitHub",
+    "linkedinLinkLabel": "LinkedIn"
+  },
   "common": {
     "save": ""
   },
