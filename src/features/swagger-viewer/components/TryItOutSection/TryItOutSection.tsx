@@ -34,7 +34,7 @@ export function TryItOutSection({ endpoint }: Props) {
   const toastId = `try-it-out-error-${endpoint.method}-${endpoint.path}`;
 
   useEffect(() => {
-    if (error) toast.error(error, { position: 'top-center', id: toastId });
+    if (error) toast.error(error, { id: toastId });
   }, [error, toastId]);
 
   async function handleCopyCurl() {
@@ -44,18 +44,15 @@ export function TryItOutSection({ endpoint }: Props) {
     } catch (err) {
       toast.error(
         err instanceof Error ? err.message : 'Please enter a valid Server URL',
-        { position: 'top-center' },
       );
       return;
     }
 
     try {
       await navigator.clipboard.writeText(curl);
-      toast.success('cURL command copied to clipboard', {
-        position: 'top-center',
-      });
+      toast.success('cURL command copied to clipboard');
     } catch {
-      toast.error('Failed to copy cURL command', { position: 'top-center' });
+      toast.error('Failed to copy cURL command');
     }
   }
 
