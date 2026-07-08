@@ -1,3 +1,5 @@
+import { FieldItem } from './FieldItem';
+
 export function DetailItem({
   label,
   value,
@@ -9,13 +11,9 @@ export function DetailItem({
 }) {
   return (
     <div>
-      <dt className="text-muted-foreground text-xs tracking-wide uppercase">
-        {label}
-      </dt>
-      <dd
-        className={`mt-1 text-sm ${mono ? 'font-mono break-all' : 'font-medium'}`}
-      >
-        {value}
+      <dt className="sr-only">{label}</dt>
+      <dd>
+        <FieldItem label={label} value={value} mono={mono} />
       </dd>
     </div>
   );

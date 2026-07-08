@@ -17,6 +17,7 @@ import {
   getStatusVariant,
 } from '@/features/history/utils/recordFormat';
 import { RequestRecord } from '@/types/dbTypes';
+import { FieldItem } from './FieldItem';
 
 interface HistoryListProps {
   records: RequestRecord[];
@@ -56,46 +57,34 @@ export default function HistoryList({ records }: HistoryListProps) {
               </CardHeader>
 
               <CardContent className="grid gap-4 text-sm sm:grid-cols-2">
-                <div>
-                  <p className="text-muted-foreground text-xs tracking-wide uppercase">
-                    URL
-                  </p>
-                  <p className="mt-1 font-mono text-xs break-all">
-                    {record.url}
-                  </p>
-                </div>
+                <FieldItem
+                  label="URL"
+                  value={record.url}
+                  mono
+                  valueClassName="text-xs"
+                />
                 <div className="grid grid-cols-3 gap-3">
-                  <div>
-                    <p className="text-muted-foreground text-xs tracking-wide uppercase">
-                      Duration
-                    </p>
-                    <p className="mt-1 font-medium">{record.durationMs} ms</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground text-xs tracking-wide uppercase">
-                      Request
-                    </p>
-                    <p className="mt-1 font-medium">
-                      {formatBytes(record.requestSize)}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground text-xs tracking-wide uppercase">
-                      Response
-                    </p>
-                    <p className="mt-1 font-medium">
-                      {formatBytes(record.responseSize)}
-                    </p>
-                  </div>
+                  <FieldItem
+                    label="Duration"
+                    value={`${record.durationMs} ms`}
+                  />
+                  <FieldItem
+                    label="Request"
+                    value={formatBytes(record.requestSize)}
+                  />
+                  <FieldItem
+                    label="Response"
+                    value={formatBytes(record.responseSize)}
+                  />
                 </div>
                 {record.errorDetails && (
                   <div className="sm:col-span-2">
-                    <p className="text-muted-foreground text-xs tracking-wide uppercase">
-                      Error Details
-                    </p>
-                    <p className="text-destructive mt-1 font-mono text-xs break-all">
-                      {record.errorDetails}
-                    </p>
+                    <FieldItem
+                      label="Error Details"
+                      value={record.errorDetails}
+                      mono
+                      valueClassName="text-destructive text-xs"
+                    />
                   </div>
                 )}
               </CardContent>
