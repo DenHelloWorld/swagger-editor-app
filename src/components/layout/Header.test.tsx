@@ -22,8 +22,7 @@ vi.mock('next/link', () => ({
 
 vi.mock('next/image', () => ({
   default: (props: Record<string, unknown>) => (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img alt={props.alt as string} src={props.src as string} />
+    <span role="img" aria-label={props.alt as string} />
   ),
 }));
 
