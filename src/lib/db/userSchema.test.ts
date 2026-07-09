@@ -1,0 +1,62 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import type { SavedSchema } from '@/types/dbTypes';
+
+const setDoc = vi.fn();
+const getDoc = vi.fn();
+const doc = vi.fn((...args: unknown[]) => args);
+
+vi.mock('firebase/firestore', () => ({
+  doc: (...args: unknown[]) => doc(...args),
+  setDoc: (...args: unknown[]) => setDoc(...args),
+  getDoc: (...args: unknown[]) => getDoc(...args),
+}));
+
+vi.mock('./firebase/client', () => ({
+  getFirebaseFirestore: () => ({ kind: 'db' }),
+}));
+
+import { saveUserSchema, getUserSchema } from './userSchema';
+
+describe('userSchema', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  const schema: SavedSchema = {
+    userId: 'u1',
+    raw: '{}',
+    format: 'json',
+  } as SavedSchema;
+
+  it('saves a schema', async () => {
+    setDoc.mockResolvedValue(undefined);
+    await saveUserSchema(schema);
+    expect(setDoc).toHaveBeenCalled();
+  });
+
+  it('throws a wrapped error when save fails', async () => {
+    setDoc.mockRejectedValue(new Error('boom'));
+    await expect(saveUserSchema(schema)).rejects.toThrow(
+      'Failed to save schema: boom',
+    );
+  });
+
+  it('returns schema data when it exists', async () => {
+    getDoc.mockResolvedValue({ exists: () => true, data: () => schema });
+    const result = await getUserSchema('u1');
+    expect(result).toEqual(schema);
+  });
+
+  it('returns null when it does not exist', async () => {
+    getDoc.mockResolvedValue({ exists: () => false, data: () => undefined });
+    const result = await getUserSchema('u1');
+    expect(result).toBeNull();
+  });
+
+  it('throws a wrapped error when load fails', async () => {
+    getDoc.mockRejectedValue(new Error('nope'));
+    await expect(getUserSchema('u1')).rejects.toThrow(
+      'Failed to load schema: nope',
+    );
+  });
+});
