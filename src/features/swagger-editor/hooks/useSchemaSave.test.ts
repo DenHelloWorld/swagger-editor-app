@@ -15,6 +15,23 @@ vi.mock('@/utils/openapi', () => ({
 
 const initialState = useSchemaStore.getState();
 
+function mockAuthenticatedValidSchema() {
+  useSchemaStore.setState({ raw: '{}' });
+  vi.mocked(useAuth).mockReturnValue({
+    user: { uid: 'u1' },
+    isAuthenticated: true,
+  } as never);
+  vi.mocked(parseSchema).mockReturnValue({
+    success: true,
+    doc: {},
+    format: 'json',
+  } as never);
+  vi.mocked(validateSchema).mockResolvedValue({
+    valid: true,
+    doc: {},
+  } as never);
+}
+
 describe('useSchemaSave', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -89,20 +106,7 @@ describe('useSchemaSave', () => {
   it('saves successfully and resets status after timeout', async () => {
     vi.useFakeTimers();
     try {
-      useSchemaStore.setState({ raw: '{}' });
-      vi.mocked(useAuth).mockReturnValue({
-        user: { uid: 'u1' },
-        isAuthenticated: true,
-      } as never);
-      vi.mocked(parseSchema).mockReturnValue({
-        success: true,
-        doc: {},
-        format: 'json',
-      } as never);
-      vi.mocked(validateSchema).mockResolvedValue({
-        valid: true,
-        doc: {},
-      } as never);
+      mockAuthenticatedValidSchema();
       vi.mocked(saveUserSchema).mockResolvedValue(undefined);
 
       const { result } = renderHook(() => useSchemaSave());
@@ -121,20 +125,7 @@ describe('useSchemaSave', () => {
   });
 
   it('sets error status when save throws', async () => {
-    useSchemaStore.setState({ raw: '{}' });
-    vi.mocked(useAuth).mockReturnValue({
-      user: { uid: 'u1' },
-      isAuthenticated: true,
-    } as never);
-    vi.mocked(parseSchema).mockReturnValue({
-      success: true,
-      doc: {},
-      format: 'json',
-    } as never);
-    vi.mocked(validateSchema).mockResolvedValue({
-      valid: true,
-      doc: {},
-    } as never);
+    mockAuthenticatedValidSchema();
     vi.mocked(saveUserSchema).mockRejectedValue(new Error('save failed'));
 
     const { result } = renderHook(() => useSchemaSave());

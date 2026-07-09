@@ -1,11 +1,19 @@
 // @vitest-environment node
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-const initializeApp = vi.fn(() => ({ name: 'app' }));
-const getApps = vi.fn(() => []);
-const getApp = vi.fn(() => ({ name: 'app' }));
-const getAuth = vi.fn(() => ({ kind: 'auth' }));
-const getFirestore = vi.fn(() => ({ kind: 'firestore' }));
+const initializeApp = vi.fn<(...args: unknown[]) => { name: string }>(() => ({
+  name: 'app',
+}));
+const getApps = vi.fn<() => { name: string }[]>(() => []);
+const getApp = vi.fn<(...args: unknown[]) => { name: string }>(() => ({
+  name: 'app',
+}));
+const getAuth = vi.fn<(...args: unknown[]) => { kind: string }>(() => ({
+  kind: 'auth',
+}));
+const getFirestore = vi.fn<(...args: unknown[]) => { kind: string }>(() => ({
+  kind: 'firestore',
+}));
 
 vi.mock('firebase/app', () => ({
   initializeApp: (...args: unknown[]) => initializeApp(...args),

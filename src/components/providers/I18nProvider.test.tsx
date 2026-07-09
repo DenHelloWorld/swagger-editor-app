@@ -6,7 +6,9 @@ vi.mock('next/navigation', () => ({
   useRouter: () => ({ refresh }),
 }));
 
-const initI18n = vi.fn(() => ({ kind: 'i18n-instance' }));
+const initI18n = vi.fn<(...args: unknown[]) => { kind: string }>(() => ({
+  kind: 'i18n-instance',
+}));
 vi.mock('@/lib/i18n/config', () => ({
   initI18n: (...args: unknown[]) => initI18n(...args),
 }));
