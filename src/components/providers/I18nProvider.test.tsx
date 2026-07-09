@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
 const refresh = vi.fn();
@@ -27,8 +27,17 @@ vi.mock('@/lib/cookies', () => ({
 import { I18nProvider } from './I18nProvider';
 
 describe('I18nProvider', () => {
+  const originalLanguage = navigator.language;
+
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    Object.defineProperty(navigator, 'language', {
+      value: originalLanguage,
+      configurable: true,
+    });
   });
 
   it('renders children', () => {

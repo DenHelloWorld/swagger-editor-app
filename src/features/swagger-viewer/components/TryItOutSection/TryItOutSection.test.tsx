@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { TryItOutSection } from './TryItOutSection';
 import { useTryItOut } from '../../hooks/useTryItOut';
@@ -6,9 +6,10 @@ import type { ProcessedEndpoint } from '@/types/openapi';
 import { toast } from 'sonner';
 
 vi.mock('../../hooks/useTryItOut');
-vi.mock('sonner', () => ({
-  toast: { error: vi.fn(), success: vi.fn() },
-}));
+vi.mock('sonner', async () => {
+  const { mockToast } = await import('@/test/mocks/sonner');
+  return { toast: mockToast };
+});
 
 const endpoint: ProcessedEndpoint = {
   method: 'post',
@@ -58,9 +59,15 @@ function mockHook(overrides = {}) {
 }
 
 describe('TryItOutSection', () => {
+  const originalClipboard = navigator.clipboard;
+
   beforeEach(() => {
     vi.clearAllMocks();
     mockHook();
+  });
+
+  afterEach(() => {
+    Object.assign(navigator, { clipboard: originalClipboard });
   });
 
   it('toggles open state to show form fields', () => {

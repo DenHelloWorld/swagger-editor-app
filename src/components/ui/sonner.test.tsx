@@ -8,9 +8,11 @@ vi.mock('next-themes', () => ({
 import { Toaster } from './sonner';
 
 describe('Toaster', () => {
-  it('renders without crashing', () => {
+  it('renders the notifications landmark with an accessible label', () => {
     const { container } = render(<Toaster />);
-    expect(container).toBeTruthy();
+    const section = container.querySelector('section');
+    expect(section).toHaveAttribute('aria-label', 'Notifications alt+T');
+    expect(section).toHaveAttribute('aria-live', 'polite');
   });
 
   it('renders with a section landmark for toasts', () => {

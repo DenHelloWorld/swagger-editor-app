@@ -1,3 +1,4 @@
+// @vitest-environment node
 import { describe, it, expect } from 'vitest';
 import { firebaseConfig, isFirebaseConfigured } from './config';
 
@@ -15,15 +16,18 @@ describe('isFirebaseConfigured', () => {
 
   it('returns true when all config values are present', () => {
     const original = { ...firebaseConfig };
-    Object.assign(firebaseConfig, {
-      apiKey: 'a',
-      authDomain: 'b',
-      projectId: 'c',
-      storageBucket: 'd',
-      messagingSenderId: 'e',
-      appId: 'f',
-    });
-    expect(isFirebaseConfigured()).toBe(true);
-    Object.assign(firebaseConfig, original);
+    try {
+      Object.assign(firebaseConfig, {
+        apiKey: 'a',
+        authDomain: 'b',
+        projectId: 'c',
+        storageBucket: 'd',
+        messagingSenderId: 'e',
+        appId: 'f',
+      });
+      expect(isFirebaseConfigured()).toBe(true);
+    } finally {
+      Object.assign(firebaseConfig, original);
+    }
   });
 });

@@ -8,7 +8,10 @@ import { toast } from 'sonner';
 
 vi.mock('@/features/auth/useAuth');
 vi.mock('@/lib/db/userSchema', () => ({ getUserSchema: vi.fn() }));
-vi.mock('sonner', () => ({ toast: { error: vi.fn() } }));
+vi.mock('sonner', async () => {
+  const { mockToast } = await import('@/test/mocks/sonner');
+  return { toast: mockToast };
+});
 
 const initialState = useSchemaStore.getState();
 

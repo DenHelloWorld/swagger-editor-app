@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -26,10 +27,10 @@ vi.mock('next/image', () => ({
   ),
 }));
 
-const toastError = vi.fn();
-vi.mock('sonner', () => ({
-  toast: { error: (...a: unknown[]) => toastError(...a) },
-}));
+vi.mock('sonner', async () => {
+  const { mockToast } = await import('@/test/mocks/sonner');
+  return { toast: mockToast };
+});
 
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
@@ -103,7 +104,7 @@ describe('Header', () => {
     const user = userEvent.setup();
     render(<Header />);
     await user.click(screen.getByText('header.signOut'));
-    expect(toastError).toHaveBeenCalledWith('failed');
+    expect(toast.error).toHaveBeenCalledWith('failed');
     expect(replace).not.toHaveBeenCalled();
   });
 });

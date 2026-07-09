@@ -5,7 +5,10 @@ import { useSchemaSave } from '../../hooks/useSchemaSave';
 import { toast } from 'sonner';
 
 vi.mock('../../hooks/useSchemaSave');
-vi.mock('sonner', () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
+vi.mock('sonner', async () => {
+  const { mockToast } = await import('@/test/mocks/sonner');
+  return { toast: mockToast };
+});
 
 describe('SaveSchemaButton', () => {
   beforeEach(() => {

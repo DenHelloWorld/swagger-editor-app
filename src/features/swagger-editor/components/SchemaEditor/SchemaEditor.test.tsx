@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { SchemaEditor } from './SchemaEditor';
 import { useSchemaStore } from '@/store/schemaStore';
 
@@ -60,11 +61,12 @@ describe('SchemaEditor', () => {
     expect(screen.getByText('Invalid schema')).toBeInTheDocument();
   });
 
-  it('updates raw on editor change', () => {
+  it('updates raw on editor change', async () => {
+    const user = userEvent.setup();
     useSchemaStore.setState({ raw: '' });
     render(<SchemaEditor />);
     const textarea = screen.getByTestId('monaco');
-    textarea.dispatchEvent(new Event('change', { bubbles: true }));
-    expect(textarea).toBeInTheDocument();
+    await user.type(textarea, 'x');
+    expect(useSchemaStore.getState().raw).toBe('x');
   });
 });

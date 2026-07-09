@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -17,14 +18,10 @@ vi.mock('next/link', () => ({
   }) => <a href={href}>{children}</a>,
 }));
 
-const toastSuccess = vi.fn();
-const toastError = vi.fn();
-vi.mock('sonner', () => ({
-  toast: {
-    success: (...args: unknown[]) => toastSuccess(...args),
-    error: (...args: unknown[]) => toastError(...args),
-  },
-}));
+vi.mock('sonner', async () => {
+  const { mockToast } = await import('@/test/mocks/sonner');
+  return { toast: mockToast };
+});
 
 const mockUseAuth = {
   isAuthenticated: false,
@@ -100,7 +97,7 @@ describe('AuthForm', () => {
     await user.click(submit);
 
     await waitFor(() =>
-      expect(toastError).toHaveBeenCalledWith('Incorrect password.', {
+      expect(toast.error).toHaveBeenCalledWith('Incorrect password.', {
         position: 'top-center',
       }),
     );
@@ -109,7 +106,7 @@ describe('AuthForm', () => {
   it('shows a session error toast and clears it', () => {
     mockUseAuth.sessionError = 'session expired';
     render(<AuthForm type="Sign In" />);
-    expect(toastError).toHaveBeenCalledWith('session expired', {
+    expect(toast.error).toHaveBeenCalledWith('session expired', {
       position: 'top-center',
     });
     expect(mockUseAuth.clearSessionError).toHaveBeenCalled();
@@ -118,7 +115,7 @@ describe('AuthForm', () => {
   it('redirects and shows success toast when authenticated', () => {
     mockUseAuth.isAuthenticated = true;
     render(<AuthForm type="Sign In" />);
-    expect(toastSuccess).toHaveBeenCalledWith('Welcome back');
+    expect(toast.success).toHaveBeenCalledWith('Welcome back');
     expect(replace).toHaveBeenCalledWith('/');
   });
 });

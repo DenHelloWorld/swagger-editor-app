@@ -88,33 +88,36 @@ describe('useSchemaSave', () => {
 
   it('saves successfully and resets status after timeout', async () => {
     vi.useFakeTimers();
-    useSchemaStore.setState({ raw: '{}' });
-    vi.mocked(useAuth).mockReturnValue({
-      user: { uid: 'u1' },
-      isAuthenticated: true,
-    } as never);
-    vi.mocked(parseSchema).mockReturnValue({
-      success: true,
-      doc: {},
-      format: 'json',
-    } as never);
-    vi.mocked(validateSchema).mockResolvedValue({
-      valid: true,
-      doc: {},
-    } as never);
-    vi.mocked(saveUserSchema).mockResolvedValue(undefined);
+    try {
+      useSchemaStore.setState({ raw: '{}' });
+      vi.mocked(useAuth).mockReturnValue({
+        user: { uid: 'u1' },
+        isAuthenticated: true,
+      } as never);
+      vi.mocked(parseSchema).mockReturnValue({
+        success: true,
+        doc: {},
+        format: 'json',
+      } as never);
+      vi.mocked(validateSchema).mockResolvedValue({
+        valid: true,
+        doc: {},
+      } as never);
+      vi.mocked(saveUserSchema).mockResolvedValue(undefined);
 
-    const { result } = renderHook(() => useSchemaSave());
-    await act(async () => {
-      await result.current.save();
-    });
-    expect(result.current.status).toBe('success');
+      const { result } = renderHook(() => useSchemaSave());
+      await act(async () => {
+        await result.current.save();
+      });
+      expect(result.current.status).toBe('success');
 
-    await act(async () => {
-      vi.advanceTimersByTime(2000);
-    });
-    expect(result.current.status).toBe('idle');
-    vi.useRealTimers();
+      await act(async () => {
+        vi.advanceTimersByTime(2000);
+      });
+      expect(result.current.status).toBe('idle');
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it('sets error status when save throws', async () => {

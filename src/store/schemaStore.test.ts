@@ -1,3 +1,4 @@
+// @vitest-environment node
 import { describe, it, expect, beforeEach } from 'vitest';
 import { useSchemaStore } from './schemaStore';
 import type { ProcessedSpec } from '@/types/openapi';

@@ -1,3 +1,4 @@
+// @vitest-environment node
 import { describe, it, expect } from 'vitest';
 import { FirebaseError } from 'firebase/app';
 import { getAuthErrorMessage } from './getAuthErrorMessage';

@@ -33,9 +33,9 @@ describe('RequestBodySection', () => {
       isArray: false,
       properties: [],
     };
-    const { container } = render(
-      <RequestBodySection requestBody={requestBody} />,
-    );
-    expect(container).toBeInTheDocument();
+    render(<RequestBodySection requestBody={requestBody} />);
+    expect(screen.getByText('Request Body')).toBeInTheDocument();
+    expect(screen.queryByText('array')).not.toBeInTheDocument();
+    expect(screen.queryByText('Example')).not.toBeInTheDocument();
   });
 });

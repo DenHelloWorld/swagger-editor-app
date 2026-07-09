@@ -10,7 +10,10 @@ vi.mock('@/utils/openapi', () => ({
   validateSchema: vi.fn(),
   processSpec: vi.fn(),
 }));
-vi.mock('sonner', () => ({ toast: { error: vi.fn() } }));
+vi.mock('sonner', async () => {
+  const { mockToast } = await import('@/test/mocks/sonner');
+  return { toast: mockToast };
+});
 
 const initialState = useSchemaStore.getState();
 

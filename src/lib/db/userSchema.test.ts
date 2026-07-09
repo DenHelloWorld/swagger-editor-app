@@ -1,3 +1,4 @@
+// @vitest-environment node
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { SavedSchema } from '@/types/dbTypes';
 
@@ -24,9 +25,10 @@ describe('userSchema', () => {
 
   const schema: SavedSchema = {
     userId: 'u1',
-    raw: '{}',
+    content: '{}',
     format: 'json',
-  } as SavedSchema;
+    updatedAt: '2026-01-01T00:00:00.000Z',
+  };
 
   it('saves a schema', async () => {
     setDoc.mockResolvedValue(undefined);
