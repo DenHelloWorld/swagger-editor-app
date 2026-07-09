@@ -10,11 +10,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       include: ['src/**/*.{ts,tsx}'],
-      exclude: [
-        'src/**/*.test.{ts,tsx}',
-        'src/test/**',
-        'src/components/ui/**',
-      ],
+      exclude: ['src/**/*.test.{ts,tsx}', 'src/test/**'],
       reporter: ['text', 'json', 'html'],
       thresholds: {
         statements: 80,
