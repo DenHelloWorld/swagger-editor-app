@@ -18,6 +18,7 @@ import {
 } from '@/features/history/utils/recordFormat';
 import { RequestRecord } from '@/types/dbTypes';
 import { FieldItem } from './FieldItem';
+import { ArrowLeft, Eye } from 'lucide-react';
 
 interface HistoryListProps {
   records: RequestRecord[];
@@ -91,7 +92,10 @@ export default function HistoryList({ records }: HistoryListProps) {
 
               <CardFooter className="justify-end">
                 <Button variant="outline" size="sm" asChild>
-                  <Link href={`/history/${record.id}`}>Details</Link>
+                  <Link href={`/history/${record.id}`}>
+                    <Eye data-icon="inline-start" />
+                    Details
+                  </Link>
                 </Button>
               </CardFooter>
             </Card>
@@ -99,7 +103,10 @@ export default function HistoryList({ records }: HistoryListProps) {
         ))}
       </ul>
       <Button variant="outline" size="sm" asChild className="mt-2">
-        <Link href="/">Back to Editor &amp; Viewer</Link>
+        <Link href="/">
+          <ArrowLeft data-icon="inline-start" />
+          Back to Editor &amp; Viewer
+        </Link>
       </Button>
     </section>
   );

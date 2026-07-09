@@ -1,12 +1,16 @@
 import Link from 'next/link';
+import { Info, GraduationCap } from 'lucide-react';
 import { Button } from '../ui/button';
 
 export default function Footer() {
   return (
-    <footer className="bg-background/95 supports-[backdrop-filter]:bg-background/60 w-full border-t backdrop-blur">
+    <footer className="w-full border-t">
       <div className="flex h-16 items-center justify-center gap-10">
         <Button variant="ghost" size="sm" asChild>
-          <Link href="/about">About</Link>
+          <Link href="/about">
+            <Info data-icon="inline-start" />
+            About
+          </Link>
         </Button>
         <p className="text-sm font-medium">© 2026 Swagger Editor</p>
         <Button variant="ghost" size="sm" asChild>
@@ -15,6 +19,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
           >
+            <GraduationCap data-icon="inline-start" />
             RS School
           </a>
         </Button>

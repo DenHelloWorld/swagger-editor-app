@@ -31,6 +31,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
+import { ArrowRight, LogIn, UserPlus } from 'lucide-react';
 
 export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
   const router = useRouter();
@@ -92,7 +93,7 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
   const isSubmitting = form.formState.isSubmitting;
 
   return (
-    <Card className="w-full sm:max-w-md">
+    <Card className="m-auto w-full sm:max-w-md">
       <CardHeader>
         <CardTitle>{type} Form</CardTitle>
         <CardDescription>
@@ -181,7 +182,14 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
                 Submitting...
               </>
             ) : (
-              'Submit'
+              <>
+                {type === 'Sign In' ? (
+                  <LogIn data-icon="inline-start" />
+                ) : (
+                  <UserPlus data-icon="inline-start" />
+                )}
+                Submit
+              </>
             )}
           </Button>
         </form>
@@ -191,9 +199,10 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
           Don&apos;t have an account yet?{' '}
           <Link
             href="/sign-up"
-            className="text-m ml-3 flex items-center space-x-2 text-lime-800 underline"
+            className="text-m ml-3 flex items-center gap-1 text-lime-800 underline"
           >
             Sign up
+            <ArrowRight className="size-4" />
           </Link>
         </CardFooter>
       ) : (
@@ -201,9 +210,10 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
           Already have an account?{' '}
           <Link
             href="/sign-in"
-            className="text-m ml-3 flex items-center space-x-2 text-lime-800 underline"
+            className="text-m ml-3 flex items-center gap-1 text-lime-800 underline"
           >
             Sign in
+            <ArrowRight className="size-4" />
           </Link>
         </CardFooter>
       )}

@@ -17,6 +17,7 @@ import {
 import { DetailItem } from './DetailItem';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 
 interface HistoryDetailsProps {
   record: RequestRecord;
@@ -80,7 +81,10 @@ export default function HistoryDetails({ record }: HistoryDetailsProps) {
         </CardContent>
       </Card>
       <Button variant="outline" size="sm" asChild className="mt-2">
-        <Link href="/history">Back to History</Link>
+        <Link href="/history">
+          <ArrowLeft data-icon="inline-start" />
+          Back to History
+        </Link>
       </Button>
     </section>
   );

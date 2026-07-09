@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { setCookie } from '@/lib/cookies';
+import { Languages } from 'lucide-react';
 
 const LANGUAGES = [
   { code: 'en', label: 'English' },
@@ -28,6 +29,7 @@ export function LanguageToggle() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="sm">
+          <Languages data-icon="inline-start" />
           {current.toUpperCase()}
         </Button>
       </DropdownMenuTrigger>

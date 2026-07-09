@@ -22,16 +22,27 @@ export function SplitView({ left, right }: Props) {
 
   return (
     <div
+      className="h-full w-full self-stretch"
       style={{
         display: 'flex',
         flexDirection: isHorizontal ? 'row' : 'column',
-        flex: 1,
         minHeight: 0,
-        width: '100%',
+        gap: '1rem',
+        padding: '1rem',
       }}
     >
-      <div style={{ flex: 1, overflow: 'auto' }}>{left}</div>
-      <div style={{ flex: 1, overflow: 'auto' }}>{right}</div>
+      <div
+        className="bg-background overflow-y-auto rounded-xl border shadow-sm"
+        style={{ flex: 1, display: 'flex', flexDirection: 'column' }}
+      >
+        {left}
+      </div>
+      <div
+        className="bg-background overflow-y-auto rounded-xl border shadow-sm"
+        style={{ flex: 1, display: 'flex', flexDirection: 'column' }}
+      >
+        {right}
+      </div>
     </div>
   );
 }

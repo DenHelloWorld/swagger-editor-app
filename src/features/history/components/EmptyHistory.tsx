@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { ArrowRight } from 'lucide-react';
 
 export default function EmptyHistory() {
   return (
@@ -17,7 +18,10 @@ export default function EmptyHistory() {
         </div>
 
         <Button variant="outline" size="sm" asChild className="mt-2">
-          <Link href="/">Go to Editor &amp; Viewer</Link>
+          <Link href="/">
+            Go to Editor &amp; Viewer
+            <ArrowRight data-icon="inline-end" />
+          </Link>
         </Button>
       </CardContent>
     </Card>

@@ -3,6 +3,7 @@
 import { useSchemaStore } from '@/store/schemaStore';
 import { convertFormat } from '../../utils/convertFormat';
 import { Button } from '@/components/ui/button';
+import { ArrowLeftRight } from 'lucide-react';
 
 export function FormatToggle() {
   const { raw, format, setRaw, setFormat } = useSchemaStore();
@@ -21,6 +22,7 @@ export function FormatToggle() {
 
   return (
     <Button onClick={handleToggle} variant="outline" size="sm">
+      <ArrowLeftRight data-icon="inline-start" />
       {format === 'json' ? 'YAML' : 'JSON'}
     </Button>
   );

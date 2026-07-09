@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Roboto, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -8,9 +8,10 @@ import { Toaster } from '@/components/ui/sonner';
 import { AuthProvider } from '@/features/auth/AuthProvider';
 import { I18nProvider } from '@/components/providers/I18nProvider';
 
-const geistSans = Geist({
+const roboto = Roboto({
   variable: '--font-geist-sans',
   subsets: ['latin'],
+  weight: ['400', '500', '700'],
 });
 
 const geistMono = Geist_Mono({
@@ -34,14 +35,15 @@ export default async function RootLayout({
   return (
     <html
       lang={lng}
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${roboto.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">
+      <body className="flex h-screen flex-col overflow-y-auto">
+        <div className="floating-gradient-bg" aria-hidden="true" />
         <I18nProvider lng={lng}>
           <AuthProvider>
             <Toaster position="bottom-center" offset={24} />
             <Header />
-            <main className="flex flex-1 flex-col items-center justify-center bg-zinc-50 font-sans">
+            <main className="flex min-h-0 flex-1 flex-col items-center overflow-y-auto font-sans">
               {children}
             </main>
             <Footer />
