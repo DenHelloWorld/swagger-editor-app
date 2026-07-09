@@ -59,4 +59,18 @@ describe('userSchema', () => {
       'Failed to load schema: nope',
     );
   });
+
+  it('throws a wrapped unknown error when save fails with non-Error', async () => {
+    setDoc.mockRejectedValue('non-error-failure');
+    await expect(saveUserSchema(schema)).rejects.toThrow(
+      'Failed to save schema: unknown error',
+    );
+  });
+
+  it('throws a wrapped unknown error when load fails with non-Error', async () => {
+    getDoc.mockRejectedValue('non-error-failure');
+    await expect(getUserSchema('u1')).rejects.toThrow(
+      'Failed to load schema: unknown error',
+    );
+  });
 });

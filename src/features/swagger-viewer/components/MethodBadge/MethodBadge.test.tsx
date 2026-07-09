@@ -12,4 +12,13 @@ describe('MethodBadge', () => {
     render(<MethodBadge method="TRACE" />);
     expect(screen.getByText('TRACE')).toBeInTheDocument();
   });
+
+  it('renders post, put and delete methods', () => {
+    render(<MethodBadge method="post" />);
+    expect(screen.getByText('POST')).toBeInTheDocument();
+    render(<MethodBadge method="put" />);
+    expect(screen.getByText('PUT')).toBeInTheDocument();
+    render(<MethodBadge method="delete" />);
+    expect(screen.getByText('DELETE')).toBeInTheDocument();
+  });
 });

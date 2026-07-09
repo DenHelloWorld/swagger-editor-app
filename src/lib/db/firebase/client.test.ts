@@ -49,5 +49,10 @@ describe('firebase client', () => {
     getApps.mockReturnValue([{ name: 'app' }]);
     const auth2 = getFirebaseAuth();
     expect(auth2).toEqual({ kind: 'auth' });
+
+    // second firestore call reuses cached instance
+    const firestore2 = getFirebaseFirestore();
+    expect(firestore2).toEqual({ kind: 'firestore' });
+    expect(getFirestore).toHaveBeenCalledTimes(1);
   });
 });
