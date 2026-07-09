@@ -1,0 +1,22 @@
+import { describe, it, expect, vi } from 'vitest';
+import { render } from '@testing-library/react';
+
+vi.mock('next-themes', () => ({
+  useTheme: () => ({ theme: 'light' }),
+}));
+
+import { Toaster } from './sonner';
+
+describe('Toaster', () => {
+  it('renders the notifications landmark with an accessible label', () => {
+    const { container } = render(<Toaster />);
+    const section = container.querySelector('section');
+    expect(section).toHaveAttribute('aria-label', 'Notifications alt+T');
+    expect(section).toHaveAttribute('aria-live', 'polite');
+  });
+
+  it('renders with a section landmark for toasts', () => {
+    const { container } = render(<Toaster />);
+    expect(container.querySelector('section')).toBeInTheDocument();
+  });
+});
