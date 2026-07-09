@@ -32,6 +32,7 @@ import { useEffect } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
 import { ArrowRight, LogIn, UserPlus } from 'lucide-react';
+import styles from './AuthForm.module.css';
 
 export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
   const router = useRouter();
@@ -93,7 +94,7 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
   const isSubmitting = form.formState.isSubmitting;
 
   return (
-    <Card className="m-auto w-full sm:max-w-md">
+    <Card className={styles.form}>
       <CardHeader>
         <CardTitle>{type} Form</CardTitle>
         <CardDescription>
@@ -174,7 +175,7 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
             disabled={!form.formState.isValid || isSubmitting}
             type="submit"
             form="auth-form"
-            className="mt-3"
+            className={styles.form__submit}
           >
             {isSubmitting ? (
               <>
@@ -197,10 +198,7 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
       {type === 'Sign In' ? (
         <CardFooter>
           Don&apos;t have an account yet?{' '}
-          <Link
-            href="/sign-up"
-            className="text-m ml-3 flex items-center gap-1 text-lime-800 underline"
-          >
+          <Link href="/sign-up" className={styles.form__switch_link}>
             Sign up
             <ArrowRight className="size-4" />
           </Link>
@@ -208,10 +206,7 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
       ) : (
         <CardFooter>
           Already have an account?{' '}
-          <Link
-            href="/sign-in"
-            className="text-m ml-3 flex items-center gap-1 text-lime-800 underline"
-          >
+          <Link href="/sign-in" className={styles.form__switch_link}>
             Sign in
             <ArrowRight className="size-4" />
           </Link>

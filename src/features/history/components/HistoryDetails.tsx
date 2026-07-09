@@ -18,6 +18,7 @@ import { DetailItem } from './DetailItem';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import styles from './HistoryDetails.module.css';
 
 interface HistoryDetailsProps {
   record: RequestRecord;
@@ -25,23 +26,21 @@ interface HistoryDetailsProps {
 
 export default function HistoryDetails({ record }: HistoryDetailsProps) {
   return (
-    <section className="w-full max-w-3xl px-4 py-8">
-      <header className="mb-6">
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Request Details
-        </h1>
-        <p className="text-muted-foreground mt-1 text-sm">
+    <section className={styles.details}>
+      <header className={styles.details__header}>
+        <h1 className={styles.details__title}>Request Details</h1>
+        <p className={styles.details__subtitle}>
           Analytics for a single API request
         </p>
       </header>
 
       <Card>
         <CardHeader>
-          <CardTitle className="font-mono text-sm break-all">
+          <CardTitle className={styles.details__record_title}>
             {record.endpoint}
           </CardTitle>
           <CardDescription>{formatTimestamp(record.timestamp)}</CardDescription>
-          <CardAction className="flex gap-2">
+          <CardAction className={styles.details__record_badges}>
             <Badge variant={getMethodVariant(record.method)}>
               {record.method}
             </Badge>
@@ -52,7 +51,7 @@ export default function HistoryDetails({ record }: HistoryDetailsProps) {
         </CardHeader>
 
         <CardContent>
-          <dl className="grid gap-5 sm:grid-cols-2">
+          <dl className={styles.details__grid}>
             <DetailItem
               label="Timestamp"
               value={formatTimestamp(record.timestamp)}
@@ -70,7 +69,7 @@ export default function HistoryDetails({ record }: HistoryDetailsProps) {
               label="Response Size"
               value={formatBytes(record.responseSize)}
             />
-            <div className="sm:col-span-2">
+            <div className={styles.details__error}>
               <DetailItem
                 label="Error Details"
                 value={record.errorDetails ?? '—'}
@@ -80,7 +79,12 @@ export default function HistoryDetails({ record }: HistoryDetailsProps) {
           </dl>
         </CardContent>
       </Card>
-      <Button variant="outline" size="sm" asChild className="mt-2">
+      <Button
+        variant="outline"
+        size="sm"
+        asChild
+        className={styles.details__back}
+      >
         <Link href="/history">
           <ArrowLeft data-icon="inline-start" />
           Back to History

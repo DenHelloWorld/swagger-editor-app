@@ -30,11 +30,12 @@ describe('SplitView', () => {
     const { container } = render(
       <SplitView left={<div>Left</div>} right={<div>Right</div>} />,
     );
-    expect(container.firstChild).toHaveStyle({ flexDirection: 'row' });
+    const root = container.firstChild as HTMLElement;
+    expect(root.className).not.toMatch(/--vertical/);
 
     setWindowSize(400, 900);
     fireEvent(window, new Event('resize'));
 
-    expect(container.firstChild).toHaveStyle({ flexDirection: 'column' });
+    expect(root.className).toMatch(/--vertical/);
   });
 });

@@ -6,8 +6,9 @@ import type { OnMount } from '@monaco-editor/react';
 import { useSchemaStore } from '@/store/schemaStore';
 import { FormatToggle } from '@/features/swagger-editor/components/FormatToggle/FormatToggle';
 import { SaveSchemaButton } from '@/features/swagger-editor/components/SchemaEditor/SaveSchemaButton';
-import { Spinner } from '@/components/ui/spinner';
+import { LoadingIndicator } from '@/components/ui/loading-indicator';
 import { useScrollStore } from '@/store/scrollStore';
+import styles from './SchemaEditor.module.css';
 
 type Props = {
   isRestoring?: boolean;
@@ -15,9 +16,8 @@ type Props = {
 
 function EditorLoadingOverlay() {
   return (
-    <div className="bg-background absolute inset-0 z-10 flex flex-col items-center justify-center gap-2">
-      <Spinner className="size-5" />
-      <span className="text-muted-foreground text-sm">Loading...</span>
+    <div className={styles.editor__loading}>
+      <LoadingIndicator />
     </div>
   );
 }
@@ -44,12 +44,12 @@ export function SchemaEditor({ isRestoring = false }: Props) {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <div className="flex items-center justify-between border-b px-4 py-2">
+    <div className={styles.editor}>
+      <div className={styles.editor__toolbar}>
         <FormatToggle />
         <SaveSchemaButton />
       </div>
-      <div style={{ flex: 1, minHeight: 0, position: 'relative' }}>
+      <div className={styles.editor__body}>
         {isLoading && <EditorLoadingOverlay />}
         <MonacoEditor
           height="100%"
@@ -74,9 +74,9 @@ export function SchemaEditor({ isRestoring = false }: Props) {
         />
       </div>
       {errors.length > 0 && (
-        <div className="border-t bg-red-50 px-4 py-2">
+        <div className={styles.editor__errors}>
           {errors.map((error, i) => (
-            <p key={i} className="text-sm text-red-600">
+            <p key={i} className={styles.editor__error}>
               {error}
             </p>
           ))}

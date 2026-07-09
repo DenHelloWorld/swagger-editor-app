@@ -19,6 +19,7 @@ import {
 import { RequestRecord } from '@/types/dbTypes';
 import { FieldItem } from './FieldItem';
 import { ArrowLeft, Eye } from 'lucide-react';
+import styles from './HistoryList.module.css';
 
 interface HistoryListProps {
   records: RequestRecord[];
@@ -26,28 +27,26 @@ interface HistoryListProps {
 
 export default function HistoryList({ records }: HistoryListProps) {
   return (
-    <section className="w-full max-w-3xl px-4 py-8">
-      <header className="mb-6">
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Request History
-        </h1>
-        <p className="text-muted-foreground mt-1 text-sm">
+    <section className={styles.list}>
+      <header className={styles.list__header}>
+        <h1 className={styles.list__title}>Request History</h1>
+        <p className={styles.list__subtitle}>
           {records.length} request{records.length === 1 ? '' : 's'} recorded
         </p>
       </header>
 
-      <ul className="flex flex-col gap-4">
+      <ul className={styles.list__items}>
         {records.map((record) => (
           <li key={record.id}>
             <Card>
               <CardHeader>
-                <CardTitle className="font-mono text-sm break-all">
+                <CardTitle className={styles.list__record_title}>
                   {record.endpoint}
                 </CardTitle>
                 <CardDescription>
                   {formatTimestamp(record.timestamp)}
                 </CardDescription>
-                <CardAction className="flex gap-2">
+                <CardAction className={styles.list__record_badges}>
                   <Badge variant={getMethodVariant(record.method)}>
                     {record.method}
                   </Badge>
@@ -57,14 +56,14 @@ export default function HistoryList({ records }: HistoryListProps) {
                 </CardAction>
               </CardHeader>
 
-              <CardContent className="grid gap-4 text-sm sm:grid-cols-2">
+              <CardContent className={styles.list__record_content}>
                 <FieldItem
                   label="URL"
                   value={record.url}
                   mono
-                  valueClassName="text-xs"
+                  valueClassName={styles.list__record_url_value}
                 />
-                <div className="grid grid-cols-3 gap-3">
+                <div className={styles.list__record_metrics}>
                   <FieldItem
                     label="Duration"
                     value={`${record.durationMs} ms`}
@@ -79,18 +78,18 @@ export default function HistoryList({ records }: HistoryListProps) {
                   />
                 </div>
                 {record.errorDetails && (
-                  <div className="sm:col-span-2">
+                  <div className={styles.list__record_error}>
                     <FieldItem
                       label="Error Details"
                       value={record.errorDetails}
                       mono
-                      valueClassName="text-destructive text-xs"
+                      valueClassName={styles.list__record_error_value}
                     />
                   </div>
                 )}
               </CardContent>
 
-              <CardFooter className="justify-end">
+              <CardFooter className={styles.list__record_footer}>
                 <Button variant="outline" size="sm" asChild>
                   <Link href={`/history/${record.id}`}>
                     <Eye data-icon="inline-start" />
@@ -102,7 +101,7 @@ export default function HistoryList({ records }: HistoryListProps) {
           </li>
         ))}
       </ul>
-      <Button variant="outline" size="sm" asChild className="mt-2">
+      <Button variant="outline" size="sm" asChild className={styles.list__back}>
         <Link href="/">
           <ArrowLeft data-icon="inline-start" />
           Back to Editor &amp; Viewer

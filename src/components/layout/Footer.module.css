@@ -1,0 +1,17 @@
+@reference "../../app/globals.css";
+
+.footer {
+  @apply w-full border-t;
+}
+
+.footer__bar {
+  @apply flex h-16 items-center justify-center gap-10;
+}
+
+.footer__copyright {
+  @apply text-sm font-medium;
+}
+
+.footer__link--active {
+  @apply text-foreground bg-muted rounded-lg;
+}

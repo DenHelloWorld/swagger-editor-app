@@ -1,10 +1,9 @@
-import { Spinner } from '@/components/ui/spinner';
+import { LoadingIndicator } from '@/components/ui/loading-indicator';
 
 export default function HistoryLoading() {
   return (
-    <section className="flex w-full max-w-3xl flex-col items-center justify-center gap-3 px-4 py-24">
-      <Spinner className="size-8" />
-      <p className="text-muted-foreground text-sm">Loading...</p>
+    <section className="flex w-full max-w-3xl items-center justify-center px-4 py-24">
+      <LoadingIndicator size="lg" />
     </section>
   );
 }
