@@ -13,6 +13,7 @@ type SchemaStore = {
   setFormat: (format: Format) => void;
   setSpec: (processedSpec: ProcessedSpec | null) => void;
   setErrors: (errors: string[]) => void;
+  reset: () => void;
 };
 
 export const useSchemaStore = create<SchemaStore>((set) => ({
@@ -25,4 +26,6 @@ export const useSchemaStore = create<SchemaStore>((set) => ({
   setFormat: (format) => set({ format }),
   setSpec: (processedSpec) => set({ processedSpec }),
   setErrors: (errors) => set({ errors }),
+  reset: () =>
+    set({ processedSpec: null, raw: '', format: 'json', errors: [] }),
 }));
