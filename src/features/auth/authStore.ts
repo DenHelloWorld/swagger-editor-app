@@ -78,11 +78,12 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       await clearSession();
       await firebaseSignOut(auth);
-      useSchemaStore.getState().reset();
       return null;
     } catch (error: unknown) {
       set({ isLoading: false, user: null });
       return getAuthErrorMessage(error);
+    } finally {
+      useSchemaStore.getState().reset();
     }
   },
 }));
