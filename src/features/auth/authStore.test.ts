@@ -46,7 +46,7 @@ describe('authStore', () => {
     getFirebaseAuth.mockReturnValue({ kind: 'auth' });
     signInWithEmailAndPassword.mockRejectedValue(new Error('fail'));
     const result = await useAuthStore.getState().signIn('a@b.com', 'pw');
-    expect(result).toBe('Something went wrong. Please try again.');
+    expect(result).toBe('auth.errors.generic');
   });
 
   it('signUp returns null on success', async () => {
@@ -60,7 +60,7 @@ describe('authStore', () => {
     getFirebaseAuth.mockReturnValue({ kind: 'auth' });
     createUserWithEmailAndPassword.mockRejectedValue(new Error('fail'));
     const result = await useAuthStore.getState().signUp('a@b.com', 'pw');
-    expect(result).toBe('Something went wrong. Please try again.');
+    expect(result).toBe('auth.errors.generic');
   });
 
   it('signOut clears session and signs out', async () => {
@@ -76,7 +76,7 @@ describe('authStore', () => {
     getFirebaseAuth.mockReturnValue({ kind: 'auth' });
     clearSession.mockRejectedValue(new Error('fail'));
     const result = await useAuthStore.getState().signOut();
-    expect(result).toBe('Something went wrong. Please try again.');
+    expect(result).toBe('auth.errors.generic');
     expect(useAuthStore.getState().isLoading).toBe(false);
     expect(useAuthStore.getState().user).toBeNull();
   });

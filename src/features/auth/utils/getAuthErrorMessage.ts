@@ -1,26 +1,22 @@
 import { FirebaseError } from 'firebase/app';
 
-const AUTH_ERROR_MESSAGES: Record<string, string> = {
-  'auth/invalid-email': 'Please enter a valid email address.',
-  'auth/invalid-credential': 'Incorrect email or password.',
-  'auth/wrong-password': 'Incorrect password.',
-  'auth/user-not-found': 'Incorrect email or password.',
-  'auth/email-already-in-use': 'An account with this email already exists.',
-  'auth/weak-password': 'Password must be at least 8 characters.',
-  'auth/too-many-requests': 'Too many attempts. Please try again later.',
-  'auth/user-disabled': 'This account has been disabled.',
-  'auth/network-request-failed':
-    'Network error. Check your connection and try again.',
-  'auth/operation-not-allowed': 'Sign-in is temporarily unavailable.',
+const AUTH_ERROR_KEYS: Record<string, string> = {
+  'auth/invalid-email': 'auth.errors.invalidEmail',
+  'auth/invalid-credential': 'auth.errors.invalidCredential',
+  'auth/wrong-password': 'auth.errors.wrongPassword',
+  'auth/user-not-found': 'auth.errors.invalidCredential',
+  'auth/email-already-in-use': 'auth.errors.emailInUse',
+  'auth/weak-password': 'auth.errors.weakPassword',
+  'auth/too-many-requests': 'auth.errors.tooManyRequests',
+  'auth/user-disabled': 'auth.errors.userDisabled',
+  'auth/network-request-failed': 'auth.errors.networkError',
+  'auth/operation-not-allowed': 'auth.errors.operationNotAllowed',
 };
 
 export function getAuthErrorMessage(error: unknown): string {
   if (error instanceof FirebaseError) {
-    return (
-      AUTH_ERROR_MESSAGES[error.code] ??
-      'Something went wrong. Please try again.'
-    );
+    return AUTH_ERROR_KEYS[error.code] ?? 'auth.errors.generic';
   }
 
-  return 'Something went wrong. Please try again.';
+  return 'auth.errors.generic';
 }

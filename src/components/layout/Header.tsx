@@ -34,7 +34,7 @@ export default function Header() {
   async function handleSignOut() {
     const error = await signOut();
     if (error) {
-      toast.error(error);
+      toast.error(t(error));
       return;
     }
     if (pathname.startsWith('/history')) {

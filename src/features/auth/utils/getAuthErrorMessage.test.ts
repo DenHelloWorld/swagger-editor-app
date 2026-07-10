@@ -4,34 +4,28 @@ import { FirebaseError } from 'firebase/app';
 import { getAuthErrorMessage } from './getAuthErrorMessage';
 
 describe('getAuthErrorMessage', () => {
-  it('returns mapped message for known firebase error code', () => {
+  it('returns mapped key for known firebase error code', () => {
     const error = new FirebaseError('auth/invalid-email', 'Invalid email');
-    expect(getAuthErrorMessage(error)).toBe(
-      'Please enter a valid email address.',
-    );
+    expect(getAuthErrorMessage(error)).toBe('auth.errors.invalidEmail');
   });
 
-  it('returns mapped message for user-not-found', () => {
+  it('returns mapped key for user-not-found', () => {
     const error = new FirebaseError('auth/user-not-found', 'not found');
-    expect(getAuthErrorMessage(error)).toBe('Incorrect email or password.');
+    expect(getAuthErrorMessage(error)).toBe('auth.errors.invalidCredential');
   });
 
-  it('returns default message for unknown firebase error code', () => {
+  it('returns default key for unknown firebase error code', () => {
     const error = new FirebaseError('auth/unknown-error', 'unknown');
-    expect(getAuthErrorMessage(error)).toBe(
-      'Something went wrong. Please try again.',
-    );
+    expect(getAuthErrorMessage(error)).toBe('auth.errors.generic');
   });
 
-  it('returns default message for non-firebase error', () => {
+  it('returns default key for non-firebase error', () => {
     expect(getAuthErrorMessage(new Error('random'))).toBe(
-      'Something went wrong. Please try again.',
+      'auth.errors.generic',
     );
   });
 
-  it('returns default message for non-error value', () => {
-    expect(getAuthErrorMessage('string error')).toBe(
-      'Something went wrong. Please try again.',
-    );
+  it('returns default key for non-error value', () => {
+    expect(getAuthErrorMessage('string error')).toBe('auth.errors.generic');
   });
 });
