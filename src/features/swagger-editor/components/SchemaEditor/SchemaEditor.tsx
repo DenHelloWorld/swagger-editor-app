@@ -63,6 +63,7 @@ export function SchemaEditor({ isRestoring = false }: Props) {
             fontSize: 14,
             scrollBeyondLastLine: false,
             automaticLayout: true,
+            wordWrap: 'on',
             scrollbar: {
               verticalScrollbarSize: 10,
               horizontalScrollbarSize: 10,
