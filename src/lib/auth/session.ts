@@ -1,7 +1,7 @@
 import { getFirebaseAdminAuth } from '@/lib/db/firebase/admin';
+import { SESSION_COOKIE_NAME, SESSION_EXPIRES_IN_MS } from './sessionCookie';
 
-export const SESSION_COOKIE_NAME = '__session';
-export const SESSION_EXPIRES_IN_MS = 5 * 24 * 60 * 60 * 1000;
+export { SESSION_COOKIE_NAME, SESSION_EXPIRES_IN_MS };
 
 export async function createSessionCookie(idToken: string): Promise<string> {
   return getFirebaseAdminAuth().createSessionCookie(idToken, {

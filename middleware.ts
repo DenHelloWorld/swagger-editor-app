@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { SESSION_COOKIE_NAME } from '@/lib/auth/session';
+import { SESSION_COOKIE_NAME } from '@/lib/auth/sessionCookie';
 
 const PROTECTED_PATHS = ['/history'];
 
