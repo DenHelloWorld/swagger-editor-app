@@ -1,7 +1,6 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
-import { Separator } from '@/components/ui/separator';
 import { TeamMemberCard } from '@/features/about/components/TeamMemberCard/TeamMemberCard';
 import { TechCard } from '@/features/about/components/TechCard/TechCard';
 import { team } from '@/features/about/data/team';
@@ -30,8 +29,6 @@ export default function About() {
         <p className={styles.section__text}>{t('about.description')}</p>
       </div>
 
-      <Separator />
-
       <div className={styles.section}>
         <h2 className={styles.section__title}>{t('about.builtWithTitle')}</h2>
         <div className={styles.stack}>
@@ -40,8 +37,6 @@ export default function About() {
           ))}
         </div>
       </div>
-
-      <Separator />
 
       <div className={styles.section}>
         <h2 className={styles.section__title}>{t('about.teamTitle')}</h2>

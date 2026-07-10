@@ -21,6 +21,138 @@
   "common": {
     "save": ""
   },
+  "history": {
+    "emptyTitle": "You haven't executed any requests yet.",
+    "emptyHint": "Use the Editor to define your OpenAPI schema and the Viewer to send requests. Executed requests will appear here automatically.",
+    "goToEditor": "Go to Editor & Viewer",
+    "listTitle": "Request History",
+    "recordCount_one": "{{count}} request recorded",
+    "recordCount_other": "{{count}} requests recorded",
+    "details": "Details",
+    "backToHistory": "Back to History",
+    "backToEditor": "Back to Editor & Viewer",
+    "detailsTitle": "Request Details",
+    "detailsSubtitle": "Analytics for a single API request",
+    "fields": {
+      "timestamp": "Timestamp",
+      "method": "Method",
+      "statusCode": "Status Code",
+      "duration": "Duration",
+      "endpoint": "Endpoint",
+      "url": "URL",
+      "requestSize": "Request Size",
+      "responseSize": "Response Size",
+      "errorDetails": "Error Details",
+      "request": "Request",
+      "response": "Response"
+    }
+  },
+  "auth": {
+    "form": {
+      "signInTitle": "Sign In Form",
+      "signUpTitle": "Sign Up Form",
+      "signInSubtitle": "Please, insert your email and password",
+      "signUpSubtitle": "Please, insert your email, password, then confirm your password",
+      "emailLabel": "Your email",
+      "emailPlaceholder": "example@gmail.com",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Confirm Password",
+      "submitting": "Submitting...",
+      "submit": "Submit",
+      "noAccount": "Don't have an account yet?",
+      "signUpLink": "Sign up",
+      "hasAccount": "Already have an account?",
+      "signInLink": "Sign in",
+      "errors": {
+        "passwordMinLength": "Password must contain at least 8 characters",
+        "passwordLetter": "Password must contain at least one letter",
+        "passwordDigit": "Must contain at least one digit",
+        "passwordSpecial": "Must contain at least one special character",
+        "passwordRequired": "Password is required",
+        "confirmPasswordRequired": "Please confirm your password",
+        "passwordsMismatch": "Passwords should match"
+      }
+    },
+    "toast": {
+      "welcomeBack": "Welcome back",
+      "accountCreated": "Account created"
+    },
+    "errors": {
+      "invalidEmail": "Please enter a valid email address.",
+      "invalidCredential": "Incorrect email or password.",
+      "wrongPassword": "Incorrect password.",
+      "emailInUse": "An account with this email already exists.",
+      "weakPassword": "Password must be at least 8 characters.",
+      "tooManyRequests": "Too many attempts. Please try again later.",
+      "userDisabled": "This account has been disabled.",
+      "networkError": "Network error. Check your connection and try again.",
+      "operationNotAllowed": "Sign-in is temporarily unavailable.",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "viewer": {
+    "table": {
+      "name": "Name",
+      "description": "Description",
+      "required": "* required"
+    },
+    "parameters": {
+      "title": "Parameters"
+    },
+    "requestBody": {
+      "title": "Request Body"
+    },
+    "responses": {
+      "title": "Responses"
+    },
+    "example": {
+      "title": "Example"
+    },
+    "emptyState": {
+      "title": "No schema loaded",
+      "hint": "Paste or upload an OpenAPI schema in the editor to see endpoints here."
+    },
+    "tryItOut": {
+      "open": "Try it out",
+      "hide": "Hide",
+      "serverUrl": "Server URL",
+      "serverUrlPlaceholder": "https://api.example.com",
+      "pathParameters": "Path Parameters",
+      "queryParameters": "Query Parameters",
+      "headerParameters": "Header Parameters",
+      "cookieParameters": "Cookie Parameters",
+      "requestBody": "Request Body",
+      "valuePlaceholder": "value",
+      "execute": "Execute",
+      "executing": "Executing…",
+      "generateCurl": "Generate cURL",
+      "response": "Response",
+      "responseBody": "Response body",
+      "responseHeaders": "Response headers",
+      "curlCopied": "cURL command copied to clipboard",
+      "curlCopyFailed": "Failed to copy cURL command",
+      "invalidServerUrl": "Please enter a valid Server URL"
+    }
+  },
+  "editor": {
+    "save": "Save",
+    "saving": "Saving...",
+    "saved": "Saved",
+    "errors": {
+      "validationUnavailable": "Validation is temporarily unavailable",
+      "validationFailed": "Something went wrong while validating your schema. Your edits are safe.",
+      "restoreFailed": "Could not restore your saved schema. You can keep working or try refreshing."
+    }
+  },
+  "notFound": {
+    "message": "This page doesn’t exist",
+    "backHome": "Back to Main page"
+  },
+  "errorPage": {
+    "title": "Something went wrong",
+    "message": "An unexpected error occurred. You can try again to reload this section.",
+    "retry": "Try again"
+  },
   "toast": {},
   "errors": {}
 }

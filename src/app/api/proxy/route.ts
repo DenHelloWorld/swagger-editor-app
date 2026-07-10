@@ -14,9 +14,7 @@ async function recordHistory(record: RequestRecordInput): Promise<void> {
   if (!userId) return;
   try {
     await saveRequestRecord(userId, record);
-  } catch {
-    // best-effort — the caller's response already reflects the real outcome
-  }
+  } catch {}
 }
 
 const HOP_BY_HOP = new Set([

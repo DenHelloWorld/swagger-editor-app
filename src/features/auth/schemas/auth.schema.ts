@@ -1,33 +1,46 @@
 import { z } from 'zod';
+import type { TFunction } from 'i18next';
 
-export const emailSchema = z.email('Must be a valid email address');
-export const passwordSchema = z
-  .string()
-  .min(8, { message: 'Password must contain at least 8 characters' })
-  .refine((value) => /\p{L}/u.test(value), {
-    message: 'Password must contain at least one letter',
-  })
-  .refine((value) => /\p{N}/u.test(value), {
-    message: 'Must contain at least one digit',
-  })
-  .refine((value) => /[^\p{L}\p{N}\s]/u.test(value), {
-    message: 'Must contain at least one special character',
+export function createEmailSchema(t: TFunction) {
+  return z.email(t('auth.errors.invalidEmail'));
+}
+
+export function createPasswordSchema(t: TFunction) {
+  return z
+    .string()
+    .min(8, { message: t('auth.form.errors.passwordMinLength') })
+    .refine((value) => /\p{L}/u.test(value), {
+      message: t('auth.form.errors.passwordLetter'),
+    })
+    .refine((value) => /\p{N}/u.test(value), {
+      message: t('auth.form.errors.passwordDigit'),
+    })
+    .refine((value) => /[^\p{L}\p{N}\s]/u.test(value), {
+      message: t('auth.form.errors.passwordSpecial'),
+    });
+}
+
+export function createSignInSchema(t: TFunction) {
+  return z.object({
+    email: createEmailSchema(t),
+    password: z.string().min(1, t('auth.form.errors.passwordRequired')),
   });
+}
 
-export const signInSchema = z.object({
-  email: emailSchema,
-  password: z.string().min(1, 'Password is required'),
-});
+export function createSignUpSchema(t: TFunction) {
+  return z
+    .object({
+      email: createEmailSchema(t),
+      password: createPasswordSchema(t),
+      confirmPassword: z
+        .string()
+        .min(1, t('auth.form.errors.confirmPasswordRequired')),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: t('auth.form.errors.passwordsMismatch'),
+      path: ['confirmPassword'],
+    });
+}
 
-export const signUpSchema = z
-  .object({
-    email: emailSchema,
-    password: passwordSchema,
-    confirmPassword: z.string().min(1, 'Please confirm your password'),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords should match',
-    path: ['confirmPassword'],
-  });
-export type SignInFields = z.infer<typeof signInSchema>;
-export type SignUpFields = z.infer<typeof signUpSchema>;
+export type SignInFields = z.infer<ReturnType<typeof createSignInSchema>>;
+export type SignUpFields = z.infer<ReturnType<typeof createSignUpSchema>>;

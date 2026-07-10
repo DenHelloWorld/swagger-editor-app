@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import styles from './SplitView.module.css';
 
 type Props = {
   left: React.ReactNode;
@@ -22,16 +23,10 @@ export function SplitView({ left, right }: Props) {
 
   return (
     <div
-      style={{
-        display: 'flex',
-        flexDirection: isHorizontal ? 'row' : 'column',
-        flex: 1,
-        minHeight: 0,
-        width: '100%',
-      }}
+      className={`${styles.split} ${!isHorizontal ? styles['split--vertical'] : ''}`}
     >
-      <div style={{ flex: 1, overflow: 'auto' }}>{left}</div>
-      <div style={{ flex: 1, overflow: 'auto' }}>{right}</div>
+      <div className={styles.split__panel}>{left}</div>
+      <div className={styles.split__panel}>{right}</div>
     </div>
   );
 }

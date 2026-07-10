@@ -1,9 +1,11 @@
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSchemaStore } from '@/store/schemaStore';
 import { parseSchema, validateSchema, processSpec } from '@/utils/openapi';
 import { toast } from 'sonner';
 
 export const useSchemaSync = () => {
+  const { t } = useTranslation();
   const { raw, format, setFormat, setSpec, setErrors } = useSchemaStore();
   const hadUnexpectedError = useRef(false);
 
@@ -41,17 +43,15 @@ export const useSchemaSync = () => {
         })
         .catch(() => {
           setSpec(null);
-          setErrors(['Validation is temporarily unavailable']);
+          setErrors([t('editor.errors.validationUnavailable')]);
 
           if (!hadUnexpectedError.current) {
             hadUnexpectedError.current = true;
-            toast.error(
-              'Something went wrong while validating your schema. Your edits are safe.',
-            );
+            toast.error(t('editor.errors.validationFailed'));
           }
         });
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [raw, format]);
+  }, [raw, format, t]);
 };

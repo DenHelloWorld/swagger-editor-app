@@ -6,7 +6,7 @@ import type { ProcessedSpec } from '@/types/openapi';
 describe('EndpointList', () => {
   it('renders empty state when spec is null', () => {
     render(<EndpointList spec={null} />);
-    expect(screen.getByText('No schema loaded')).toBeInTheDocument();
+    expect(screen.getByText('viewer.emptyState.title')).toBeInTheDocument();
   });
 
   it('renders groups when spec is provided', () => {

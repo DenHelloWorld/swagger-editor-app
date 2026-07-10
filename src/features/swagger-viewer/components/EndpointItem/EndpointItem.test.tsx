@@ -43,7 +43,7 @@ describe('EndpointItem', () => {
     expect(screen.getByText('Create pet')).toBeInTheDocument();
     fireEvent.click(screen.getByText('Create pet'));
     expect(await screen.findByText('Creates a pet')).toBeInTheDocument();
-    expect(screen.getByText('Try it out')).toBeInTheDocument();
+    expect(screen.getByText('viewer.tryItOut.open')).toBeInTheDocument();
   });
 
   it('renders without summary, description, parameters, requestBody, responses', () => {

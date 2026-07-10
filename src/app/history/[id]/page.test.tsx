@@ -66,6 +66,6 @@ describe('History details page', () => {
     getRequestRecordById.mockResolvedValue(record);
     render(await Details({ params: Promise.resolve({ id: 'rec-1' }) }));
     expect(getRequestRecordById).toHaveBeenCalledWith('user-1', 'rec-1');
-    expect(screen.getByText('Request Details')).toBeInTheDocument();
+    expect(screen.getByText('history.detailsTitle')).toBeInTheDocument();
   });
 });

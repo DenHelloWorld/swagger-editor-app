@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/features/auth/useAuth';
 import { useSchemaStore } from '@/store/schemaStore';
 import { getUserSchema } from '@/lib/db/userSchema';
 import { toast } from 'sonner';
 
 export function useSchemaRestore() {
+  const { t } = useTranslation();
   const { user, isLoading: isAuthLoading } = useAuth();
   const setRaw = useSchemaStore((s) => s.setRaw);
   const setFormat = useSchemaStore((s) => s.setFormat);
@@ -26,9 +28,7 @@ export function useSchemaRestore() {
       })
       .catch(() => {
         if (cancelled) return;
-        toast.error(
-          'Could not restore your saved schema. You can keep working or try refreshing.',
-        );
+        toast.error(t('editor.errors.restoreFailed'));
       })
       .finally(() => {
         if (!cancelled) {
@@ -40,6 +40,6 @@ export function useSchemaRestore() {
     return () => {
       cancelled = true;
     };
-  }, [user, isAuthLoading, setRaw, setFormat]);
+  }, [user, isAuthLoading, setRaw, setFormat, t]);
   return { isRestoring };
 }

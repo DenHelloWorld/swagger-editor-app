@@ -59,14 +59,18 @@ describe('AuthForm', () => {
 
   it('renders the sign in form', () => {
     render(<AuthForm type="Sign In" />);
-    expect(screen.getByText('Sign In Form')).toBeInTheDocument();
-    expect(screen.queryByLabelText('Confirm Password')).not.toBeInTheDocument();
+    expect(screen.getByText('auth.form.signInTitle')).toBeInTheDocument();
+    expect(
+      screen.queryByLabelText('auth.form.confirmPasswordLabel'),
+    ).not.toBeInTheDocument();
   });
 
   it('renders the sign up form with confirm password field', () => {
     render(<AuthForm type="Sign Up" />);
-    expect(screen.getByText('Sign Up Form')).toBeInTheDocument();
-    expect(screen.getByLabelText('Confirm Password')).toBeInTheDocument();
+    expect(screen.getByText('auth.form.signUpTitle')).toBeInTheDocument();
+    expect(
+      screen.getByLabelText('auth.form.confirmPasswordLabel'),
+    ).toBeInTheDocument();
   });
 
   it('submits valid sign in credentials', async () => {
@@ -74,8 +78,11 @@ describe('AuthForm', () => {
     const user = userEvent.setup();
     render(<AuthForm type="Sign In" />);
 
-    await user.type(screen.getByLabelText('Your email'), 'a@b.com');
-    await user.type(screen.getByLabelText('Password'), 'password1');
+    await user.type(screen.getByLabelText('auth.form.emailLabel'), 'a@b.com');
+    await user.type(
+      screen.getByLabelText('auth.form.passwordLabel'),
+      'password1',
+    );
     const submit = screen.getByRole('button', { name: /submit/i });
     await waitFor(() => expect(submit).toBeEnabled());
     await user.click(submit);
@@ -90,9 +97,12 @@ describe('AuthForm', () => {
     const user = userEvent.setup();
     render(<AuthForm type="Sign In" />);
 
-    await user.type(screen.getByLabelText('Your email'), 'a@b.com');
-    await user.type(screen.getByLabelText('Password'), 'password1');
-    const submit = screen.getByRole('button', { name: /submit/i });
+    await user.type(screen.getByLabelText('auth.form.emailLabel'), 'a@b.com');
+    await user.type(
+      screen.getByLabelText('auth.form.passwordLabel'),
+      'password1',
+    );
+    const submit = screen.getByRole('button', { name: /auth.form.submit/i });
     await waitFor(() => expect(submit).toBeEnabled());
     await user.click(submit);
 
@@ -115,7 +125,7 @@ describe('AuthForm', () => {
   it('redirects and shows success toast when authenticated', () => {
     mockUseAuth.isAuthenticated = true;
     render(<AuthForm type="Sign In" />);
-    expect(toast.success).toHaveBeenCalledWith('Welcome back');
+    expect(toast.success).toHaveBeenCalledWith('auth.toast.welcomeBack');
     expect(replace).toHaveBeenCalledWith('/');
   });
 });

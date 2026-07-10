@@ -10,6 +10,7 @@
 
 .list__empty {
   @apply h-full rounded-none border-none shadow-none;
+  background-color: transparent !important;
 }
 
 .list__empty_content {

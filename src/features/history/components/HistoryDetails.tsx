@@ -1,3 +1,6 @@
+'use client';
+
+import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
 import {
   Card,
@@ -17,30 +20,31 @@ import {
 import { DetailItem } from './DetailItem';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
+import styles from './HistoryDetails.module.css';
 
 interface HistoryDetailsProps {
   record: RequestRecord;
 }
 
 export default function HistoryDetails({ record }: HistoryDetailsProps) {
+  const { t } = useTranslation();
   return (
-    <section className="w-full max-w-3xl px-4 py-8">
-      <header className="mb-6">
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Request Details
-        </h1>
-        <p className="text-muted-foreground mt-1 text-sm">
-          Analytics for a single API request
+    <section className={styles.details}>
+      <header className={styles.details__header}>
+        <h1 className={styles.details__title}>{t('history.detailsTitle')}</h1>
+        <p className={styles.details__subtitle}>
+          {t('history.detailsSubtitle')}
         </p>
       </header>
 
       <Card>
         <CardHeader>
-          <CardTitle className="font-mono text-sm break-all">
+          <CardTitle className={styles.details__record_title}>
             {record.endpoint}
           </CardTitle>
           <CardDescription>{formatTimestamp(record.timestamp)}</CardDescription>
-          <CardAction className="flex gap-2">
+          <CardAction className={styles.details__record_badges}>
             <Badge variant={getMethodVariant(record.method)}>
               {record.method}
             </Badge>
@@ -51,27 +55,44 @@ export default function HistoryDetails({ record }: HistoryDetailsProps) {
         </CardHeader>
 
         <CardContent>
-          <dl className="grid gap-5 sm:grid-cols-2">
+          <dl className={styles.details__grid}>
             <DetailItem
-              label="Timestamp"
+              label={t('history.fields.timestamp')}
               value={formatTimestamp(record.timestamp)}
             />
-            <DetailItem label="Method" value={record.method} />
-            <DetailItem label="Status Code" value={record.statusCode} />
-            <DetailItem label="Duration" value={`${record.durationMs} ms`} />
-            <DetailItem label="Endpoint" value={record.endpoint} mono />
-            <DetailItem label="URL" value={record.url} mono />
             <DetailItem
-              label="Request Size"
+              label={t('history.fields.method')}
+              value={record.method}
+            />
+            <DetailItem
+              label={t('history.fields.statusCode')}
+              value={record.statusCode}
+            />
+            <DetailItem
+              label={t('history.fields.duration')}
+              value={`${record.durationMs} ms`}
+            />
+            <DetailItem
+              label={t('history.fields.endpoint')}
+              value={record.endpoint}
+              mono
+            />
+            <DetailItem
+              label={t('history.fields.url')}
+              value={record.url}
+              mono
+            />
+            <DetailItem
+              label={t('history.fields.requestSize')}
               value={formatBytes(record.requestSize)}
             />
             <DetailItem
-              label="Response Size"
+              label={t('history.fields.responseSize')}
               value={formatBytes(record.responseSize)}
             />
-            <div className="sm:col-span-2">
+            <div className={styles.details__error}>
               <DetailItem
-                label="Error Details"
+                label={t('history.fields.errorDetails')}
                 value={record.errorDetails ?? '—'}
                 mono={Boolean(record.errorDetails)}
               />
@@ -79,8 +100,16 @@ export default function HistoryDetails({ record }: HistoryDetailsProps) {
           </dl>
         </CardContent>
       </Card>
-      <Button variant="outline" size="sm" asChild className="mt-2">
-        <Link href="/history">Back to History</Link>
+      <Button
+        variant="outline"
+        size="sm"
+        asChild
+        className={styles.details__back}
+      >
+        <Link href="/history">
+          <ArrowLeft data-icon="inline-start" />
+          {t('history.backToHistory')}
+        </Link>
       </Button>
     </section>
   );

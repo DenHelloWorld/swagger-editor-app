@@ -1,13 +1,18 @@
 // @vitest-environment node
 import { describe, it, expect } from 'vitest';
+import type { TFunction } from 'i18next';
 import {
-  emailSchema,
-  passwordSchema,
-  signInSchema,
-  signUpSchema,
+  createEmailSchema,
+  createPasswordSchema,
+  createSignInSchema,
+  createSignUpSchema,
 } from './auth.schema';
 
+const t = ((key: string) => key) as TFunction;
+
 describe('emailSchema', () => {
+  const emailSchema = createEmailSchema(t);
+
   it('accepts valid email', () => {
     expect(emailSchema.safeParse('a@b.com').success).toBe(true);
   });
@@ -18,6 +23,8 @@ describe('emailSchema', () => {
 });
 
 describe('passwordSchema', () => {
+  const passwordSchema = createPasswordSchema(t);
+
   it('accepts a strong password', () => {
     expect(passwordSchema.safeParse('Abcdef1!').success).toBe(true);
   });
@@ -40,6 +47,8 @@ describe('passwordSchema', () => {
 });
 
 describe('signInSchema', () => {
+  const signInSchema = createSignInSchema(t);
+
   it('accepts valid sign in data', () => {
     const result = signInSchema.safeParse({
       email: 'a@b.com',
@@ -55,6 +64,8 @@ describe('signInSchema', () => {
 });
 
 describe('signUpSchema', () => {
+  const signUpSchema = createSignUpSchema(t);
+
   it('accepts matching passwords', () => {
     const result = signUpSchema.safeParse({
       email: 'a@b.com',

@@ -22,18 +22,22 @@ import { useAuth } from '../useAuth';
 import { Controller, useForm } from 'react-hook-form';
 import {
   SignUpFields,
-  signUpSchema,
+  createSignUpSchema,
   SignInFields,
-  signInSchema,
+  createSignInSchema,
 } from '../schemas/auth.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
+import { ArrowRight, LogIn, UserPlus } from 'lucide-react';
+import styles from './AuthForm.module.css';
 
 export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
   const router = useRouter();
+  const { t } = useTranslation();
   const {
     isAuthenticated,
     signUp,
@@ -51,19 +55,28 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
 
   useEffect(() => {
     if (isAuthenticated) {
-      toast.success(type === 'Sign In' ? 'Welcome back' : 'Account created');
+      toast.success(
+        type === 'Sign In'
+          ? t('auth.toast.welcomeBack')
+          : t('auth.toast.accountCreated'),
+      );
       router.replace('/');
     }
-  }, [isAuthenticated, router, type]);
+  }, [isAuthenticated, router, type, t]);
 
   useEffect(() => {
     if (!sessionError) return;
-    toast.error(sessionError, { position: 'top-center' });
+    toast.error(t(sessionError), { position: 'top-center' });
     clearSessionError();
-  }, [sessionError, clearSessionError]);
+  }, [sessionError, clearSessionError, t]);
+
+  const schema = useMemo(
+    () => (type === 'Sign In' ? createSignInSchema(t) : createSignUpSchema(t)),
+    [type, t],
+  );
 
   const form = useForm<SignUpFields | SignInFields>({
-    resolver: zodResolver(type === 'Sign In' ? signInSchema : signUpSchema),
+    resolver: zodResolver(schema),
     defaultValues,
     mode: 'onChange',
   });
@@ -75,7 +88,7 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
         : await signUp(data.email, data.password);
 
     if (authError) {
-      toast.error(authError, { position: 'top-center' });
+      toast.error(t(authError), { position: 'top-center' });
       return;
     }
 
@@ -92,13 +105,17 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
   const isSubmitting = form.formState.isSubmitting;
 
   return (
-    <Card className="w-full sm:max-w-md">
+    <Card className={styles.form}>
       <CardHeader>
-        <CardTitle>{type} Form</CardTitle>
+        <CardTitle>
+          {type === 'Sign In'
+            ? t('auth.form.signInTitle')
+            : t('auth.form.signUpTitle')}
+        </CardTitle>
         <CardDescription>
           {type === 'Sign In'
-            ? 'Please, insert your email and password'
-            : 'Please, insert your email, password, then confirm your password'}
+            ? t('auth.form.signInSubtitle')
+            : t('auth.form.signUpSubtitle')}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -109,12 +126,14 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="email">Your email</FieldLabel>
+                  <FieldLabel htmlFor="email">
+                    {t('auth.form.emailLabel')}
+                  </FieldLabel>
                   <Input
                     {...field}
                     id="email"
                     aria-invalid={fieldState.invalid}
-                    placeholder="example@gmail.com"
+                    placeholder={t('auth.form.emailPlaceholder')}
                     autoComplete="email"
                   />
                   {fieldState.invalid && (
@@ -129,7 +148,9 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
+                  <FieldLabel htmlFor="password">
+                    {t('auth.form.passwordLabel')}
+                  </FieldLabel>
                   <PasswordInput
                     {...field}
                     id="password"
@@ -152,7 +173,7 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor="confirmPassword">
-                      Confirm Password
+                      {t('auth.form.confirmPasswordLabel')}
                     </FieldLabel>
                     <PasswordInput
                       {...field}
@@ -173,37 +194,40 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
             disabled={!form.formState.isValid || isSubmitting}
             type="submit"
             form="auth-form"
-            className="mt-3"
+            className={styles.form__submit}
           >
             {isSubmitting ? (
               <>
                 <Spinner data-icon="inline-start" />
-                Submitting...
+                {t('auth.form.submitting')}
               </>
             ) : (
-              'Submit'
+              <>
+                {type === 'Sign In' ? (
+                  <LogIn data-icon="inline-start" />
+                ) : (
+                  <UserPlus data-icon="inline-start" />
+                )}
+                {t('auth.form.submit')}
+              </>
             )}
           </Button>
         </form>
       </CardContent>
       {type === 'Sign In' ? (
         <CardFooter>
-          Don&apos;t have an account yet?{' '}
-          <Link
-            href="/sign-up"
-            className="text-m ml-3 flex items-center space-x-2 text-lime-800 underline"
-          >
-            Sign up
+          {t('auth.form.noAccount')}{' '}
+          <Link href="/sign-up" className={styles.form__switch_link}>
+            {t('auth.form.signUpLink')}
+            <ArrowRight className="size-4" />
           </Link>
         </CardFooter>
       ) : (
         <CardFooter>
-          Already have an account?{' '}
-          <Link
-            href="/sign-in"
-            className="text-m ml-3 flex items-center space-x-2 text-lime-800 underline"
-          >
-            Sign in
+          {t('auth.form.hasAccount')}{' '}
+          <Link href="/sign-in" className={styles.form__switch_link}>
+            {t('auth.form.signInLink')}
+            <ArrowRight className="size-4" />
           </Link>
         </CardFooter>
       )}

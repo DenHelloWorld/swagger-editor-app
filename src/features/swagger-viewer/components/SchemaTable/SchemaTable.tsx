@@ -1,3 +1,6 @@
+'use client';
+
+import { useTranslation } from 'react-i18next';
 import type { ProcessedSchemaProperty } from '@/types/openapi';
 import {
   Table,
@@ -14,13 +17,14 @@ type Props = {
 };
 
 export function SchemaTable({ properties }: Props) {
+  const { t } = useTranslation();
   if (!properties.length) return null;
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Name</TableHead>
-          <TableHead>Description</TableHead>
+          <TableHead>{t('viewer.table.name')}</TableHead>
+          <TableHead>{t('viewer.table.description')}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -31,7 +35,9 @@ export function SchemaTable({ properties }: Props) {
                 <div className={styles.cell__header}>
                   <p className={styles.cell__name}>{name}</p>
                   {required && (
-                    <span className={styles.cell__required}>* required</span>
+                    <span className={styles.cell__required}>
+                      {t('viewer.table.required')}
+                    </span>
                   )}
                 </div>
                 <p className={styles.cell__type}>

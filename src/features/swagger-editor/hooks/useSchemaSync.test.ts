@@ -121,7 +121,7 @@ describe('useSchemaSync', () => {
 
     expect(toast.error).toHaveBeenCalledTimes(1);
     expect(useSchemaStore.getState().errors).toEqual([
-      'Validation is temporarily unavailable',
+      'editor.errors.validationUnavailable',
     ]);
   });
 });

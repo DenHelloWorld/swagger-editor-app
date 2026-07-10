@@ -1,3 +1,6 @@
+'use client';
+
+import { useTranslation } from 'react-i18next';
 import type { ProcessedResponse } from '@/types/openapi';
 import { Badge } from '@/components/ui/badge';
 import { ExampleBlock } from '../ExampleBlock/ExampleBlock';
@@ -9,9 +12,10 @@ type Props = {
 };
 
 export function ResponsesSection({ responses }: Props) {
+  const { t } = useTranslation();
   return (
     <div className={styles.root}>
-      <p className={styles.title}>Responses</p>
+      <p className={styles.title}>{t('viewer.responses.title')}</p>
       {responses.map(
         ({
           statusCode,

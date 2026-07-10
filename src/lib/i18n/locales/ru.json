@@ -21,6 +21,140 @@
   "common": {
     "save": ""
   },
+  "history": {
+    "emptyTitle": "Вы ещё не выполнили ни одного запроса.",
+    "emptyHint": "Опишите схему OpenAPI в редакторе и отправьте запрос во вьювере — выполненные запросы появятся здесь автоматически.",
+    "goToEditor": "Перейти к редактору и вьюверу",
+    "listTitle": "История запросов",
+    "recordCount_one": "{{count}} запрос записан",
+    "recordCount_few": "{{count}} запроса записано",
+    "recordCount_many": "{{count}} запросов записано",
+    "recordCount_other": "{{count}} запросов записано",
+    "details": "Подробнее",
+    "backToHistory": "Назад к истории",
+    "backToEditor": "Назад к редактору и вьюверу",
+    "detailsTitle": "Детали запроса",
+    "detailsSubtitle": "Аналитика по одному API-запросу",
+    "fields": {
+      "timestamp": "Время",
+      "method": "Метод",
+      "statusCode": "Код статуса",
+      "duration": "Длительность",
+      "endpoint": "Эндпоинт",
+      "url": "URL",
+      "requestSize": "Размер запроса",
+      "responseSize": "Размер ответа",
+      "errorDetails": "Детали ошибки",
+      "request": "Запрос",
+      "response": "Ответ"
+    }
+  },
+  "auth": {
+    "form": {
+      "signInTitle": "Форма входа",
+      "signUpTitle": "Форма регистрации",
+      "signInSubtitle": "Пожалуйста, введите email и пароль",
+      "signUpSubtitle": "Пожалуйста, введите email, пароль и подтвердите его",
+      "emailLabel": "Ваш email",
+      "emailPlaceholder": "example@gmail.com",
+      "passwordLabel": "Пароль",
+      "confirmPasswordLabel": "Подтвердите пароль",
+      "submitting": "Отправка...",
+      "submit": "Отправить",
+      "noAccount": "Ещё нет аккаунта?",
+      "signUpLink": "Зарегистрироваться",
+      "hasAccount": "Уже есть аккаунт?",
+      "signInLink": "Войти",
+      "errors": {
+        "passwordMinLength": "Пароль должен содержать не менее 8 символов",
+        "passwordLetter": "Пароль должен содержать хотя бы одну букву",
+        "passwordDigit": "Должна быть хотя бы одна цифра",
+        "passwordSpecial": "Должен быть хотя бы один спецсимвол",
+        "passwordRequired": "Введите пароль",
+        "confirmPasswordRequired": "Подтвердите пароль",
+        "passwordsMismatch": "Пароли не совпадают"
+      }
+    },
+    "toast": {
+      "welcomeBack": "С возвращением",
+      "accountCreated": "Аккаунт создан"
+    },
+    "errors": {
+      "invalidEmail": "Введите корректный email.",
+      "invalidCredential": "Неверный email или пароль.",
+      "wrongPassword": "Неверный пароль.",
+      "emailInUse": "Аккаунт с таким email уже существует.",
+      "weakPassword": "Пароль должен содержать не менее 8 символов.",
+      "tooManyRequests": "Слишком много попыток. Попробуйте позже.",
+      "userDisabled": "Этот аккаунт заблокирован.",
+      "networkError": "Ошибка сети. Проверьте подключение и попробуйте снова.",
+      "operationNotAllowed": "Вход временно недоступен.",
+      "generic": "Что-то пошло не так. Попробуйте снова."
+    }
+  },
+  "viewer": {
+    "table": {
+      "name": "Название",
+      "description": "Описание",
+      "required": "* обязательно"
+    },
+    "parameters": {
+      "title": "Параметры"
+    },
+    "requestBody": {
+      "title": "Тело запроса"
+    },
+    "responses": {
+      "title": "Ответы"
+    },
+    "example": {
+      "title": "Пример"
+    },
+    "emptyState": {
+      "title": "Схема не загружена",
+      "hint": "Вставьте или загрузите схему OpenAPI в редакторе, чтобы увидеть эндпоинты здесь."
+    },
+    "tryItOut": {
+      "open": "Попробовать",
+      "hide": "Скрыть",
+      "serverUrl": "URL сервера",
+      "serverUrlPlaceholder": "https://api.example.com",
+      "pathParameters": "Параметры пути",
+      "queryParameters": "Параметры запроса",
+      "headerParameters": "Параметры заголовков",
+      "cookieParameters": "Параметры cookie",
+      "requestBody": "Тело запроса",
+      "valuePlaceholder": "значение",
+      "execute": "Выполнить",
+      "executing": "Выполняется…",
+      "generateCurl": "Сгенерировать cURL",
+      "response": "Ответ",
+      "responseBody": "Тело ответа",
+      "responseHeaders": "Заголовки ответа",
+      "curlCopied": "Команда cURL скопирована в буфер обмена",
+      "curlCopyFailed": "Не удалось скопировать команду cURL",
+      "invalidServerUrl": "Введите корректный URL сервера"
+    }
+  },
+  "editor": {
+    "save": "Сохранить",
+    "saving": "Сохранение...",
+    "saved": "Сохранено",
+    "errors": {
+      "validationUnavailable": "Проверка временно недоступна",
+      "validationFailed": "Что-то пошло не так при проверке схемы. Ваши изменения в безопасности.",
+      "restoreFailed": "Не удалось восстановить сохранённую схему. Можно продолжить работу или обновить страницу."
+    }
+  },
+  "notFound": {
+    "message": "Такой страницы не существует",
+    "backHome": "На главную"
+  },
+  "errorPage": {
+    "title": "Что-то пошло не так",
+    "message": "Произошла непредвиденная ошибка. Попробуйте перезагрузить этот раздел.",
+    "retry": "Попробовать снова"
+  },
   "toast": {},
   "errors": {}
 }

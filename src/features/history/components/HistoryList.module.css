@@ -1,0 +1,57 @@
+@reference "../../../app/globals.css";
+
+.list {
+  @apply w-full max-w-3xl px-4 py-8;
+}
+
+.list__header {
+  @apply mb-6;
+}
+
+.list__title {
+  @apply text-2xl font-semibold tracking-tight;
+}
+
+.list__subtitle {
+  @apply text-muted-foreground mt-1 text-sm;
+}
+
+.list__items {
+  @apply flex flex-col gap-4;
+}
+
+.list__record_title {
+  @apply font-mono text-sm break-all;
+}
+
+.list__record_badges {
+  @apply flex gap-2;
+}
+
+.list__record_content {
+  @apply grid gap-4 text-sm sm:grid-cols-2;
+}
+
+.list__record_metrics {
+  @apply grid grid-cols-3 gap-3;
+}
+
+.list__record_error {
+  @apply sm:col-span-2;
+}
+
+.list__record_error_value {
+  @apply text-destructive text-xs;
+}
+
+.list__record_url_value {
+  @apply text-xs;
+}
+
+.list__record_footer {
+  @apply justify-end;
+}
+
+.list__back {
+  @apply mt-2;
+}

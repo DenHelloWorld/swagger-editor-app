@@ -50,16 +50,14 @@ describe('History page', () => {
     getUserIdFromSession.mockResolvedValue('user-1');
     getRequestRecords.mockResolvedValue([]);
     render(await History());
-    expect(
-      screen.getByText("You haven't executed any requests yet."),
-    ).toBeInTheDocument();
+    expect(screen.getByText('history.emptyTitle')).toBeInTheDocument();
   });
 
   it('renders the list when records exist', async () => {
     getUserIdFromSession.mockResolvedValue('user-1');
     getRequestRecords.mockResolvedValue([record]);
     render(await History());
-    expect(screen.getByText('1 request recorded')).toBeInTheDocument();
+    expect(screen.getByText('history.recordCount')).toBeInTheDocument();
     expect(getRequestRecords).toHaveBeenCalledWith('user-1');
   });
 });
