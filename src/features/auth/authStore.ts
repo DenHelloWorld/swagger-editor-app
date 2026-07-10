@@ -9,6 +9,7 @@ import {
 import { getFirebaseAuth } from '@/lib/db/firebase/client';
 import { getAuthErrorMessage } from '@/features/auth/utils/getAuthErrorMessage';
 import { clearSession, syncSession } from '@/features/auth/authService';
+import { useSchemaStore } from '@/store/schemaStore';
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
@@ -77,6 +78,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       await clearSession();
       await firebaseSignOut(auth);
+      useSchemaStore.getState().reset();
       return null;
     } catch (error: unknown) {
       set({ isLoading: false, user: null });
