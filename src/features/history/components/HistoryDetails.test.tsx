@@ -51,7 +51,7 @@ describe('HistoryDetails', () => {
   it('links back to the history list', () => {
     render(<HistoryDetails record={baseRecord} />);
     expect(
-      screen.getByRole('link', { name: /back to history/i }),
+      screen.getByRole('link', { name: 'history.backToHistory' }),
     ).toHaveAttribute('href', '/history');
   });
 });

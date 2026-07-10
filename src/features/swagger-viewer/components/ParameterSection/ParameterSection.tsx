@@ -1,3 +1,6 @@
+'use client';
+
+import { useTranslation } from 'react-i18next';
 import type { ResolvedParameter } from '@/types/openapi';
 import {
   Table,
@@ -15,14 +18,15 @@ type Props = {
 };
 
 export function ParameterSection({ parameters }: Props) {
+  const { t } = useTranslation();
   return (
     <div className={styles.root}>
-      <p className={styles.title}>Parameters</p>
+      <p className={styles.title}>{t('viewer.parameters.title')}</p>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Description</TableHead>
+            <TableHead>{t('viewer.table.name')}</TableHead>
+            <TableHead>{t('viewer.table.description')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -32,7 +36,9 @@ export function ParameterSection({ parameters }: Props) {
                 <div className={styles.cell__header}>
                   <p className={styles.cell__name}>{param.name}</p>
                   {param.required && (
-                    <span className={styles.cell__required}>* required</span>
+                    <span className={styles.cell__required}>
+                      {t('viewer.table.required')}
+                    </span>
                   )}
                 </div>
 

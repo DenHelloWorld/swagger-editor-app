@@ -23,7 +23,7 @@ describe('ParameterSection', () => {
     render(<ParameterSection parameters={parameters} />);
     expect(screen.getByText('id')).toBeInTheDocument();
     expect(screen.getByText('limit')).toBeInTheDocument();
-    expect(screen.getByText('* required')).toBeInTheDocument();
+    expect(screen.getByText('viewer.table.required')).toBeInTheDocument();
     expect(screen.getByText('the id')).toBeInTheDocument();
   });
 });

@@ -36,7 +36,7 @@ describe('SaveSchemaButton', () => {
       save: vi.fn(),
     });
     render(<SaveSchemaButton />);
-    expect(screen.getByText('Save')).toBeDisabled();
+    expect(screen.getByText('editor.save')).toBeDisabled();
   });
 
   it('shows Saving... label while saving', () => {
@@ -48,7 +48,7 @@ describe('SaveSchemaButton', () => {
       save: vi.fn(),
     });
     render(<SaveSchemaButton />);
-    expect(screen.getByText('Saving...')).toBeInTheDocument();
+    expect(screen.getByText('editor.saving')).toBeInTheDocument();
   });
 
   it('shows success toast on success status', () => {
@@ -60,7 +60,7 @@ describe('SaveSchemaButton', () => {
       save: vi.fn(),
     });
     render(<SaveSchemaButton />);
-    expect(toast.success).toHaveBeenCalledWith('Saved');
+    expect(toast.success).toHaveBeenCalledWith('editor.saved');
   });
 
   it('shows error toast on error status', () => {

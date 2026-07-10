@@ -13,10 +13,12 @@ describe('RequestBodySection', () => {
       example: { id: 'x' },
     };
     render(<RequestBodySection requestBody={requestBody} />);
-    expect(screen.getByText('Request Body')).toBeInTheDocument();
+    expect(screen.getByText('viewer.requestBody.title')).toBeInTheDocument();
     expect(screen.getByText(/application\/json/)).toBeInTheDocument();
-    expect(screen.getAllByText('* required').length).toBeGreaterThan(0);
-    expect(screen.getByText('Example')).toBeInTheDocument();
+    expect(screen.getAllByText('viewer.table.required').length).toBeGreaterThan(
+      0,
+    );
+    expect(screen.getByText('viewer.example.title')).toBeInTheDocument();
   });
 
   it('renders without content type but with array flag', () => {
@@ -34,8 +36,8 @@ describe('RequestBodySection', () => {
       properties: [],
     };
     render(<RequestBodySection requestBody={requestBody} />);
-    expect(screen.getByText('Request Body')).toBeInTheDocument();
+    expect(screen.getByText('viewer.requestBody.title')).toBeInTheDocument();
     expect(screen.queryByText('array')).not.toBeInTheDocument();
-    expect(screen.queryByText('Example')).not.toBeInTheDocument();
+    expect(screen.queryByText('viewer.example.title')).not.toBeInTheDocument();
   });
 });

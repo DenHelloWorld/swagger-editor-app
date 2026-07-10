@@ -32,39 +32,37 @@ describe('HistoryList', () => {
     render(
       <HistoryList records={[baseRecord, { ...baseRecord, id: 'rec-2' }]} />,
     );
-    expect(screen.getByText('2 requests recorded')).toBeInTheDocument();
+    expect(screen.getByText('history.recordCount')).toBeInTheDocument();
     expect(screen.getAllByText('/pet/1')).toHaveLength(2);
-    expect(screen.getAllByRole('link', { name: 'Details' })).toHaveLength(2);
-  });
-
-  it('uses singular wording for a single record', () => {
-    render(<HistoryList records={[baseRecord]} />);
-    expect(screen.getByText('1 request recorded')).toBeInTheDocument();
+    expect(
+      screen.getAllByRole('link', { name: 'history.details' }),
+    ).toHaveLength(2);
   });
 
   it('links each record to its detail page', () => {
     render(<HistoryList records={[baseRecord]} />);
-    expect(screen.getByRole('link', { name: 'Details' })).toHaveAttribute(
-      'href',
-      '/history/rec-1',
-    );
+    expect(
+      screen.getByRole('link', { name: 'history.details' }),
+    ).toHaveAttribute('href', '/history/rec-1');
   });
 
   it('shows error details only when present', () => {
     const { rerender } = render(<HistoryList records={[baseRecord]} />);
-    expect(screen.queryByText('Error Details')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('history.fields.errorDetails'),
+    ).not.toBeInTheDocument();
 
     rerender(
       <HistoryList records={[{ ...baseRecord, errorDetails: 'Timeout' }]} />,
     );
-    expect(screen.getByText('Error Details')).toBeInTheDocument();
+    expect(screen.getByText('history.fields.errorDetails')).toBeInTheDocument();
     expect(screen.getByText('Timeout')).toBeInTheDocument();
   });
 
   it('links back to the editor', () => {
     render(<HistoryList records={[baseRecord]} />);
     expect(
-      screen.getByRole('link', { name: /back to editor/i }),
+      screen.getByRole('link', { name: 'history.backToEditor' }),
     ).toHaveAttribute('href', '/');
   });
 });

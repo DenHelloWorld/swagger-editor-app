@@ -22,7 +22,7 @@ describe('SchemaTable', () => {
     ];
     render(<SchemaTable properties={properties} />);
     expect(screen.getByText('id')).toBeInTheDocument();
-    expect(screen.getByText('* required')).toBeInTheDocument();
+    expect(screen.getByText('viewer.table.required')).toBeInTheDocument();
     expect(screen.getByText('string (a | b)')).toBeInTheDocument();
     expect(screen.getByText('desc')).toBeInTheDocument();
   });

@@ -13,7 +13,7 @@ describe('SwaggerViewer', () => {
       selector({ processedSpec: null } as never),
     );
     render(<SwaggerViewer />);
-    expect(screen.getByText('No schema loaded')).toBeInTheDocument();
+    expect(screen.getByText('viewer.emptyState.title')).toBeInTheDocument();
   });
 
   it('renders groups when spec is present', () => {

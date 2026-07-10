@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 import type { ProcessedEndpoint } from '@/types/openapi';
 import { Play, X, Send, Loader2, Copy } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -15,6 +16,7 @@ type Props = {
 };
 
 export function TryItOutSection({ endpoint }: Props) {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const {
     baseUrl,
@@ -43,16 +45,18 @@ export function TryItOutSection({ endpoint }: Props) {
       curl = generateCurl();
     } catch (err) {
       toast.error(
-        err instanceof Error ? err.message : 'Please enter a valid Server URL',
+        err instanceof Error
+          ? err.message
+          : t('viewer.tryItOut.invalidServerUrl'),
       );
       return;
     }
 
     try {
       await navigator.clipboard.writeText(curl);
-      toast.success('cURL command copied to clipboard');
+      toast.success(t('viewer.tryItOut.curlCopied'));
     } catch {
-      toast.error('Failed to copy cURL command');
+      toast.error(t('viewer.tryItOut.curlCopyFailed'));
     }
   }
 
@@ -69,15 +73,17 @@ export function TryItOutSection({ endpoint }: Props) {
         onClick={() => setIsOpen((prev) => !prev)}
       >
         {isOpen ? <X /> : <Play />}
-        {isOpen ? 'Hide' : 'Try it out'}
+        {isOpen ? t('viewer.tryItOut.hide') : t('viewer.tryItOut.open')}
       </Button>
 
       {isOpen && (
         <>
           <div className={styles.section}>
-            <p className={styles.section__title}>Server URL</p>
+            <p className={styles.section__title}>
+              {t('viewer.tryItOut.serverUrl')}
+            </p>
             <Input
-              placeholder="https://api.example.com"
+              placeholder={t('viewer.tryItOut.serverUrlPlaceholder')}
               value={baseUrl}
               onChange={(e) => setBaseUrl(e.target.value)}
             />
@@ -85,7 +91,9 @@ export function TryItOutSection({ endpoint }: Props) {
 
           {!!pathParams.length && (
             <div className={styles.section}>
-              <p className={styles.section__title}>Path Parameters</p>
+              <p className={styles.section__title}>
+                {t('viewer.tryItOut.pathParameters')}
+              </p>
               {pathParams.map((param) => (
                 <div key={param.name} className={styles.param}>
                   <span className={styles.param__label}>
@@ -93,7 +101,7 @@ export function TryItOutSection({ endpoint }: Props) {
                     {param.required && <span className={styles.error}> *</span>}
                   </span>
                   <Input
-                    placeholder="value"
+                    placeholder={t('viewer.tryItOut.valuePlaceholder')}
                     value={paramValues[param.name] ?? ''}
                     onChange={(e) => setParamValue(param.name, e.target.value)}
                   />
@@ -104,7 +112,9 @@ export function TryItOutSection({ endpoint }: Props) {
 
           {!!queryParams.length && (
             <div className={styles.section}>
-              <p className={styles.section__title}>Query Parameters</p>
+              <p className={styles.section__title}>
+                {t('viewer.tryItOut.queryParameters')}
+              </p>
               {queryParams.map((param) => (
                 <div key={param.name} className={styles.param}>
                   <span className={styles.param__label}>
@@ -112,7 +122,7 @@ export function TryItOutSection({ endpoint }: Props) {
                     {param.required && <span className={styles.error}> *</span>}
                   </span>
                   <Input
-                    placeholder="value"
+                    placeholder={t('viewer.tryItOut.valuePlaceholder')}
                     value={paramValues[param.name] ?? ''}
                     onChange={(e) => setParamValue(param.name, e.target.value)}
                   />
@@ -123,7 +133,9 @@ export function TryItOutSection({ endpoint }: Props) {
 
           {!!headerParams.length && (
             <div className={styles.section}>
-              <p className={styles.section__title}>Header Parameters</p>
+              <p className={styles.section__title}>
+                {t('viewer.tryItOut.headerParameters')}
+              </p>
               {headerParams.map((param) => (
                 <div key={param.name} className={styles.param}>
                   <span className={styles.param__label}>
@@ -131,7 +143,7 @@ export function TryItOutSection({ endpoint }: Props) {
                     {param.required && <span className={styles.error}> *</span>}
                   </span>
                   <Input
-                    placeholder="value"
+                    placeholder={t('viewer.tryItOut.valuePlaceholder')}
                     value={paramValues[param.name] ?? ''}
                     onChange={(e) => setParamValue(param.name, e.target.value)}
                   />
@@ -142,7 +154,9 @@ export function TryItOutSection({ endpoint }: Props) {
 
           {!!cookieParams.length && (
             <div className={styles.section}>
-              <p className={styles.section__title}>Cookie Parameters</p>
+              <p className={styles.section__title}>
+                {t('viewer.tryItOut.cookieParameters')}
+              </p>
               {cookieParams.map((param) => (
                 <div key={param.name} className={styles.param}>
                   <span className={styles.param__label}>
@@ -150,7 +164,7 @@ export function TryItOutSection({ endpoint }: Props) {
                     {param.required && <span className={styles.error}> *</span>}
                   </span>
                   <Input
-                    placeholder="value"
+                    placeholder={t('viewer.tryItOut.valuePlaceholder')}
                     value={paramValues[param.name] ?? ''}
                     onChange={(e) => setParamValue(param.name, e.target.value)}
                   />
@@ -161,7 +175,9 @@ export function TryItOutSection({ endpoint }: Props) {
 
           {hasBody && (
             <div className={styles.section}>
-              <p className={styles.section__title}>Request Body</p>
+              <p className={styles.section__title}>
+                {t('viewer.tryItOut.requestBody')}
+              </p>
               <textarea
                 className={styles.textarea}
                 placeholder='{"key": "value"}'
@@ -178,7 +194,9 @@ export function TryItOutSection({ endpoint }: Props) {
               disabled={isLoading || !baseUrl}
             >
               {isLoading ? <Loader2 className="animate-spin" /> : <Send />}
-              {isLoading ? 'Executing…' : 'Execute'}
+              {isLoading
+                ? t('viewer.tryItOut.executing')
+                : t('viewer.tryItOut.execute')}
             </Button>
             <Button
               size="lg"
@@ -187,7 +205,7 @@ export function TryItOutSection({ endpoint }: Props) {
               disabled={!baseUrl}
             >
               <Copy />
-              Generate cURL
+              {t('viewer.tryItOut.generateCurl')}
             </Button>
           </div>
 
@@ -195,7 +213,9 @@ export function TryItOutSection({ endpoint }: Props) {
 
           {response && (
             <div className={styles.section}>
-              <p className={styles.section__title}>Response</p>
+              <p className={styles.section__title}>
+                {t('viewer.tryItOut.response')}
+              </p>
               <div className={styles.response__header}>
                 <Badge
                   variant="outline"
@@ -205,12 +225,16 @@ export function TryItOutSection({ endpoint }: Props) {
                 </Badge>
               </div>
               <div className={styles.section}>
-                <p className={styles.response__label}>Response body</p>
+                <p className={styles.response__label}>
+                  {t('viewer.tryItOut.responseBody')}
+                </p>
                 <pre className={styles.response__body}>{response.body}</pre>
               </div>
               {Object.keys(response.headers).length > 0 && (
                 <div className={styles.section}>
-                  <p className={styles.response__label}>Response headers</p>
+                  <p className={styles.response__label}>
+                    {t('viewer.tryItOut.responseHeaders')}
+                  </p>
                   <pre className={styles.response__body}>
                     {Object.entries(response.headers)
                       .map(([k, v]) => `${k}: ${v}`)
