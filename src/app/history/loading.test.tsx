@@ -5,6 +5,6 @@ import Loading from './loading';
 describe('History loading', () => {
   it('shows the loading indicator', () => {
     render(<Loading />);
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    expect(screen.getByRole('status', { name: 'Loading' })).toBeInTheDocument();
   });
 });
