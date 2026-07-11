@@ -9,6 +9,14 @@ vi.mock('next/navigation', () => ({
   redirect: (...args: unknown[]) => redirect(...args),
 }));
 
+vi.mock('@/features/history/components/EmptyHistory', () => ({
+  default: () => <div>empty-history</div>,
+}));
+
+vi.mock('@/features/history/components/HistoryList', () => ({
+  default: () => <div>history-list</div>,
+}));
+
 const getUserIdFromSession = vi.fn();
 vi.mock('@/lib/auth/getUserIdFromSession', () => ({
   getUserIdFromSession: () => getUserIdFromSession(),
@@ -19,7 +27,11 @@ vi.mock('@/lib/db/request-records', () => ({
   getRequestRecords: (...args: unknown[]) => getRequestRecords(...args),
 }));
 
-import History from './page';
+vi.mock('@/i18n/server-locale', () => ({
+  getServerLocale: vi.fn().mockResolvedValue('en'),
+}));
+
+import HistoryPage from './page';
 
 const record: RequestRecord = {
   id: 'rec-1',
@@ -41,7 +53,7 @@ describe('History page', () => {
 
   it('redirects to the main page when there is no session', async () => {
     getUserIdFromSession.mockResolvedValue(null);
-    await expect(History()).rejects.toThrow('NEXT_REDIRECT');
+    await expect(HistoryPage()).rejects.toThrow('NEXT_REDIRECT');
     expect(redirect).toHaveBeenCalledWith('/');
     expect(getRequestRecords).not.toHaveBeenCalled();
   });
@@ -49,15 +61,15 @@ describe('History page', () => {
   it('renders the empty state when there are no records', async () => {
     getUserIdFromSession.mockResolvedValue('user-1');
     getRequestRecords.mockResolvedValue([]);
-    render(await History());
-    expect(screen.getByText('history.emptyTitle')).toBeInTheDocument();
+    render(await HistoryPage());
+    expect(screen.getByText('empty-history')).toBeInTheDocument();
   });
 
   it('renders the list when records exist', async () => {
     getUserIdFromSession.mockResolvedValue('user-1');
     getRequestRecords.mockResolvedValue([record]);
-    render(await History());
-    expect(screen.getByText('history.recordCount')).toBeInTheDocument();
+    render(await HistoryPage());
+    expect(screen.getByText('history-list')).toBeInTheDocument();
     expect(getRequestRecords).toHaveBeenCalledWith('user-1');
   });
 });
