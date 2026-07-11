@@ -109,11 +109,11 @@ describe('request-records', () => {
     expect(result).toEqual(found);
   });
 
-  it('returns undefined when the record does not exist', async () => {
+  it('returns null when the record does not exist', async () => {
     docGetMock.mockResolvedValue({ exists: false, data: () => undefined });
 
     const result = await getRequestRecordById('user-1', 'missing');
 
-    expect(result).toBeUndefined();
+    expect(result).toBeNull();
   });
 });

@@ -54,7 +54,7 @@ describe('History details page', () => {
 
   it('calls notFound when the record does not exist', async () => {
     getUserIdFromSession.mockResolvedValue('user-1');
-    getRequestRecordById.mockResolvedValue(undefined);
+    getRequestRecordById.mockResolvedValue(null);
     await expect(
       Details({ params: Promise.resolve({ id: 'missing' }) }),
     ).rejects.toThrow('NEXT_NOT_FOUND');
