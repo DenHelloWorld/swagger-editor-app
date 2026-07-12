@@ -37,5 +37,5 @@
 }
 
 .header__mobile_nav {
-  @apply flex flex-col items-start gap-2 px-4;
+  @apply flex flex-col items-start gap-3 px-4;
 }

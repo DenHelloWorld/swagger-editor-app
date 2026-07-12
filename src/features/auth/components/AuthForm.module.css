@@ -1,7 +1,7 @@
 @reference "../../../app/globals.css";
 
 .form {
-  @apply m-auto w-full sm:max-w-md;
+  @apply m-auto w-full max-w-md px-4;
 }
 
 .form__submit {

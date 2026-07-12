@@ -9,19 +9,19 @@
 }
 
 .cell {
-  @apply w-48 align-top;
+  @apply w-48 max-w-48 align-top whitespace-normal;
 }
 
 .cell__header {
-  @apply flex items-baseline gap-2;
+  @apply flex flex-wrap items-baseline gap-2;
 }
 
 .cell__name {
-  @apply font-mono font-semibold;
+  @apply font-mono font-semibold break-words;
 }
 
 .cell__type {
-  @apply text-muted-foreground text-xs;
+  @apply text-muted-foreground text-xs break-words;
 }
 
 .cell__required {
@@ -29,5 +29,5 @@
 }
 
 .cell__desc {
-  @apply text-muted-foreground align-top;
+  @apply text-muted-foreground max-w-56 align-top break-words whitespace-normal;
 }

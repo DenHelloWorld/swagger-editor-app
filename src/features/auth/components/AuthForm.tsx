@@ -105,81 +105,60 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
   const isSubmitting = form.formState.isSubmitting;
 
   return (
-    <Card className={styles.form}>
-      <CardHeader>
-        <CardTitle>
-          {type === 'Sign In'
-            ? t('auth.form.signInTitle')
-            : t('auth.form.signUpTitle')}
-        </CardTitle>
-        <CardDescription>
-          {type === 'Sign In'
-            ? t('auth.form.signInSubtitle')
-            : t('auth.form.signUpSubtitle')}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form id="auth-form" onSubmit={form.handleSubmit(onSubmit)}>
-          <FieldGroup>
-            <Controller
-              name="email"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="email">
-                    {t('auth.form.emailLabel')}
-                  </FieldLabel>
-                  <Input
-                    {...field}
-                    id="email"
-                    aria-invalid={fieldState.invalid}
-                    placeholder={t('auth.form.emailPlaceholder')}
-                    autoComplete="email"
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-
-            <Controller
-              name="password"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="password">
-                    {t('auth.form.passwordLabel')}
-                  </FieldLabel>
-                  <PasswordInput
-                    {...field}
-                    id="password"
-                    placeholder="**********"
-                    autoComplete={
-                      type === 'Sign In' ? 'current-password' : 'new-password'
-                    }
-                    aria-invalid={fieldState.invalid}
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-            {type === 'Sign Up' && (
+    <div className={styles.form}>
+      <Card>
+        <CardHeader>
+          <CardTitle>
+            {type === 'Sign In'
+              ? t('auth.form.signInTitle')
+              : t('auth.form.signUpTitle')}
+          </CardTitle>
+          <CardDescription>
+            {type === 'Sign In'
+              ? t('auth.form.signInSubtitle')
+              : t('auth.form.signUpSubtitle')}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form id="auth-form" onSubmit={form.handleSubmit(onSubmit)}>
+            <FieldGroup>
               <Controller
-                name="confirmPassword"
+                name="email"
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="confirmPassword">
-                      {t('auth.form.confirmPasswordLabel')}
+                    <FieldLabel htmlFor="email">
+                      {t('auth.form.emailLabel')}
+                    </FieldLabel>
+                    <Input
+                      {...field}
+                      id="email"
+                      aria-invalid={fieldState.invalid}
+                      placeholder={t('auth.form.emailPlaceholder')}
+                      autoComplete="email"
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+
+              <Controller
+                name="password"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="password">
+                      {t('auth.form.passwordLabel')}
                     </FieldLabel>
                     <PasswordInput
                       {...field}
-                      id="confirmPassword"
+                      id="password"
                       placeholder="**********"
-                      autoComplete="new-password"
+                      autoComplete={
+                        type === 'Sign In' ? 'current-password' : 'new-password'
+                      }
                       aria-invalid={fieldState.invalid}
                     />
                     {fieldState.invalid && (
@@ -188,49 +167,72 @@ export default function AuthForm({ type }: { type: 'Sign In' | 'Sign Up' }) {
                   </Field>
                 )}
               />
-            )}
-          </FieldGroup>
-          <Button
-            disabled={!form.formState.isValid || isSubmitting}
-            type="submit"
-            form="auth-form"
-            className={styles.form__submit}
-          >
-            {isSubmitting ? (
-              <>
-                <Spinner data-icon="inline-start" />
-                {t('auth.form.submitting')}
-              </>
-            ) : (
-              <>
-                {type === 'Sign In' ? (
-                  <LogIn data-icon="inline-start" />
-                ) : (
-                  <UserPlus data-icon="inline-start" />
-                )}
-                {t('auth.form.submit')}
-              </>
-            )}
-          </Button>
-        </form>
-      </CardContent>
-      {type === 'Sign In' ? (
-        <CardFooter>
-          {t('auth.form.noAccount')}{' '}
-          <Link href="/sign-up" className={styles.form__switch_link}>
-            {t('auth.form.signUpLink')}
-            <ArrowRight className="size-4" />
-          </Link>
-        </CardFooter>
-      ) : (
-        <CardFooter>
-          {t('auth.form.hasAccount')}{' '}
-          <Link href="/sign-in" className={styles.form__switch_link}>
-            {t('auth.form.signInLink')}
-            <ArrowRight className="size-4" />
-          </Link>
-        </CardFooter>
-      )}
-    </Card>
+              {type === 'Sign Up' && (
+                <Controller
+                  name="confirmPassword"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="confirmPassword">
+                        {t('auth.form.confirmPasswordLabel')}
+                      </FieldLabel>
+                      <PasswordInput
+                        {...field}
+                        id="confirmPassword"
+                        placeholder="**********"
+                        autoComplete="new-password"
+                        aria-invalid={fieldState.invalid}
+                      />
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
+                />
+              )}
+            </FieldGroup>
+            <Button
+              disabled={!form.formState.isValid || isSubmitting}
+              type="submit"
+              form="auth-form"
+              className={styles.form__submit}
+            >
+              {isSubmitting ? (
+                <>
+                  <Spinner data-icon="inline-start" />
+                  {t('auth.form.submitting')}
+                </>
+              ) : (
+                <>
+                  {type === 'Sign In' ? (
+                    <LogIn data-icon="inline-start" />
+                  ) : (
+                    <UserPlus data-icon="inline-start" />
+                  )}
+                  {t('auth.form.submit')}
+                </>
+              )}
+            </Button>
+          </form>
+        </CardContent>
+        {type === 'Sign In' ? (
+          <CardFooter>
+            {t('auth.form.noAccount')}{' '}
+            <Link href="/sign-up" className={styles.form__switch_link}>
+              {t('auth.form.signUpLink')}
+              <ArrowRight className="size-4" />
+            </Link>
+          </CardFooter>
+        ) : (
+          <CardFooter>
+            {t('auth.form.hasAccount')}{' '}
+            <Link href="/sign-in" className={styles.form__switch_link}>
+              {t('auth.form.signInLink')}
+              <ArrowRight className="size-4" />
+            </Link>
+          </CardFooter>
+        )}
+      </Card>
+    </div>
   );
 }
