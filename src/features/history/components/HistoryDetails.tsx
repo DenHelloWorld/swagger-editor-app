@@ -12,12 +12,12 @@ import {
 import { RequestRecord } from '@/types/dbTypes';
 import {
   formatBytes,
-  formatTimestamp,
   getMethodVariant,
   getStatusVariant,
 } from '@/features/history/utils/recordFormat';
 import { type Locale } from '@/i18n/locale';
 import { DetailItem } from './DetailItem';
+import { LocalTimestamp } from './LocalTimestamp';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import styles from './HistoryDetails.module.css';
@@ -46,7 +46,9 @@ export default async function HistoryDetails({
           <CardTitle className={styles.details__record_title}>
             {record.endpoint}
           </CardTitle>
-          <CardDescription>{formatTimestamp(record.timestamp)}</CardDescription>
+          <CardDescription>
+            <LocalTimestamp value={record.timestamp} />
+          </CardDescription>
           <CardAction className={styles.details__record_badges}>
             <Badge variant={getMethodVariant(record.method)}>
               {record.method}
@@ -61,7 +63,7 @@ export default async function HistoryDetails({
           <dl className={styles.details__grid}>
             <DetailItem
               label={t('fields.timestamp')}
-              value={formatTimestamp(record.timestamp)}
+              value={<LocalTimestamp value={record.timestamp} />}
             />
             <DetailItem label={t('fields.method')} value={record.method} />
             <DetailItem

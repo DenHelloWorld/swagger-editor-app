@@ -13,13 +13,13 @@ import {
 } from '@/components/ui/card';
 import {
   formatBytes,
-  formatTimestamp,
   getMethodVariant,
   getStatusVariant,
 } from '@/features/history/utils/recordFormat';
 import { type Locale } from '@/i18n/locale';
 import { RequestRecord } from '@/types/dbTypes';
 import { FieldItem } from './FieldItem';
+import { LocalTimestamp } from './LocalTimestamp';
 import { ArrowLeft, Eye } from 'lucide-react';
 import styles from './HistoryList.module.css';
 
@@ -53,7 +53,7 @@ export default async function HistoryList({
                   {record.endpoint}
                 </CardTitle>
                 <CardDescription>
-                  {formatTimestamp(record.timestamp)}
+                  <LocalTimestamp value={record.timestamp} />
                 </CardDescription>
                 <CardAction className={styles.list__record_badges}>
                   <Badge variant={getMethodVariant(record.method)}>
