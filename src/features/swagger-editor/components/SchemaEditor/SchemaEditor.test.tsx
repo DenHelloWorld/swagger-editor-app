@@ -52,7 +52,7 @@ describe('SchemaEditor', () => {
 
   it('shows restoring indicator when isRestoring is true', () => {
     render(<SchemaEditor isRestoring />);
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    expect(screen.getByRole('status', { name: 'Loading' })).toBeInTheDocument();
   });
 
   it('renders validation errors', () => {

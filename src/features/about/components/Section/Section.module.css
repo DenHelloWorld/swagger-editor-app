@@ -1,0 +1,9 @@
+@reference "../../../../app/globals.css";
+
+.section {
+  @apply flex flex-col gap-3;
+}
+
+.section__title {
+  @apply font-heading text-xl font-semibold;
+}

@@ -3,8 +3,8 @@ import { render, screen } from '@testing-library/react';
 import HistoryLoading from './HistoryLoading';
 
 describe('HistoryLoading', () => {
-  it('shows a loading message', () => {
+  it('shows a loading indicator', () => {
     render(<HistoryLoading />);
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    expect(screen.getByRole('status', { name: 'Loading' })).toBeInTheDocument();
   });
 });

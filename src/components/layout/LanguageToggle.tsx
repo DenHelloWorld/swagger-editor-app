@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
+import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -9,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { setCookie } from '@/lib/cookies';
+import { isHistoryPath } from '@/i18n/locale';
 import { Languages } from 'lucide-react';
 
 const LANGUAGES = [
@@ -17,12 +19,18 @@ const LANGUAGES = [
 ] as const;
 
 export function LanguageToggle() {
+  const router = useRouter();
+  const pathname = usePathname();
   const { i18n } = useTranslation();
   const current = i18n.language.split('-')[0];
 
   function handleSelect(code: string) {
     i18n.changeLanguage(code);
     setCookie('app_language', code);
+
+    if (pathname && isHistoryPath(pathname)) {
+      router.refresh();
+    }
   }
 
   return (

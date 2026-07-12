@@ -30,7 +30,7 @@ export async function getRequestRecords(
 export async function getRequestRecordById(
   userId: string,
   recordId: string,
-): Promise<RequestRecord | undefined> {
+): Promise<RequestRecord | null> {
   const db = getFirebaseAdminFirestore();
 
   const docRef = db
@@ -42,4 +42,5 @@ export async function getRequestRecordById(
   if (docSnap.exists) {
     return docSnap.data() as RequestRecord;
   }
+  return null;
 }

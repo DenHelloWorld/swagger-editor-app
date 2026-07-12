@@ -77,7 +77,7 @@ export function SchemaEditor({ isRestoring = false }: Props) {
       {errors.length > 0 && (
         <div className={styles.editor__errors}>
           {errors.map((error, i) => (
-            <p key={i} className={styles.editor__error}>
+            <p key={`${error}-${i}`} className={styles.editor__error}>
               {error}
             </p>
           ))}

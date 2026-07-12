@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import '@/test/mockNextIntlServer';
 import type { RequestRecord } from '@/types/dbTypes';
 
 vi.mock('next/link', () => ({
@@ -27,31 +28,36 @@ const baseRecord: RequestRecord = {
   timestamp: '2026-07-05T00:00:00.000Z',
 };
 
+async function renderHistoryDetails(record: RequestRecord) {
+  const ui = await HistoryDetails({ record, locale: 'en' });
+  render(ui);
+}
+
 describe('HistoryDetails', () => {
-  it('renders all analytics fields for a record', () => {
-    render(<HistoryDetails record={baseRecord} />);
+  it('renders all analytics fields for a record', async () => {
+    await renderHistoryDetails(baseRecord);
     expect(screen.getAllByText('/pet/1').length).toBeGreaterThan(0);
     expect(screen.getByText('42 ms')).toBeInTheDocument();
     expect(screen.getByText('2.0 KB')).toBeInTheDocument();
     expect(screen.getByText('0 B')).toBeInTheDocument();
   });
 
-  it('shows a dash when there is no error and the value when there is one', () => {
-    const { rerender } = render(<HistoryDetails record={baseRecord} />);
+  it('shows a dash when there is no error and the value when there is one', async () => {
+    await renderHistoryDetails(baseRecord);
     expect(screen.getByText('—')).toBeInTheDocument();
 
-    rerender(
-      <HistoryDetails
-        record={{ ...baseRecord, errorDetails: 'Connection refused' }}
-      />,
-    );
+    const ui = await HistoryDetails({
+      record: { ...baseRecord, errorDetails: 'Connection refused' },
+      locale: 'en',
+    });
+    render(ui);
     expect(screen.getByText('Connection refused')).toBeInTheDocument();
   });
 
-  it('links back to the history list', () => {
-    render(<HistoryDetails record={baseRecord} />);
+  it('links back to the history list', async () => {
+    await renderHistoryDetails(baseRecord);
     expect(
-      screen.getByRole('link', { name: 'history.backToHistory' }),
+      screen.getByRole('link', { name: 'Back to History' }),
     ).toHaveAttribute('href', '/history');
   });
 });

@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
+import { Section } from '@/features/about/components/Section/Section';
 import { TeamMemberCard } from '@/features/about/components/TeamMemberCard/TeamMemberCard';
 import { TechCard } from '@/features/about/components/TechCard/TechCard';
 import { team } from '@/features/about/data/team';
@@ -12,8 +13,7 @@ export default function About() {
 
   return (
     <div className={styles.root}>
-      <div className={styles.section}>
-        <h1 className={styles.section__title}>{t('about.title')}</h1>
+      <Section as="h1" title={t('about.title')}>
         <p className={styles.section__text}>
           {t('about.introBeforeLink')}{' '}
           <a
@@ -27,25 +27,23 @@ export default function About() {
           {t('about.introAfterLink')}
         </p>
         <p className={styles.section__text}>{t('about.description')}</p>
-      </div>
+      </Section>
 
-      <div className={styles.section}>
-        <h2 className={styles.section__title}>{t('about.builtWithTitle')}</h2>
+      <Section title={t('about.builtWithTitle')}>
         <div className={styles.stack}>
           {techStack.map((tech) => (
             <TechCard key={tech.name} {...tech} />
           ))}
         </div>
-      </div>
+      </Section>
 
-      <div className={styles.section}>
-        <h2 className={styles.section__title}>{t('about.teamTitle')}</h2>
+      <Section title={t('about.teamTitle')}>
         <div className={styles.team}>
           {team.map((member) => (
             <TeamMemberCard key={member.githubUrl} {...member} />
           ))}
         </div>
-      </div>
+      </Section>
     </div>
   );
 }

@@ -13,6 +13,10 @@ vi.mock('next/navigation', () => ({
   notFound: (...args: unknown[]) => notFound(...args),
 }));
 
+vi.mock('@/features/history/components/HistoryDetails', () => ({
+  default: () => <div>history-details</div>,
+}));
+
 const getUserIdFromSession = vi.fn();
 vi.mock('@/lib/auth/getUserIdFromSession', () => ({
   getUserIdFromSession: () => getUserIdFromSession(),
@@ -23,7 +27,11 @@ vi.mock('@/lib/db/request-records', () => ({
   getRequestRecordById: (...args: unknown[]) => getRequestRecordById(...args),
 }));
 
-import Details from './page';
+vi.mock('@/i18n/server-locale', () => ({
+  getServerLocale: vi.fn().mockResolvedValue('en'),
+}));
+
+import HistoryDetailsPage from './page';
 
 const record: RequestRecord = {
   id: 'rec-1',
@@ -46,7 +54,7 @@ describe('History details page', () => {
   it('redirects to the main page when there is no session', async () => {
     getUserIdFromSession.mockResolvedValue(null);
     await expect(
-      Details({ params: Promise.resolve({ id: 'rec-1' }) }),
+      HistoryDetailsPage({ params: Promise.resolve({ id: 'rec-1' }) }),
     ).rejects.toThrow('NEXT_REDIRECT');
     expect(redirect).toHaveBeenCalledWith('/');
     expect(getRequestRecordById).not.toHaveBeenCalled();
@@ -54,9 +62,9 @@ describe('History details page', () => {
 
   it('calls notFound when the record does not exist', async () => {
     getUserIdFromSession.mockResolvedValue('user-1');
-    getRequestRecordById.mockResolvedValue(undefined);
+    getRequestRecordById.mockResolvedValue(null);
     await expect(
-      Details({ params: Promise.resolve({ id: 'missing' }) }),
+      HistoryDetailsPage({ params: Promise.resolve({ id: 'missing' }) }),
     ).rejects.toThrow('NEXT_NOT_FOUND');
     expect(notFound).toHaveBeenCalled();
   });
@@ -64,8 +72,10 @@ describe('History details page', () => {
   it('renders the details when the record exists', async () => {
     getUserIdFromSession.mockResolvedValue('user-1');
     getRequestRecordById.mockResolvedValue(record);
-    render(await Details({ params: Promise.resolve({ id: 'rec-1' }) }));
+    render(
+      await HistoryDetailsPage({ params: Promise.resolve({ id: 'rec-1' }) }),
+    );
     expect(getRequestRecordById).toHaveBeenCalledWith('user-1', 'rec-1');
-    expect(screen.getByText('history.detailsTitle')).toBeInTheDocument();
+    expect(screen.getByText('history-details')).toBeInTheDocument();
   });
 });
