@@ -18,7 +18,11 @@ const LANGUAGES = [
   { code: 'ru', label: 'Русский' },
 ] as const;
 
-export function LanguageToggle() {
+type Props = {
+  size?: 'sm' | 'lg';
+};
+
+export function LanguageToggle({ size = 'sm' }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const { i18n } = useTranslation();
@@ -36,7 +40,11 @@ export function LanguageToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm">
+        <Button
+          variant="ghost"
+          size={size}
+          className={size === 'lg' ? 'h-12 w-full justify-start text-base' : ''}
+        >
           <Languages data-icon="inline-start" />
           {current.toUpperCase()}
         </Button>
@@ -47,6 +55,7 @@ export function LanguageToggle() {
             key={code}
             onClick={() => handleSelect(code)}
             disabled={code === current}
+            className={size === 'lg' ? 'px-3 py-2.5 text-base' : ''}
           >
             {label}
           </DropdownMenuItem>

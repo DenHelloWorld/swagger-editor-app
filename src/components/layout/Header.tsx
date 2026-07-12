@@ -43,16 +43,33 @@ export default function Header() {
     setIsMenuOpen(false);
   }
 
-  function renderNavItems(onNavigate?: () => void) {
+  function renderNavItems(onNavigate?: () => void, mobile = false) {
+    const size = mobile ? 'lg' : 'sm';
+    const itemClassName = mobile ? 'h-12 w-full justify-start text-base' : '';
+
+    function linkClassName(active: boolean) {
+      return active ? styles['header__nav_link--active'] : '';
+    }
+
     return (
       <>
         {isLoading && (
           <>
-            <Button variant="outline" disabled>
+            <Button
+              variant="outline"
+              size={size}
+              className={itemClassName}
+              disabled
+            >
               <Spinner data-icon="inline-start" />
               {t('header.signIn')}
             </Button>
-            <Button variant="outline" disabled>
+            <Button
+              variant="outline"
+              size={size}
+              className={itemClassName}
+              disabled
+            >
               <Spinner data-icon="inline-start" />
               {t('header.signUp')}
             </Button>
@@ -61,35 +78,51 @@ export default function Header() {
         {!isLoading &&
           (isAuthenticated ? (
             <>
-              <Button variant="ghost" size="sm" asChild>
+              <Button
+                variant="ghost"
+                size={size}
+                className={itemClassName}
+                asChild
+              >
                 <Link
                   href="/history"
                   onClick={onNavigate}
                   aria-current={isActive('/history') ? 'page' : undefined}
-                  className={
-                    isActive('/history')
-                      ? styles['header__nav_link--active']
-                      : ''
-                  }
+                  className={linkClassName(isActive('/history'))}
                 >
                   <History data-icon="inline-start" />
                   {t('header.history')}
                 </Link>
               </Button>
-              <Button variant="outline" size="sm" onClick={handleSignOut}>
+              <Button
+                variant="outline"
+                size={size}
+                className={itemClassName}
+                onClick={handleSignOut}
+              >
                 <LogOut data-icon="inline-start" />
                 {t('header.signOut')}
               </Button>
             </>
           ) : (
             <>
-              <Button variant="ghost" size="sm" asChild>
+              <Button
+                variant="ghost"
+                size={size}
+                className={itemClassName}
+                asChild
+              >
                 <Link href="/sign-in" onClick={onNavigate}>
                   <LogIn data-icon="inline-start" />
                   {t('header.signIn')}
                 </Link>
               </Button>
-              <Button variant="ghost" size="sm" asChild>
+              <Button
+                variant="ghost"
+                size={size}
+                className={itemClassName}
+                asChild
+              >
                 <Link href="/sign-up" onClick={onNavigate}>
                   <UserPlus data-icon="inline-start" />
                   {t('header.signUp')}
@@ -98,20 +131,18 @@ export default function Header() {
             </>
           ))}
 
-        <Button variant="ghost" size="sm" asChild>
+        <Button variant="ghost" size={size} className={itemClassName} asChild>
           <Link
             href="/about"
             onClick={onNavigate}
             aria-current={isActive('/about') ? 'page' : undefined}
-            className={
-              isActive('/about') ? styles['header__nav_link--active'] : ''
-            }
+            className={linkClassName(isActive('/about'))}
           >
             <Info data-icon="inline-start" />
             {t('header.about')}
           </Link>
         </Button>
-        <LanguageToggle />
+        <LanguageToggle size={size} />
       </>
     );
   }
@@ -151,10 +182,10 @@ export default function Header() {
           </SheetTrigger>
           <SheetContent side="right">
             <SheetHeader>
-              <SheetTitle>Menu</SheetTitle>
+              <SheetTitle>{t('header.menu')}</SheetTitle>
             </SheetHeader>
             <div className={styles.header__mobile_nav}>
-              {renderNavItems(() => setIsMenuOpen(false))}
+              {renderNavItems(() => setIsMenuOpen(false), true)}
             </div>
           </SheetContent>
         </Sheet>
