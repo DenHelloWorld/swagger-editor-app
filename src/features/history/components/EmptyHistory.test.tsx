@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import en from '@/lib/i18n/locales/en.json';
+import '@/test/mockNextIntlServer';
 
 vi.mock('next/link', () => ({
   default: ({
@@ -10,32 +10,6 @@ vi.mock('next/link', () => ({
     children: React.ReactNode;
     href: string;
   }) => <a href={href}>{children}</a>,
-}));
-
-function getNestedValue(source: Record<string, unknown>, key: string): unknown {
-  return key.split('.').reduce<unknown>((value, part) => {
-    if (value && typeof value === 'object' && part in value) {
-      return (value as Record<string, unknown>)[part];
-    }
-    return undefined;
-  }, source);
-}
-
-vi.mock('next-intl/server', () => ({
-  setRequestLocale: vi.fn(),
-  getTranslations: async ({
-    namespace,
-  }: {
-    locale: string;
-    namespace: keyof typeof en;
-  }) => {
-    const messages = en[namespace] as Record<string, unknown>;
-
-    return (key: string) => {
-      const value = getNestedValue(messages, key);
-      return typeof value === 'string' ? value : key;
-    };
-  },
 }));
 
 import EmptyHistory from './EmptyHistory';
