@@ -1,7 +1,5 @@
-'use client';
-
 import Link from 'next/link';
-import { useTranslation } from 'react-i18next';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -19,6 +17,7 @@ import {
   getMethodVariant,
   getStatusVariant,
 } from '@/features/history/utils/recordFormat';
+import { type Locale } from '@/i18n/locale';
 import { RequestRecord } from '@/types/dbTypes';
 import { FieldItem } from './FieldItem';
 import { ArrowLeft, Eye } from 'lucide-react';
@@ -26,16 +25,22 @@ import styles from './HistoryList.module.css';
 
 interface HistoryListProps {
   records: RequestRecord[];
+  locale: Locale;
 }
 
-export default function HistoryList({ records }: HistoryListProps) {
-  const { t } = useTranslation();
+export default async function HistoryList({
+  records,
+  locale,
+}: HistoryListProps) {
+  setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: 'history' });
+
   return (
     <section className={styles.list}>
       <header className={styles.list__header}>
-        <h1 className={styles.list__title}>{t('history.listTitle')}</h1>
+        <h1 className={styles.list__title}>{t('listTitle')}</h1>
         <p className={styles.list__subtitle}>
-          {t('history.recordCount', { count: records.length })}
+          {t('recordCount', { count: records.length })}
         </p>
       </header>
 
@@ -62,29 +67,29 @@ export default function HistoryList({ records }: HistoryListProps) {
 
               <CardContent className={styles.list__record_content}>
                 <FieldItem
-                  label={t('history.fields.url')}
+                  label={t('fields.url')}
                   value={record.url}
                   mono
                   valueClassName={styles.list__record_url_value}
                 />
                 <div className={styles.list__record_metrics}>
                   <FieldItem
-                    label={t('history.fields.duration')}
+                    label={t('fields.duration')}
                     value={`${record.durationMs} ms`}
                   />
                   <FieldItem
-                    label={t('history.fields.request')}
+                    label={t('fields.request')}
                     value={formatBytes(record.requestSize)}
                   />
                   <FieldItem
-                    label={t('history.fields.response')}
+                    label={t('fields.response')}
                     value={formatBytes(record.responseSize)}
                   />
                 </div>
                 {record.errorDetails && (
                   <div className={styles.list__record_error}>
                     <FieldItem
-                      label={t('history.fields.errorDetails')}
+                      label={t('fields.errorDetails')}
                       value={record.errorDetails}
                       mono
                       valueClassName={styles.list__record_error_value}
@@ -97,7 +102,7 @@ export default function HistoryList({ records }: HistoryListProps) {
                 <Button variant="outline" size="sm" asChild>
                   <Link href={`/history/${record.id}`}>
                     <Eye data-icon="inline-start" />
-                    {t('history.details')}
+                    {t('details')}
                   </Link>
                 </Button>
               </CardFooter>
@@ -108,7 +113,7 @@ export default function HistoryList({ records }: HistoryListProps) {
       <Button variant="outline" size="sm" asChild className={styles.list__back}>
         <Link href="/">
           <ArrowLeft data-icon="inline-start" />
-          {t('history.backToEditor')}
+          {t('backToEditor')}
         </Link>
       </Button>
     </section>

@@ -1,6 +1,5 @@
-'use client';
-
-import { useTranslation } from 'react-i18next';
+import Link from 'next/link';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Badge } from '@/components/ui/badge';
 import {
   Card,
@@ -17,25 +16,29 @@ import {
   getMethodVariant,
   getStatusVariant,
 } from '@/features/history/utils/recordFormat';
+import { type Locale } from '@/i18n/locale';
 import { DetailItem } from './DetailItem';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import styles from './HistoryDetails.module.css';
 
 interface HistoryDetailsProps {
   record: RequestRecord;
+  locale: Locale;
 }
 
-export default function HistoryDetails({ record }: HistoryDetailsProps) {
-  const { t } = useTranslation();
+export default async function HistoryDetails({
+  record,
+  locale,
+}: HistoryDetailsProps) {
+  setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: 'history' });
+
   return (
     <section className={styles.details}>
       <header className={styles.details__header}>
-        <h1 className={styles.details__title}>{t('history.detailsTitle')}</h1>
-        <p className={styles.details__subtitle}>
-          {t('history.detailsSubtitle')}
-        </p>
+        <h1 className={styles.details__title}>{t('detailsTitle')}</h1>
+        <p className={styles.details__subtitle}>{t('detailsSubtitle')}</p>
       </header>
 
       <Card>
@@ -57,42 +60,35 @@ export default function HistoryDetails({ record }: HistoryDetailsProps) {
         <CardContent>
           <dl className={styles.details__grid}>
             <DetailItem
-              label={t('history.fields.timestamp')}
+              label={t('fields.timestamp')}
               value={formatTimestamp(record.timestamp)}
             />
+            <DetailItem label={t('fields.method')} value={record.method} />
             <DetailItem
-              label={t('history.fields.method')}
-              value={record.method}
-            />
-            <DetailItem
-              label={t('history.fields.statusCode')}
+              label={t('fields.statusCode')}
               value={record.statusCode}
             />
             <DetailItem
-              label={t('history.fields.duration')}
+              label={t('fields.duration')}
               value={`${record.durationMs} ms`}
             />
             <DetailItem
-              label={t('history.fields.endpoint')}
+              label={t('fields.endpoint')}
               value={record.endpoint}
               mono
             />
+            <DetailItem label={t('fields.url')} value={record.url} mono />
             <DetailItem
-              label={t('history.fields.url')}
-              value={record.url}
-              mono
-            />
-            <DetailItem
-              label={t('history.fields.requestSize')}
+              label={t('fields.requestSize')}
               value={formatBytes(record.requestSize)}
             />
             <DetailItem
-              label={t('history.fields.responseSize')}
+              label={t('fields.responseSize')}
               value={formatBytes(record.responseSize)}
             />
             <div className={styles.details__error}>
               <DetailItem
-                label={t('history.fields.errorDetails')}
+                label={t('fields.errorDetails')}
                 value={record.errorDetails ?? '—'}
                 mono={Boolean(record.errorDetails)}
               />
@@ -108,7 +104,7 @@ export default function HistoryDetails({ record }: HistoryDetailsProps) {
       >
         <Link href="/history">
           <ArrowLeft data-icon="inline-start" />
-          {t('history.backToHistory')}
+          {t('backToHistory')}
         </Link>
       </Button>
     </section>

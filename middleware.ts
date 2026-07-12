@@ -13,9 +13,7 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  const hasSessionCookie = req.cookies.has(SESSION_COOKIE_NAME);
-
-  if (!hasSessionCookie) {
+  if (!req.cookies.has(SESSION_COOKIE_NAME)) {
     return NextResponse.redirect(new URL('/', req.url));
   }
 
