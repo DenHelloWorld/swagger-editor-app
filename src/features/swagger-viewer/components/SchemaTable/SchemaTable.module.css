@@ -1,0 +1,25 @@
+@reference "../../../../app/globals.css";
+
+.cell {
+  @apply w-48 max-w-48 align-top whitespace-normal;
+}
+
+.cell__header {
+  @apply flex flex-wrap items-baseline gap-2;
+}
+
+.cell__name {
+  @apply font-mono font-semibold break-words;
+}
+
+.cell__type {
+  @apply text-muted-foreground text-xs break-words;
+}
+
+.cell__required {
+  @apply text-destructive text-xs;
+}
+
+.cell__desc {
+  @apply text-muted-foreground max-w-56 align-top break-words whitespace-normal;
+}

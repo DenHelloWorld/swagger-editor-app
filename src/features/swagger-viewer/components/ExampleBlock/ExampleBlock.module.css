@@ -1,0 +1,13 @@
+@reference "../../../../app/globals.css";
+
+.example {
+  @apply space-y-1;
+}
+
+.example__title {
+  @apply text-muted-foreground text-xs font-semibold;
+}
+
+.example__code {
+  @apply bg-muted overflow-x-auto rounded-md p-3 font-mono text-xs whitespace-pre;
+}

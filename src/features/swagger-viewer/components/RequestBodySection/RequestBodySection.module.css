@@ -1,0 +1,21 @@
+@reference "../../../../app/globals.css";
+
+.root {
+  @apply mt-3 space-y-3;
+}
+
+.header {
+  @apply flex flex-wrap items-baseline gap-2;
+}
+
+.title {
+  @apply text-foreground text-sm font-semibold tracking-wider uppercase;
+}
+
+.header__type {
+  @apply bg-muted rounded px-1.5 py-0.5 font-mono text-xs;
+}
+
+.header__required {
+  @apply text-destructive text-xs;
+}

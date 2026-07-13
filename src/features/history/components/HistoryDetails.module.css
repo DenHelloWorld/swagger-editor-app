@@ -1,0 +1,37 @@
+@reference "../../../app/globals.css";
+
+.details {
+  @apply w-full max-w-3xl px-4 py-8;
+}
+
+.details__header {
+  @apply mb-6;
+}
+
+.details__title {
+  @apply text-2xl font-semibold tracking-tight;
+}
+
+.details__subtitle {
+  @apply text-muted-foreground mt-1 text-sm;
+}
+
+.details__record_title {
+  @apply font-mono text-sm break-all;
+}
+
+.details__record_badges {
+  @apply flex gap-2;
+}
+
+.details__grid {
+  @apply grid gap-5 sm:grid-cols-2;
+}
+
+.details__error {
+  @apply sm:col-span-2;
+}
+
+.details__back {
+  @apply mt-2;
+}

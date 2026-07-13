@@ -1,0 +1,13 @@
+@reference "../../../app/globals.css";
+
+.form {
+  @apply m-auto w-full max-w-md px-4;
+}
+
+.form__submit {
+  @apply mt-3;
+}
+
+.form__switch_link {
+  @apply ml-3 flex items-center gap-1 text-lime-800 underline;
+}

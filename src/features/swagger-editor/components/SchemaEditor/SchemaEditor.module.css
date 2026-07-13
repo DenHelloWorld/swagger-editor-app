@@ -1,0 +1,25 @@
+@reference "../../../../app/globals.css";
+
+.editor {
+  @apply flex h-full flex-col;
+}
+
+.editor__toolbar {
+  @apply flex items-center justify-between border-b px-4 py-2;
+}
+
+.editor__body {
+  @apply relative min-h-0 flex-1;
+}
+
+.editor__loading {
+  @apply bg-background absolute inset-0 z-10 flex items-center justify-center;
+}
+
+.editor__errors {
+  @apply border-t bg-red-50 px-4 py-2;
+}
+
+.editor__error {
+  @apply text-sm text-red-600;
+}

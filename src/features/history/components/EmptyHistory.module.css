@@ -1,0 +1,25 @@
+@reference "../../../app/globals.css";
+
+.empty {
+  @apply my-auto w-full max-w-3xl px-4 py-8;
+}
+
+.empty__content {
+  @apply flex flex-col items-center gap-4 px-6 py-12 text-center;
+}
+
+.empty__text {
+  @apply max-w-md space-y-2;
+}
+
+.empty__title {
+  @apply text-base font-medium;
+}
+
+.empty__hint {
+  @apply text-muted-foreground text-sm;
+}
+
+.empty__cta {
+  @apply mt-2;
+}

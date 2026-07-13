@@ -4,7 +4,7 @@ _What does this PR do?_
 
 ## Changes
 
-- 
+-
 
 ## Screenshots (if applicable)
 

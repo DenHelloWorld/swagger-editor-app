@@ -1,0 +1,13 @@
+@reference "./globals.css";
+
+.html {
+  @apply h-full antialiased;
+}
+
+.body {
+  @apply relative flex h-screen flex-col overflow-y-auto;
+}
+
+.main {
+  @apply flex min-h-0 flex-1 flex-col items-center overflow-y-auto font-sans;
+}
